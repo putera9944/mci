@@ -139,6 +139,36 @@
             content: ''; position: absolute; top: 20px; left: -20px; width: 100%; height: 100%;
             border: 4px solid var(--accent-gold); border-radius: 20px; z-index: -1;
         }
+        
+        /* Organization Chart / Team Cards */
+        .team-card {
+            background: white; border: none; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden;
+            transition: all 0.4s ease;
+            text-align: center;
+            height: 100%;
+        }
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        .team-img-wrapper {
+            width: 100%; height: 300px; overflow: hidden;
+            background-color: var(--bg-light);
+            position: relative;
+        }
+        .team-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top;
+            transition: transform 0.5s ease;
+        }
+        .team-card:hover .team-img-wrapper img { transform: scale(1.05); }
+        .team-info { padding: 25px 20px; position: relative; }
+        .team-role { 
+            color: var(--mci-red); font-size: 0.85rem; font-weight: 600; 
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+            min-height: 40px; /* Aligns titles with different lengths */
+        }
+        .team-name { color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-bottom: 0; }
 
         /* Hub Cards Grid */
         .hub-card { 
@@ -262,9 +292,10 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#home" data-en="Home" data-bm="Utama">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about" data-en="About" data-bm="Mengenai Kami">About</a></li>
+                    <!-- Pautan Carta Organisasi -->
+                    <li class="nav-item"><a class="nav-link" href="#team" data-en="Team" data-bm="Pasukan">Team</a></li>
                     <li class="nav-item"><a class="nav-link" href="#hubs" data-en="Hubs" data-bm="Pusat Satelit">Hubs</a></li>
                     <li class="nav-item"><a class="nav-link" href="#pillars" data-en="Framework" data-bm="Kerangka">Framework</a></li>
-                    <!-- Pautan Berita Baharu -->
                     <li class="nav-item"><a class="nav-link" href="#news" data-en="News" data-bm="Berita">News</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact" data-en="Contact" data-bm="Hubungi">Contact</a></li>
                     
@@ -349,8 +380,85 @@
         </div>
     </section>
 
+    <!-- Organization Chart / Leadership Team Section -->
+    <section id="team" class="py-5 bg-light">
+        <div class="container py-4">
+            <div class="text-center mb-5 reveal">
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Leadership & Organization" data-bm="Barisan Kepimpinan & Organisasi">Leadership & Organization</h2>
+                <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
+                <p class="text-muted" data-en="Meet the visionary team driving the MCI platform forward." data-bm="Kenali barisan kepimpinan yang memacu platform MCI ke hadapan.">Meet the visionary team driving the MCI platform forward.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <!-- Person 1 (Top Level / General Manager) -->
+                <div class="col-md-6 col-lg-4 reveal delay-1">
+                    <div class="team-card">
+                        <div class="team-img-wrapper">
+                            <img src="img/team/GM.jpeg" alt="General Manager - Ir. Mohd Faiz bin Daud" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80'">
+                        </div>
+                        <div class="team-info">
+                            <p class="team-role" data-en="General Manager" data-bm="Pengurus Besar">General Manager</p>
+                            <h5 class="team-name">Ir. Mohd Faiz bin Daud</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-2 justify-content-center">
+                <!-- Person 2 (GM Finance) -->
+                <div class="col-md-6 col-lg-3 reveal delay-2">
+                    <div class="team-card">
+                        <div class="team-img-wrapper">
+                            <img src="img/team/GM-F.jpeg" alt="General Manager (Finance) - Fazarul Shiha binti Mat Isa" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80'">
+                        </div>
+                        <div class="team-info">
+                            <p class="team-role" data-en="General Manager (Finance)" data-bm="Pengurus Besar (Kewangan)">General Manager (Finance)</p>
+                            <h5 class="team-name">Fazarul Shiha binti Mat Isa</h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- Person 3 (SM Strategic) -->
+                <div class="col-md-6 col-lg-3 reveal delay-3">
+                    <div class="team-card">
+                        <div class="team-img-wrapper">
+                            <img src="img/team/SM-Strategic.jpeg" alt="Senior Manager (Strategic & Business Development) - Ir. Ts. Mohd Rushdi bin Abd Aziz" onerror="this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80'">
+                        </div>
+                        <div class="team-info">
+                            <p class="team-role" data-en="Senior Manager (Strategic & Business Dev)" data-bm="Pengurus Kanan (Strategik & Pembangunan Perniagaan)">Senior Manager (Strategic & Business Dev)</p>
+                            <h5 class="team-name">Ir. Ts. Mohd Rushdi bin Abd Aziz</h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- Person 4 (SM Sales) -->
+                <div class="col-md-6 col-lg-3 reveal delay-4">
+                    <div class="team-card">
+                        <div class="team-img-wrapper">
+                            <img src="img/team/SM-Sales.jpeg" alt="Senior Manager (Sales & Marketing) - Ts. Mohd Asiq bin Hamdi" onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80'">
+                        </div>
+                        <div class="team-info">
+                            <p class="team-role" data-en="Senior Manager (Sales & Marketing)" data-bm="Pengurus Kanan (Jualan & Pemasaran)">Senior Manager (Sales & Marketing)</p>
+                            <h5 class="team-name">Ts. Mohd Asiq bin Hamdi</h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- Person 5 (SM Research) -->
+                <div class="col-md-6 col-lg-3 reveal delay-1">
+                    <div class="team-card">
+                        <div class="team-img-wrapper">
+                            <img src="img/team/SM-Research.jpeg" alt="Senior Manager (Research & Data) - Ts. Dr. Razni bin Khalid" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80'">
+                        </div>
+                        <div class="team-info">
+                            <p class="team-role" data-en="Senior Manager (Research & Data)" data-bm="Pengurus Kanan (Penyelidikan & Data)">Senior Manager (Research & Data)</p>
+                            <h5 class="team-name">Ts. Dr. Razni bin Khalid</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Interactive Satellite Hubs Grid -->
-    <section id="hubs" class="py-5 bg-light">
+    <section id="hubs" class="py-5">
         <div class="container py-4">
             <div class="text-center mb-5 reveal">
                 <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="High-Growth Technology Sectors" data-bm="Sektor Teknologi Pertumbuhan Tinggi">High-Growth Technology Sectors</h2>
@@ -361,7 +469,7 @@
             <div class="row g-4 justify-content-center">
                 <!-- PJ -->
                 <div class="col-md-6 col-lg-3 reveal delay-1">
-                    <div class="card hub-card p-4 text-center">
+                    <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-microchip hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Petaling Jaya</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="AI & IoT" data-bm="Kecerdasan Buatan (AI) & IoT">AI & IoT</p>
@@ -369,7 +477,7 @@
                 </div>
                 <!-- Bagan Datuk -->
                 <div class="col-md-6 col-lg-3 reveal delay-2">
-                    <div class="card hub-card p-4 text-center">
+                    <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-car-battery hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">GIATMARA Bagan Datuk</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Electric Vehicle (EV)" data-bm="Kenderaan Elektrik (EV)">Electric Vehicle (EV)</p>
@@ -377,7 +485,7 @@
                 </div>
                 <!-- SPU -->
                 <div class="col-md-6 col-lg-3 reveal delay-3">
-                    <div class="card hub-card p-4 text-center">
+                    <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-bolt hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA SPU</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="High Voltage Energy" data-bm="Tenaga Voltan Tinggi">High Voltage Energy</p>
@@ -385,7 +493,7 @@
                 </div>
                 <!-- UniKL MFI -->
                 <div class="col-md-6 col-lg-3 reveal delay-4">
-                    <div class="card hub-card p-4 text-center">
+                    <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-vr-cardboard hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">UniKL MFI</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Emerging Technologies" data-bm="Teknologi Terkini">Emerging Technologies</p>
@@ -393,7 +501,7 @@
                 </div>
                 <!-- Kuantan -->
                 <div class="col-md-6 col-lg-4 reveal delay-1">
-                    <div class="card hub-card p-4 text-center">
+                    <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-robot hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Kuantan</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Smart Manufacturing" data-bm="Pembuatan Pintar">Smart Manufacturing</p>
@@ -401,7 +509,7 @@
                 </div>
                 <!-- Besut -->
                 <div class="col-md-6 col-lg-4 reveal delay-2">
-                    <div class="card hub-card p-4 text-center">
+                    <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-server hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Besut</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Data Centre Technologies" data-bm="Teknologi Pusat Data">Data Centre Technologies</p>
@@ -409,7 +517,7 @@
                 </div>
                 <!-- Bintulu -->
                 <div class="col-md-6 col-lg-4 reveal delay-3">
-                    <div class="card hub-card p-4 text-center">
+                    <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-wind hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Bintulu</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Energy Technologies" data-bm="Teknologi Tenaga">Energy Technologies</p>
@@ -420,7 +528,7 @@
     </section>
 
     <!-- Core Academic Pillars -->
-    <section id="pillars" class="py-5">
+    <section id="pillars" class="py-5 bg-light">
         <div class="container py-4">
             <h2 class="text-center display-6 fw-bold mb-5 reveal" style="color: var(--primary-blue);" data-en="Industry-Aligned Programmes for Real-World Impact" data-bm="Program Selari Industri untuk Impak Dunia Sebenar">Industry-Aligned Programmes for Real-World Impact</h2>
             
@@ -458,7 +566,7 @@
     </section>
 
     <!-- News & Activities Section -->
-    <section id="news" class="py-5 bg-light">
+    <section id="news" class="py-5">
         <div class="container py-4">
             <div class="text-center mb-5 reveal">
                 <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Latest News & Activities" data-bm="Berita & Aktiviti Terkini">Latest News & Activities</h2>
