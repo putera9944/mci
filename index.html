@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCI | Connecting Malaysia, ASEAN China</title>
+    <title>MCI | Malaysia China Institute</title>
     
     <!-- Favicon -->
     <link rel="icon" href="https://i.postimg.cc/GBPX4ZLZ/favicon.png" type="image/png">
@@ -92,7 +92,7 @@
             min-height: 650px;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 20, 50, 0.8)), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80');
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 20, 50, 0.8)), url('https://i.postimg.cc/FH6gZhBS/Gemini_Generated_Image_d1ddked1ddked1dd.png');
             background-size: cover; 
             background-position: center;
             background-attachment: fixed;
@@ -134,7 +134,7 @@
         .counter { font-size: 3rem; font-weight: 800; color: var(--primary-blue); line-height: 1; margin-bottom: 10px;}
 
         /* About Platform */
-        .about-image-wrapper { position: relative; }
+        .about-image-wrapper { position: relative; width: 100%; height: 100%; }
         .about-image-wrapper::after {
             content: ''; position: absolute; top: 20px; left: -20px; width: 100%; height: 100%;
             border: 4px solid var(--accent-gold); border-radius: 20px; z-index: -1;
@@ -359,7 +359,7 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 reveal">
                     <div class="about-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80" alt="MCI Platform" class="img-fluid rounded-4 shadow-lg position-relative z-1">
+                        <img src="https://i.postimg.cc/cL10mSn0/discussion3.png" alt="MCI Platform" class="w-100 rounded-4 shadow-lg position-relative z-1" style="height: 400px; object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 reveal delay-2">
@@ -534,7 +534,7 @@
             
             <div class="row align-items-center">
                 <div class="col-lg-6 reveal">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Collaboration" class="img-fluid rounded-4 shadow-lg mb-4 mb-lg-0">
+                    <img src="https://i.postimg.cc/BvSW3cg4/Career.png" alt="Collaboration" class="img-fluid rounded-4 shadow-lg mb-4 mb-lg-0">
                 </div>
                 <div class="col-lg-6 ps-lg-5">
                     <div class="pillar-box d-flex align-items-start reveal delay-1">
@@ -576,7 +576,7 @@
             
             <!-- Dynamic News Container -->
             <div class="row g-4" id="news-container">
-                <!-- News cards will be generated here by JavaScript -->
+                <!-- News cards will be generated here by JavaScript from Database -->
             </div>
             
             <div class="text-center mt-5" id="empty-news-message" style="display: none;">
@@ -700,7 +700,7 @@
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <p class="small text-white-50 mb-0">© 2026 Malaysia-China Institute (MCI). <span data-en="All Rights Reserved." data-bm="Hak Cipta Terpelihara.">All Rights Reserved.</span></p>
                 <!-- Admin Access Trigger (Password Protected) -->
-                <a href="#" onclick="checkAdminPassword(event)" class="text-white-50 text-decoration-none small mt-2 mt-md-0">
+                <a href="#" onclick="window.checkAdminPassword(event)" class="text-white-50 text-decoration-none small mt-2 mt-md-0">
                     <i class="fas fa-lock me-1"></i> <span data-en="Admin Access" data-bm="Akses Admin">Admin Access</span>
                 </a>
             </div>
@@ -745,7 +745,7 @@
                         </div>
                         <hr class="my-4">
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-danger" onclick="clearAllNews()">Clear All News</button>
+                            <button type="button" class="btn btn-danger" onclick="window.clearAllNews()">Clear All News</button>
                             <button type="submit" class="btn btn-primary">Publish News</button>
                         </div>
                     </form>
@@ -757,8 +757,13 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Interactive & Admin Scripts -->
-    <script>
+    <!-- Interactive & Firebase Database Scripts -->
+    <script type="module">
+        // Firebase Cloud Firestore Integration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         // --- 1. Dynamic Navbar ---
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
@@ -773,7 +778,7 @@
         if(window.scrollY === 0) document.getElementById('navbar').classList.add('navbar-dark');
 
         // --- 2. Bilingual Switcher ---
-        function setLanguage(lang) {
+        window.setLanguage = function(lang) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll(`[onclick="setLanguage('${lang}')"]`).forEach(b => b.classList.add('active'));
 
@@ -792,7 +797,7 @@
                 }, 200);
             });
             localStorage.setItem('mci_lang', lang);
-        }
+        };
 
         // --- 3. Scroll Reveal & Counters ---
         const counters = document.querySelectorAll('.counter');
@@ -829,10 +834,8 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // --- 4. Admin Panel & Dynamic News Logic ---
-        
-        // Password Protection for Admin Access
-        function checkAdminPassword(e) {
+        // --- 4. Admin Authentication ---
+        window.checkAdminPassword = function(e) {
             e.preventDefault();
             const currentLang = localStorage.getItem('mci_lang') || 'en';
             const promptMsg = currentLang === 'bm' ? "Sila masukkan kata laluan admin:" : "Please enter admin password:";
@@ -845,23 +848,13 @@
                 const errorMsg = currentLang === 'bm' ? "Kata laluan salah!" : "Incorrect password!";
                 alert(errorMsg);
             }
-        }
+        };
 
-        // Dummy data for initial load if no news exists
-        const initialNews = [
-            {
-                id: 1,
-                title_en: "MCI Launches First AI Hub in PJ",
-                title_bm: "MCI Melancarkan Hab AI Pertama di PJ",
-                date: "2026-04-10",
-                img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80",
-                content_en: "TVETMARA Petaling Jaya officially kicks off its new artificial intelligence and IoT certification program in collaboration with Huawei.",
-                content_bm: "TVETMARA Petaling Jaya secara rasmi memulakan program pensijilan kecerdasan buatan dan IoT baharu dengan kerjasama Huawei."
-            }
-        ];
+        // --- 5. Firebase Cloud Database Setup ---
+        let newsData = [];
+        let currentUser = null;
 
-        let newsData = JSON.parse(localStorage.getItem('mci_news')) || initialNews;
-
+        // Render UI Function
         function renderNews() {
             const container = document.getElementById('news-container');
             const emptyMessage = document.getElementById('empty-news-message');
@@ -871,11 +864,10 @@
                 emptyMessage.style.display = 'block';
             } else {
                 emptyMessage.style.display = 'none';
-                // Clone array and reverse to show newest first
-                [...newsData].reverse().forEach((news, index) => {
+                newsData.forEach((news, index) => {
                     const delay = (index % 3 + 1);
                     const cardHTML = `
-                        <div class="col-md-6 col-lg-4 reveal delay-${delay}">
+                        <div class="col-md-6 col-lg-4 reveal active">
                             <div class="card news-card h-100 d-flex flex-column">
                                 <div class="news-img-container">
                                     <img src="${news.img}" alt="News Image">
@@ -890,61 +882,117 @@
                     `;
                     container.insertAdjacentHTML('beforeend', cardHTML);
                 });
-
-                // Observe new elements for scroll animation
-                container.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
             }
             
-            // Re-apply language translations to newly generated elements
             const currentLang = localStorage.getItem('mci_lang') || 'en';
-            setLanguage(currentLang);
+            window.setLanguage(currentLang);
         }
 
-        // Handle Admin Form Submission
-        document.getElementById('adminNewsForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
-            const userImg = document.getElementById('newsImg').value.trim();
+        try {
+            // Configuration for live environment database
+            const fbConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{"projectId":"local"}';
+            const firebaseConfig = JSON.parse(fbConfigString);
 
-            const newNews = {
-                id: Date.now(),
-                title_en: document.getElementById('newsTitleEn').value,
-                title_bm: document.getElementById('newsTitleBm').value,
-                date: document.getElementById('newsDate').value,
-                img: userImg !== "" ? userImg : defaultImg,
-                content_en: document.getElementById('newsContentEn').value,
-                content_bm: document.getElementById('newsContentBm').value
-            };
+            if (firebaseConfig.projectId !== "local") {
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                const db = getFirestore(app);
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-            newsData.push(newNews);
-            localStorage.setItem('mci_news', JSON.stringify(newsData));
-            
-            // Re-render news & close modal
-            renderNews();
-            bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
-            this.reset();
-            const currentLang = localStorage.getItem('mci_lang') || 'en';
-            alert(currentLang === 'bm' ? 'Berita berjaya ditambah!' : 'News successfully added!');
-        });
+                // Setup Auth
+                const initAuth = async () => {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (error) { console.error("Auth init error:", error); }
+                };
+                initAuth();
 
-        // Function to clear all news (For testing)
-        function clearAllNews() {
-            const currentLang = localStorage.getItem('mci_lang') || 'en';
-            const confirmMsg = currentLang === 'bm' ? 'Anda pasti mahu memadam semua berita?' : 'Are you sure you want to delete all news?';
-            if(confirm(confirmMsg)) {
-                newsData = [];
-                localStorage.setItem('mci_news', JSON.stringify(newsData));
-                renderNews();
-                bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
+                // Listen for Auth changes and trigger Live Database connection
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    if (user) {
+                        const newsRef = collection(db, 'artifacts', appId, 'public', 'data', 'mcinews');
+                        
+                        // Real-time Data Listener
+                        onSnapshot(newsRef, (snapshot) => {
+                            newsData = [];
+                            snapshot.forEach((doc) => {
+                                newsData.push(doc.data());
+                            });
+                            
+                            // Sort by ID (Timestamp) descending - Newest first
+                            newsData.sort((a, b) => b.id - a.id);
+                            renderNews();
+                            
+                        }, (error) => {
+                            console.error("Error reading from database:", error);
+                        });
+                    }
+                });
+
+                // Add News Function
+                document.getElementById('adminNewsForm').addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    if (!currentUser) { alert("Sistem Pangkalan Data sedang dimuatkan, sila tunggu sebentar."); return; }
+                    
+                    const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
+                    const userImg = document.getElementById('newsImg').value.trim();
+                    const newsId = Date.now(); // Generate unique ID based on time
+
+                    const newNews = {
+                        id: newsId,
+                        title_en: document.getElementById('newsTitleEn').value,
+                        title_bm: document.getElementById('newsTitleBm').value,
+                        date: document.getElementById('newsDate').value,
+                        img: userImg !== "" ? userImg : defaultImg,
+                        content_en: document.getElementById('newsContentEn').value,
+                        content_bm: document.getElementById('newsContentBm').value
+                    };
+
+                    try {
+                        // Save directly to Firestore Database
+                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'mcinews', newsId.toString());
+                        await setDoc(docRef, newNews);
+                        
+                        bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
+                        this.reset();
+                        
+                        const currentLang = localStorage.getItem('mci_lang') || 'en';
+                        alert(currentLang === 'bm' ? 'Berita berjaya disiarkan ke pangkalan data awam!' : 'News successfully published to public database!');
+                    } catch (error) {
+                        console.error("Error saving news:", error);
+                        alert("Ralat semasa menyimpan berita.");
+                    }
+                });
+
+                // Clear All News Function
+                window.clearAllNews = async function() {
+                    if (!currentUser) return;
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    const confirmMsg = currentLang === 'bm' ? 'Anda pasti mahu memadam semua berita dari pangkalan data awam?' : 'Are you sure you want to delete all news from the public database?';
+                    
+                    if(confirm(confirmMsg)) {
+                        for(const item of newsData) {
+                            try {
+                                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'mcinews', item.id.toString()));
+                            } catch(e) { console.error("Error deleting:", e); }
+                        }
+                        bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
+                    }
+                };
             }
+        } catch (err) {
+            console.error("Database connection error:", err);
         }
 
-        // --- Initialization ---
+        // Initialize display languages
         window.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('mci_lang') || 'en';
-            renderNews(); // Render news first so translation picks up new data attributes
-            setLanguage(savedLang);
+            window.setLanguage(savedLang);
         });
     </script>
 </body>
