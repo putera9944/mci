@@ -92,7 +92,7 @@
             min-height: 650px;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 20, 50, 0.8)), url('https://i.postimg.cc/FH6gZhBS/Gemini_Generated_Image_d1ddked1ddked1dd.png');
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 20, 50, 0.8)), url('img/news/hero.png');
             background-size: cover; 
             background-position: center;
             background-attachment: fixed;
@@ -359,7 +359,7 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 reveal">
                     <div class="about-image-wrapper">
-                        <img src="https://i.postimg.cc/cL10mSn0/discussion3.png" alt="MCI Platform" class="w-100 rounded-4 shadow-lg position-relative z-1" style="height: 400px; object-fit: cover;">
+                        <img src="img/news/discussion3.png" alt="MCI Platform" class="w-100 rounded-4 shadow-lg position-relative z-1" style="height: 400px; object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-6 reveal delay-2">
@@ -534,7 +534,7 @@
             
             <div class="row align-items-center">
                 <div class="col-lg-6 reveal">
-                    <img src="https://i.postimg.cc/BvSW3cg4/Career.png" alt="Collaboration" class="img-fluid rounded-4 shadow-lg mb-4 mb-lg-0">
+                    <img src="img/news/Career.png" alt="Collaboration" class="img-fluid rounded-4 shadow-lg mb-4 mb-lg-0">
                 </div>
                 <div class="col-lg-6 ps-lg-5">
                     <div class="pillar-box d-flex align-items-start reveal delay-1">
@@ -761,7 +761,7 @@
     <script type="module">
         // Firebase Cloud Firestore Integration
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- 1. Dynamic Navbar ---
@@ -889,102 +889,103 @@
         }
 
         try {
-            // Configuration for live environment database
-            const fbConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{"projectId":"local"}';
-            const firebaseConfig = JSON.parse(fbConfigString);
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyC46TOR_r_JqZIwQw_iS-CC1cRE8KkXrtA",
+                authDomain: "mci-website-db.firebaseapp.com",
+                projectId: "mci-website-db",
+                storageBucket: "mci-website-db.firebasestorage.app",
+                messagingSenderId: "109539577559",
+                appId: "1:109539577559:web:69beb009a8e1524228ea92",
+                measurementId: "G-0BNQFKE0NL"
+            };
 
-            if (firebaseConfig.projectId !== "local") {
-                const app = initializeApp(firebaseConfig);
-                const auth = getAuth(app);
-                const db = getFirestore(app);
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+            const customAppId = "mci-portal";
 
-                // Setup Auth
-                const initAuth = async () => {
-                    try {
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    } catch (error) { console.error("Auth init error:", error); }
-                };
-                initAuth();
+            // Setup Auth
+            const initAuth = async () => {
+                try {
+                    await signInAnonymously(auth);
+                } catch (error) { console.error("Auth init error:", error); }
+            };
+            initAuth();
 
-                // Listen for Auth changes and trigger Live Database connection
-                onAuthStateChanged(auth, (user) => {
-                    currentUser = user;
-                    if (user) {
-                        const newsRef = collection(db, 'artifacts', appId, 'public', 'data', 'mcinews');
-                        
-                        // Real-time Data Listener
-                        onSnapshot(newsRef, (snapshot) => {
-                            newsData = [];
-                            snapshot.forEach((doc) => {
-                                newsData.push(doc.data());
-                            });
-                            
-                            // Sort by ID (Timestamp) descending - Newest first
-                            newsData.sort((a, b) => b.id - a.id);
-                            renderNews();
-                            
-                        }, (error) => {
-                            console.error("Error reading from database:", error);
+            // Listen for Auth changes and trigger Live Database connection
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if (user) {
+                    const newsRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcinews');
+                    
+                    // Real-time Data Listener
+                    onSnapshot(newsRef, (snapshot) => {
+                        newsData = [];
+                        snapshot.forEach((doc) => {
+                            newsData.push(doc.data());
                         });
-                    }
-                });
-
-                // Add News Function
-                document.getElementById('adminNewsForm').addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    if (!currentUser) { alert("Sistem Pangkalan Data sedang dimuatkan, sila tunggu sebentar."); return; }
-                    
-                    const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
-                    const userImg = document.getElementById('newsImg').value.trim();
-                    const newsId = Date.now(); // Generate unique ID based on time
-
-                    const newNews = {
-                        id: newsId,
-                        title_en: document.getElementById('newsTitleEn').value,
-                        title_bm: document.getElementById('newsTitleBm').value,
-                        date: document.getElementById('newsDate').value,
-                        img: userImg !== "" ? userImg : defaultImg,
-                        content_en: document.getElementById('newsContentEn').value,
-                        content_bm: document.getElementById('newsContentBm').value
-                    };
-
-                    try {
-                        // Save directly to Firestore Database
-                        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'mcinews', newsId.toString());
-                        await setDoc(docRef, newNews);
                         
-                        bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
-                        this.reset();
+                        // Sort by ID (Timestamp) descending - Newest first
+                        newsData.sort((a, b) => b.id - a.id);
+                        renderNews();
                         
-                        const currentLang = localStorage.getItem('mci_lang') || 'en';
-                        alert(currentLang === 'bm' ? 'Berita berjaya disiarkan ke pangkalan data awam!' : 'News successfully published to public database!');
-                    } catch (error) {
-                        console.error("Error saving news:", error);
-                        alert("Ralat semasa menyimpan berita.");
-                    }
-                });
+                    }, (error) => {
+                        console.error("Error reading from database:", error);
+                    });
+                }
+            });
 
-                // Clear All News Function
-                window.clearAllNews = async function() {
-                    if (!currentUser) return;
-                    const currentLang = localStorage.getItem('mci_lang') || 'en';
-                    const confirmMsg = currentLang === 'bm' ? 'Anda pasti mahu memadam semua berita dari pangkalan data awam?' : 'Are you sure you want to delete all news from the public database?';
-                    
-                    if(confirm(confirmMsg)) {
-                        for(const item of newsData) {
-                            try {
-                                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'mcinews', item.id.toString()));
-                            } catch(e) { console.error("Error deleting:", e); }
-                        }
-                        bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
-                    }
+            // Add News Function
+            document.getElementById('adminNewsForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!currentUser) { alert("Sistem Pangkalan Data sedang dimuatkan, sila tunggu sebentar."); return; }
+                
+                const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
+                const userImg = document.getElementById('newsImg').value.trim();
+                const newsId = Date.now(); // Generate unique ID based on time
+
+                const newNews = {
+                    id: newsId,
+                    title_en: document.getElementById('newsTitleEn').value,
+                    title_bm: document.getElementById('newsTitleBm').value,
+                    date: document.getElementById('newsDate').value,
+                    img: userImg !== "" ? userImg : defaultImg,
+                    content_en: document.getElementById('newsContentEn').value,
+                    content_bm: document.getElementById('newsContentBm').value
                 };
-            }
+
+                try {
+                    // Save directly to Firestore Database
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', newsId.toString());
+                    await setDoc(docRef, newNews);
+                    
+                    bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
+                    this.reset();
+                    
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    alert(currentLang === 'bm' ? 'Berita berjaya disiarkan ke pangkalan data awam!' : 'News successfully published to public database!');
+                } catch (error) {
+                    console.error("Error saving news:", error);
+                    alert("Ralat semasa menyimpan berita. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+            // Clear All News Function
+            window.clearAllNews = async function() {
+                if (!currentUser) return;
+                const currentLang = localStorage.getItem('mci_lang') || 'en';
+                const confirmMsg = currentLang === 'bm' ? 'Anda pasti mahu memadam semua berita dari pangkalan data awam?' : 'Are you sure you want to delete all news from the public database?';
+                
+                if(confirm(confirmMsg)) {
+                    for(const item of newsData) {
+                        try {
+                            await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', item.id.toString()));
+                        } catch(e) { console.error("Error deleting:", e); }
+                    }
+                    bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
+                }
+            };
         } catch (err) {
             console.error("Database connection error:", err);
         }
