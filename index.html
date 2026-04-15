@@ -810,6 +810,7 @@
                         <!-- TAB 1: News Form -->
                         <div class="tab-pane fade show active" id="news-panel" role="tabpanel">
                             <form id="adminNewsForm">
+                                <input type="hidden" id="editNewsId" value="">
                                 <div class="row g-3">
                                     <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-3">
                                         <span class="text-muted small"><i class="fas fa-info-circle me-1"></i> <b>Tips:</b> Isi maklumat dalam <b>Bahasa Melayu (BM)</b> sahaja, kemudian tekan butang terjemah.</span>
@@ -853,11 +854,19 @@
                                     </div>
                                 </div>
                                 <hr class="my-4">
-                                <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-danger" onclick="window.clearAllNews()">Clear All News</button>
-                                    <button type="submit" class="btn btn-primary">Publish News</button>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllNews()">Padam Semua Berita</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmitNews">Publish News</button>
                                 </div>
                             </form>
+                            
+                            <!-- Senarai Berita Dipos -->
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-primary me-2"></i>Senarai Berita Telah Dipos</h6>
+                                <div id="adminNewsList" class="list-group">
+                                    <!-- List injected by JS -->
+                                </div>
+                            </div>
                         </div>
 
                         <!-- TAB 2: Slider Form -->
@@ -866,6 +875,7 @@
                                 <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan muncul pada bahagian gambar depan (Slider Utama) di bahagian atas laman web.
                             </div>
                             <form id="adminSliderForm">
+                                <input type="hidden" id="editSlideId" value="">
                                 <div class="row g-3">
                                     <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-2">
                                         <span class="text-muted small"><i class="fas fa-lightbulb me-1"></i> <b>Tips:</b> Isi ruang label, tajuk & subteks dalam <b>Bahasa Melayu (BM)</b> dahulu, kemudian tekan terjemah.</span>
@@ -922,11 +932,19 @@
                                     </div>
                                 </div>
                                 <hr class="my-4">
-                                <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-danger" onclick="window.clearAllSlides()">Clear All Slides</button>
-                                    <button type="submit" class="btn btn-primary">Publish New Slide</button>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllSlides()">Padam Semua Slider</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmitSlider">Publish New Slide</button>
                                 </div>
                             </form>
+
+                            <!-- Senarai Slider Dipos -->
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-success me-2"></i>Senarai Slider Telah Dipos</h6>
+                                <div id="adminSliderList" class="list-group">
+                                    <!-- List injected by JS -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1133,6 +1151,55 @@
             window.setLanguage(currentLang);
         }
 
+        // Render UI Admin Lists Function (List of Published Items)
+        function renderAdminLists() {
+            const newsListContainer = document.getElementById('adminNewsList');
+            if(newsListContainer) {
+                newsListContainer.innerHTML = '';
+                if(newsData.length === 0) {
+                    newsListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada berita dipaparkan.</div>';
+                } else {
+                    newsData.forEach(news => {
+                        newsListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="fw-bold text-dark">${news.title_bm}</span> <br>
+                                    <small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${news.date}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editNews(${news.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteNews(${news.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            const sliderListContainer = document.getElementById('adminSliderList');
+            if(sliderListContainer) {
+                sliderListContainer.innerHTML = '';
+                if(sliderData.length === 0) {
+                    sliderListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada slider dipaparkan.</div>';
+                } else {
+                    sliderData.forEach(slide => {
+                        sliderListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="fw-bold text-dark">${slide.title_bm}</span> <br>
+                                    <small class="text-muted"><i class="fas fa-tag me-1"></i> ${slide.badge_bm}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editSlide(${slide.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteSlide(${slide.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+        }
+
         let auth, db, customAppId;
 
         try {
@@ -1168,6 +1235,7 @@
                         snapshot.forEach((doc) => { newsData.push(doc.data()); });
                         newsData.sort((a, b) => b.id - a.id);
                         renderNews();
+                        renderAdminLists();
                     }, (error) => console.error("Error reading news from database:", error));
 
                     const sliderRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcislider');
@@ -1176,6 +1244,7 @@
                         snapshot.forEach((doc) => { sliderData.push(doc.data()); });
                         sliderData.sort((a, b) => b.id - a.id); 
                         renderSlider();
+                        renderAdminLists();
                     }, (error) => console.error("Error reading slider from database:", error));
                 }
             });
@@ -1312,7 +1381,9 @@
                 
                 const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
                 const userImg = document.getElementById('newsImg').value.trim();
-                const newsId = Date.now(); 
+                
+                const editId = document.getElementById('editNewsId').value;
+                const newsId = editId ? parseInt(editId) : Date.now(); 
 
                 const newNews = {
                     id: newsId,
@@ -1331,10 +1402,13 @@
                     await setDoc(docRef, newNews);
                     
                     this.reset();
+                    document.getElementById('editNewsId').value = "";
+                    document.getElementById('btnSubmitNews').innerText = "Publish News";
+
                     const currentLang = localStorage.getItem('mci_lang') || 'en';
-                    let successMsg = 'News successfully published!';
-                    if (currentLang === 'bm') successMsg = 'Berita berjaya disiarkan!';
-                    if (currentLang === 'zh') successMsg = '新闻成功发布！';
+                    let successMsg = editId ? 'News successfully updated!' : 'News successfully published!';
+                    if (currentLang === 'bm') successMsg = editId ? 'Berita berjaya dikemaskini!' : 'Berita berjaya disiarkan!';
+                    if (currentLang === 'zh') successMsg = editId ? '新闻成功更新！' : '新闻成功发布！';
                     alert(successMsg);
                 } catch (error) {
                     console.error("Error saving news:", error);
@@ -1342,6 +1416,114 @@
                 }
             });
 
+            // ------------------------------------------
+            // Add Slider Form Logic
+            // ------------------------------------------
+            document.getElementById('adminSliderForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const editId = document.getElementById('editSlideId').value;
+                const slideId = editId ? parseInt(editId) : Date.now(); 
+
+                const newSlide = {
+                    id: slideId,
+                    img: document.getElementById('sliderImg').value.trim(),
+                    badge_en: document.getElementById('sliderBadgeEn').value,
+                    badge_bm: document.getElementById('sliderBadgeBm').value,
+                    badge_zh: document.getElementById('sliderBadgeZh').value,
+                    title_en: document.getElementById('sliderTitleEn').value,
+                    title_bm: document.getElementById('sliderTitleBm').value,
+                    title_zh: document.getElementById('sliderTitleZh').value,
+                    sub_en: document.getElementById('sliderSubEn').value,
+                    sub_bm: document.getElementById('sliderSubBm').value,
+                    sub_zh: document.getElementById('sliderSubZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', slideId.toString());
+                    await setDoc(docRef, newSlide);
+                    
+                    this.reset();
+                    document.getElementById('editSlideId').value = "";
+                    document.getElementById('btnSubmitSlider').innerText = "Publish New Slide";
+
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let successMsg = editId ? 'Slide successfully updated!' : 'Slide successfully published!';
+                    if (currentLang === 'bm') successMsg = editId ? 'Slaid berjaya dikemaskini!' : 'Slaid berjaya disiarkan!';
+                    if (currentLang === 'zh') successMsg = editId ? '幻灯片成功更新！' : '幻灯片成功发布！';
+                    alert(successMsg);
+                } catch (error) {
+                    console.error("Error saving slide:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+            // ------------------------------------------
+            // Edit & Delete Individual Items Functions
+            // ------------------------------------------
+            window.editNews = function(id) {
+                const news = newsData.find(n => n.id === id);
+                if(!news) return;
+                
+                document.getElementById('editNewsId').value = news.id;
+                document.getElementById('newsTitleEn').value = news.title_en;
+                document.getElementById('newsTitleBm').value = news.title_bm;
+                document.getElementById('newsTitleZh').value = news.title_zh;
+                document.getElementById('newsDate').value = news.date;
+                document.getElementById('newsImg').value = news.img.includes('unsplash') ? '' : news.img; 
+                document.getElementById('newsContentEn').value = news.content_en;
+                document.getElementById('newsContentBm').value = news.content_bm;
+                document.getElementById('newsContentZh').value = news.content_zh;
+                
+                document.getElementById('btnSubmitNews').innerText = "Update News";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteNews = async function(id) {
+                if (!checkIsAdmin()) return;
+                const currentLang = localStorage.getItem('mci_lang') || 'en';
+                let msg = currentLang === 'bm' ? 'Padam berita ini secara kekal?' : 'Permanently delete this news?';
+                if(confirm(msg)) {
+                    try {
+                        await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', id.toString()));
+                    } catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
+            window.editSlide = function(id) {
+                const slide = sliderData.find(s => s.id === id);
+                if(!slide) return;
+
+                document.getElementById('editSlideId').value = slide.id;
+                document.getElementById('sliderImg').value = slide.img;
+                document.getElementById('sliderBadgeEn').value = slide.badge_en;
+                document.getElementById('sliderBadgeBm').value = slide.badge_bm;
+                document.getElementById('sliderBadgeZh').value = slide.badge_zh;
+                document.getElementById('sliderTitleEn').value = slide.title_en;
+                document.getElementById('sliderTitleBm').value = slide.title_bm;
+                document.getElementById('sliderTitleZh').value = slide.title_zh;
+                document.getElementById('sliderSubEn').value = slide.sub_en;
+                document.getElementById('sliderSubBm').value = slide.sub_bm;
+                document.getElementById('sliderSubZh').value = slide.sub_zh;
+
+                document.getElementById('btnSubmitSlider').innerText = "Update Slide";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteSlide = async function(id) {
+                if (!checkIsAdmin()) return;
+                const currentLang = localStorage.getItem('mci_lang') || 'en';
+                let msg = currentLang === 'bm' ? 'Padam slider ini secara kekal?' : 'Permanently delete this slide?';
+                if(confirm(msg)) {
+                    try {
+                        await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', id.toString()));
+                    } catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
+            // ------------------------------------------
+            // Delete ALL Functions
             // ------------------------------------------
             // Add Slider Form Logic
             // ------------------------------------------
