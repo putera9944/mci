@@ -50,8 +50,6 @@
             border-bottom: 3px solid var(--primary-blue);
         }
         .navbar-brand img { height: 55px; transition: 0.3s; }
-        .brand-text { color: rgba(255, 255, 255, 0.9); transition: color 0.4s ease-in-out; letter-spacing: 0.5px;}
-        .navbar.scrolled .brand-text { color: var(--primary-blue) !important; }
         
         .nav-link { color: white !important; font-weight: 500; transition: 0.3s; position: relative; }
         .navbar.scrolled .nav-link { color: var(--primary-blue) !important; }
@@ -77,27 +75,50 @@
             background: #fff;
         }
         .lang-btn { 
-            background: transparent; border: none; padding: 6px 15px; 
-            font-size: 0.85rem; font-weight: 600; cursor: pointer; 
+            background: transparent; border: none; padding: 5px 10px; 
+            font-size: 0.8rem; font-weight: 600; cursor: pointer; 
             border-radius: 20px; transition: all 0.3s; color: white;
         }
         .navbar.scrolled .lang-btn { color: var(--primary-blue); }
         .lang-btn.active { background-color: var(--primary-blue); color: white !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         .navbar.scrolled .lang-btn.active { background-color: var(--primary-blue); color: white !important; }
 
-        /* Hero Section */
-        .hero-section {
+        /* Hero Carousel (Slider) */
+        .hero-carousel {
             position: relative;
             height: 100vh;
             min-height: 650px;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 20, 50, 0.8)), url('img/news/hero.png');
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+            background-color: #000; /* Fallback */
+        }
+        
+        .hero-carousel .carousel-inner, .hero-carousel .carousel-item {
+            height: 100%;
+        }
+
+        .hero-carousel .carousel-item {
             background-size: cover; 
             background-position: center;
             background-attachment: fixed;
-            color: white;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+        }
+
+        /* Overlay for the slider images */
+        .hero-carousel .carousel-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 20, 50, 0.8));
+            z-index: 1;
+        }
+
+        .hero-carousel .carousel-caption {
+            z-index: 2;
+            bottom: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            left: 0;
+            right: 0;
         }
         
         .btn-mci { 
@@ -166,7 +187,7 @@
         .team-role { 
             color: var(--mci-red); font-size: 0.85rem; font-weight: 600; 
             text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
-            min-height: 40px; /* Aligns titles with different lengths */
+            min-height: 40px; 
         }
         .team-name { color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-bottom: 0; }
 
@@ -263,24 +284,27 @@
         .delay-3 { transition-delay: 0.3s; }
         .delay-4 { transition-delay: 0.4s; }
 
+        /* Admin Tabs Styling */
+        #adminTabs .nav-link { color: #495057; border: 1px solid transparent; background: #f8f9fa; margin-right: 5px; }
+        #adminTabs .nav-link:hover { border-color: #e9ecef; }
+        #adminTabs .nav-link.active { color: var(--primary-blue) !important; background-color: #fff; border-color: #dee2e6 #dee2e6 #fff; border-bottom: 3px solid var(--primary-blue); }
     </style>
 </head>
 <body>
 
     <!-- Interactive Navbar -->
-    <nav class="navbar navbar-expand-lg" id="navbar">
-        <div class="container">
+    <nav class="navbar navbar-expand-xl" id="navbar">
+        <div class="container-fluid px-3 px-xxl-5">
             <a class="navbar-brand d-flex align-items-center text-decoration-none" href="#">
-                <img src="https://i.postimg.cc/QFy4Lp6f/logo.png" alt="MCI Logo" class="me-3" onerror="this.src='https://via.placeholder.com/50x50?text=MCI'">
-                <div class="d-flex flex-column justify-content-center">
-                    <span class="fs-4 fw-bold brand-text d-none d-sm-block lh-1">Malaysia China Institute</span>
-                </div>
+                <img src="https://i.postimg.cc/QFy4Lp6f/logo.png" alt="MCI Logo" class="me-2" onerror="this.src='https://via.placeholder.com/50x50?text=MCI'">
+                <!-- Teks nama dibuang seperti diminta -->
             </a>
             
-            <div class="d-lg-none ms-auto me-3">
+            <div class="d-xl-none ms-auto me-3">
                 <div class="lang-switch">
                     <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
                     <button class="lang-btn" onclick="setLanguage('bm')">BM</button>
+                    <button class="lang-btn" onclick="setLanguage('zh')">ZH</button>
                 </div>
             </div>
 
@@ -290,47 +314,66 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#home" data-en="Home" data-bm="Utama">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about" data-en="About" data-bm="Mengenai Kami">About</a></li>
-                    <!-- Pautan Carta Organisasi -->
-                    <li class="nav-item"><a class="nav-link" href="#team" data-en="Team" data-bm="Pasukan">Team</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#hubs" data-en="Hubs" data-bm="Pusat Satelit">Hubs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#pillars" data-en="Framework" data-bm="Kerangka">Framework</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#news" data-en="News" data-bm="Berita">News</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact" data-en="Contact" data-bm="Hubungi">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#home" data-en="Home" data-bm="Utama" data-zh="首页">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#about" data-en="About" data-bm="Mengenai Kami" data-zh="关于我们">About</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#team" data-en="Team" data-bm="Pasukan" data-zh="团队">Team</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#hubs" data-en="Hubs" data-bm="Pusat Satelit" data-zh="枢纽">Hubs</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#pillars" data-en="Framework" data-bm="Kerangka" data-zh="框架">Framework</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#news" data-en="News" data-bm="Berita" data-zh="新闻">News</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#contact" data-en="Contact" data-bm="Hubungi" data-zh="联系我们">Contact</a></li>
                     
-                    <li class="nav-item ms-lg-4 d-none d-lg-block">
+                    <li class="nav-item ms-xl-3 d-none d-xl-block">
                         <div class="lang-switch">
                             <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
                             <button class="lang-btn" onclick="setLanguage('bm')">BM</button>
+                            <button class="lang-btn" onclick="setLanguage('zh')">ZH</button>
                         </div>
                     </li>
-                    <li class="nav-item"><a class="btn btn-mci ms-lg-4" href="#ecosystem" data-en="Join Us" data-bm="Sertai Kami">Join Us</a></li>
+                    <li class="nav-item mt-3 mt-xl-0"><a class="btn btn-mci ms-xl-3" href="#ecosystem" data-en="Join Us" data-bm="Sertai Kami" data-zh="加入我们">Join Us</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section with Parallax -->
-    <header id="home" class="hero-section text-center">
-        <div class="container reveal active">
-            <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
-                  data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI">
-                THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
-            </span>
-            <h1 class="display-3 fw-bold mb-3" 
-                data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
-                data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri">
-                MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
-            </h1>
-            <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI">
-                INNOVATE . CONNECT . INSPIRE
-            </h4>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="#about" class="btn btn-mci btn-lg pulse-btn" data-en="Explore The Platform" data-bm="Terokai Platform Ini">Explore The Platform</a>
-                <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem">Join Ecosystem</a>
+    <!-- Hero Section Carousel -->
+    <header id="home" class="hero-carousel carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+        <!-- Indicators will be generated here -->
+        <div class="carousel-indicators" id="hero-indicators"></div>
+        
+        <!-- Slides will be generated here -->
+        <div class="carousel-inner" id="hero-inner">
+            <!-- Loading or fallback default state -->
+            <div class="carousel-item active" style="background-image: url('img/news/hero.png');">
+                <div class="container carousel-caption text-center">
+                    <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                          data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
+                        THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
+                    </span>
+                    <h1 class="display-4 fw-bold mb-3" 
+                        data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
+                        data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
+                        data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
+                        MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
+                    </h1>
+                    <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
+                        INNOVATE . CONNECT . INSPIRE
+                    </h4>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="#about" class="btn btn-mci btn-lg pulse-btn" data-en="Explore The Platform" data-bm="Terokai Platform Ini" data-zh="探索平台">Explore The Platform</a>
+                        <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#home" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#home" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </header>
 
     <!-- Animated Stats Section -->
@@ -339,15 +382,15 @@
             <div class="row g-4 align-items-center">
                 <div class="col-md-4 border-end border-light-subtle">
                     <div class="counter" data-target="5000">0</div>
-                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Skilled Talents (10 Years)" data-bm="Bakat Mahir (10 Tahun)">Skilled Talents (10 Years)</p>
+                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Skilled Talents (10 Years)" data-bm="Bakat Mahir (10 Tahun)" data-zh="熟练人才（10年）">Skilled Talents (10 Years)</p>
                 </div>
                 <div class="col-md-4 border-end border-light-subtle">
                     <div class="counter" data-target="45">0</div>
-                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Industry Partners by 2028" data-bm="Rakan Industri menjelang 2028">Industry Partners by 2028</p>
+                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Industry Partners by 2028" data-bm="Rakan Industri menjelang 2028" data-zh="2028年工业合作伙伴">Industry Partners by 2028</p>
                 </div>
                 <div class="col-md-4">
                     <div class="counter" data-target="7">0</div>
-                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Strategic Satellite Hubs" data-bm="Pusat Satelit Strategik">Strategic Satellite Hubs</p>
+                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Strategic Satellite Hubs" data-bm="Pusat Satelit Strategik" data-zh="战略卫星枢纽">Strategic Satellite Hubs</p>
                 </div>
             </div>
         </div>
@@ -363,15 +406,15 @@
                     </div>
                 </div>
                 <div class="col-lg-6 reveal delay-2">
-                    <span class="text-uppercase fw-bold mb-2 d-block" style="color: var(--mci-red); letter-spacing: 1px;" data-en="A Strategic Malaysia-China Collaboration" data-bm="Kolaborasi Strategik Malaysia-China">A Strategic Malaysia-China Collaboration</span>
-                    <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-blue);" data-en="MCI is a platform." data-bm="MCI adalah sebuah platform.">MCI is a platform.</h2>
+                    <span class="text-uppercase fw-bold mb-2 d-block" style="color: var(--mci-red); letter-spacing: 1px;" data-en="A Strategic Malaysia-China Collaboration" data-bm="Kolaborasi Strategik Malaysia-China" data-zh="马来西亚-中国战略合作">A Strategic Malaysia-China Collaboration</span>
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-blue);" data-en="MCI is a platform." data-bm="MCI adalah sebuah platform." data-zh="MCI 是一个平台。">MCI is a platform.</h2>
                     
-                    <p class="lead text-muted mb-4" data-en="To be the premier regional gateway connecting Malaysia, ASEAN, and China through education, talent development, and changemakers." data-bm="Untuk menjadi gerbang serantau utama yang menghubungkan Malaysia, ASEAN, dan China melalui pendidikan, pembangunan bakat, dan pemacu perubahan.">
+                    <p class="lead text-muted mb-4" data-en="To be the premier regional gateway connecting Malaysia, ASEAN, and China through education, talent development, and changemakers." data-bm="Untuk menjadi gerbang serantau utama yang menghubungkan Malaysia, ASEAN, dan China melalui pendidikan, pembangunan bakat, dan pemacu perubahan." data-zh="成为连接马来西亚、东盟和中国的主要区域网关，通过教育、人才发展和推动变革。">
                         To be the premier regional gateway connecting Malaysia, ASEAN, and China through education, talent development, and changemakers.
                     </p>
                     
                     <div class="p-4 rounded-3 mb-4" style="background: var(--bg-light); border-left: 5px solid var(--accent-gold);">
-                        <p class="mb-0 fw-medium" data-en="To deliver high-value Malaysia-China education, talent development, entrepreneurship, and technology solutions that strengthen global competitiveness and drive sustainable economic growth." data-bm="Untuk menyampaikan pendidikan bernilai tinggi Malaysia-China, pembangunan bakat, keusahawanan, dan penyelesaian teknologi yang memperkukuh daya saing global dan memacu pertumbuhan ekonomi yang mampan.">
+                        <p class="mb-0 fw-medium" data-en="To deliver high-value Malaysia-China education, talent development, entrepreneurship, and technology solutions that strengthen global competitiveness and drive sustainable economic growth." data-bm="Untuk menyampaikan pendidikan bernilai tinggi Malaysia-China, pembangunan bakat, keusahawanan, dan penyelesaian teknologi yang memperkukuh daya saing global dan memacu pertumbuhan ekonomi yang mampan." data-zh="提供高价值的马中教育、人才发展、创业和技术解决方案，增强全球竞争力并推动可持续经济增长。">
                             To deliver high-value Malaysia-China education, talent development, entrepreneurship, and technology solutions that strengthen global competitiveness and drive sustainable economic growth.
                         </p>
                     </div>
@@ -384,9 +427,9 @@
     <section id="team" class="py-5 bg-light">
         <div class="container py-4">
             <div class="text-center mb-5 reveal">
-                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Leadership & Organization" data-bm="Barisan Kepimpinan & Organisasi">Leadership & Organization</h2>
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Leadership & Organization" data-bm="Barisan Kepimpinan & Organisasi" data-zh="领导与组织">Leadership & Organization</h2>
                 <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
-                <p class="text-muted" data-en="Meet the visionary team driving the MCI platform forward." data-bm="Kenali barisan kepimpinan yang memacu platform MCI ke hadapan.">Meet the visionary team driving the MCI platform forward.</p>
+                <p class="text-muted" data-en="Meet the visionary team driving the MCI platform forward." data-bm="Kenali barisan kepimpinan yang memacu platform MCI ke hadapan." data-zh="认识推动 MCI 平台发展的富有远见的团队。">Meet the visionary team driving the MCI platform forward.</p>
             </div>
             
             <div class="row g-4 justify-content-center">
@@ -397,7 +440,7 @@
                             <img src="img/team/GM.jpeg" alt="General Manager - Ir. Mohd Faiz bin Mat Daud" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80'">
                         </div>
                         <div class="team-info">
-                            <p class="team-role" data-en="General Manager" data-bm="Pengurus Besar">General Manager</p>
+                            <p class="team-role" data-en="General Manager" data-bm="Pengurus Besar" data-zh="总经理">General Manager</p>
                             <h5 class="team-name">Ir. Mohd Faiz bin Mat Daud</h5>
                         </div>
                     </div>
@@ -412,7 +455,7 @@
                             <img src="img/team/GM-F.jpeg" alt="General Manager (Finance) - Fazarul Shiha binti Mat Isa" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80'">
                         </div>
                         <div class="team-info">
-                            <p class="team-role" data-en="General Manager (Finance)" data-bm="Pengurus Besar (Kewangan)">General Manager (Finance)</p>
+                            <p class="team-role" data-en="General Manager (Finance)" data-bm="Pengurus Besar (Kewangan)" data-zh="总经理（财务）">General Manager (Finance)</p>
                             <h5 class="team-name">Fazarul Shiha binti Mat Isa</h5>
                         </div>
                     </div>
@@ -424,7 +467,7 @@
                             <img src="img/team/SM-Strategic.jpeg" alt="Senior Manager (Strategic & Business Development) - Ir. Ts. Mohd Rushdi bin Abd Aziz" onerror="this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80'">
                         </div>
                         <div class="team-info">
-                            <p class="team-role" data-en="Senior Manager (Strategic & Business Dev)" data-bm="Pengurus Kanan (Strategik & Pembangunan Perniagaan)">Senior Manager (Strategic & Business Dev)</p>
+                            <p class="team-role" data-en="Senior Manager (Strategic & Business Dev)" data-bm="Pengurus Kanan (Strategik & Pembangunan Perniagaan)" data-zh="高级经理（战略与业务发展）">Senior Manager (Strategic & Business Dev)</p>
                             <h5 class="team-name">Ir. Ts. Mohd Rushdi bin Abd Aziz</h5>
                         </div>
                     </div>
@@ -436,7 +479,7 @@
                             <img src="img/team/SM-Sales.jpeg" alt="Senior Manager (Sales & Marketing) - Ts. Mohd Asiq bin Hamdi" onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80'">
                         </div>
                         <div class="team-info">
-                            <p class="team-role" data-en="Senior Manager (Sales & Marketing)" data-bm="Pengurus Kanan (Jualan & Pemasaran)">Senior Manager (Sales & Marketing)</p>
+                            <p class="team-role" data-en="Senior Manager (Sales & Marketing)" data-bm="Pengurus Kanan (Jualan & Pemasaran)" data-zh="高级经理（销售与营销）">Senior Manager (Sales & Marketing)</p>
                             <h5 class="team-name">Ts. Mohd Asiq bin Hamdi</h5>
                         </div>
                     </div>
@@ -448,7 +491,7 @@
                             <img src="img/team/SM-Research.jpeg" alt="Senior Manager (Research & Data) - Ts. Dr. Razni bin Khalid" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80'">
                         </div>
                         <div class="team-info">
-                            <p class="team-role" data-en="Senior Manager (Research & Data)" data-bm="Pengurus Kanan (Penyelidikan & Data)">Senior Manager (Research & Data)</p>
+                            <p class="team-role" data-en="Senior Manager (Research & Data)" data-bm="Pengurus Kanan (Penyelidikan & Data)" data-zh="高级经理（研究与数据）">Senior Manager (Research & Data)</p>
                             <h5 class="team-name">Ts. Dr. Razni bin Khalid</h5>
                         </div>
                     </div>
@@ -461,9 +504,9 @@
     <section id="hubs" class="py-5">
         <div class="container py-4">
             <div class="text-center mb-5 reveal">
-                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="High-Growth Technology Sectors" data-bm="Sektor Teknologi Pertumbuhan Tinggi">High-Growth Technology Sectors</h2>
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="High-Growth Technology Sectors" data-bm="Sektor Teknologi Pertumbuhan Tinggi" data-zh="高增长技术领域">High-Growth Technology Sectors</h2>
                 <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
-                <p class="text-muted" data-en="Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities." data-bm="Penghantaran Hub-and-Spoke 'Asset-Light' melalui fasiliti IPMA sedia ada.">Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities.</p>
+                <p class="text-muted" data-en="Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities." data-bm="Penghantaran Hub-and-Spoke 'Asset-Light' melalui fasiliti IPMA sedia ada." data-zh="通过现有 IPMA 设施的轻资产轮辐式交付。">Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities.</p>
             </div>
             
             <div class="row g-4 justify-content-center">
@@ -472,7 +515,7 @@
                     <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-microchip hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Petaling Jaya</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="AI & IoT" data-bm="Kecerdasan Buatan (AI) & IoT">AI & IoT</p>
+                        <p class="small text-muted mb-0 fw-medium" data-en="AI & IoT" data-bm="Kecerdasan Buatan (AI) & IoT" data-zh="人工智能与物联网">AI & IoT</p>
                     </div>
                 </div>
                 <!-- Bagan Datuk -->
@@ -480,7 +523,7 @@
                     <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-car-battery hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">GIATMARA Bagan Datuk</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Electric Vehicle (EV)" data-bm="Kenderaan Elektrik (EV)">Electric Vehicle (EV)</p>
+                        <p class="small text-muted mb-0 fw-medium" data-en="Electric Vehicle (EV)" data-bm="Kenderaan Elektrik (EV)" data-zh="电动汽车 (EV)">Electric Vehicle (EV)</p>
                     </div>
                 </div>
                 <!-- SPU -->
@@ -488,7 +531,7 @@
                     <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-bolt hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA SPU</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="High Voltage Energy" data-bm="Tenaga Voltan Tinggi">High Voltage Energy</p>
+                        <p class="small text-muted mb-0 fw-medium" data-en="High Voltage Energy" data-bm="Tenaga Voltan Tinggi" data-zh="高压能源">High Voltage Energy</p>
                     </div>
                 </div>
                 <!-- UniKL MFI -->
@@ -496,7 +539,7 @@
                     <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-vr-cardboard hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">UniKL MFI</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Emerging Technologies" data-bm="Teknologi Terkini">Emerging Technologies</p>
+                        <p class="small text-muted mb-0 fw-medium" data-en="Emerging Technologies" data-bm="Teknologi Terkini" data-zh="新兴技术">Emerging Technologies</p>
                     </div>
                 </div>
                 <!-- Kuantan -->
@@ -504,7 +547,7 @@
                     <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-robot hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Kuantan</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Smart Manufacturing" data-bm="Pembuatan Pintar">Smart Manufacturing</p>
+                        <p class="small text-muted mb-0 fw-medium" data-en="Smart Manufacturing" data-bm="Pembuatan Pintar" data-zh="智能制造">Smart Manufacturing</p>
                     </div>
                 </div>
                 <!-- Besut -->
@@ -512,7 +555,7 @@
                     <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-server hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Besut</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Data Centre Technologies" data-bm="Teknologi Pusat Data">Data Centre Technologies</p>
+                        <p class="small text-muted mb-0 fw-medium" data-en="Data Centre Technologies" data-bm="Teknologi Pusat Data" data-zh="数据中心技术">Data Centre Technologies</p>
                     </div>
                 </div>
                 <!-- Bintulu -->
@@ -520,7 +563,7 @@
                     <div class="card hub-card p-4 text-center bg-light">
                         <div class="hub-icon-wrapper"><i class="fas fa-wind hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Bintulu</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Energy Technologies" data-bm="Teknologi Tenaga">Energy Technologies</p>
+                        <p class="small text-muted mb-0 fw-medium" data-en="Energy Technologies" data-bm="Teknologi Tenaga" data-zh="能源技术">Energy Technologies</p>
                     </div>
                 </div>
             </div>
@@ -530,7 +573,7 @@
     <!-- Core Academic Pillars -->
     <section id="pillars" class="py-5 bg-light">
         <div class="container py-4">
-            <h2 class="text-center display-6 fw-bold mb-5 reveal" style="color: var(--primary-blue);" data-en="Industry-Aligned Programmes for Real-World Impact" data-bm="Program Selari Industri untuk Impak Dunia Sebenar">Industry-Aligned Programmes for Real-World Impact</h2>
+            <h2 class="text-center display-6 fw-bold mb-5 reveal" style="color: var(--primary-blue);" data-en="Industry-Aligned Programmes for Real-World Impact" data-bm="Program Selari Industri untuk Impak Dunia Sebenar" data-zh="针对现实世界影响的行业相关计划">Industry-Aligned Programmes for Real-World Impact</h2>
             
             <div class="row align-items-center">
                 <div class="col-lg-6 reveal">
@@ -540,24 +583,24 @@
                     <div class="pillar-box d-flex align-items-start reveal delay-1">
                         <div class="pillar-icon flex-shrink-0 me-4"><i class="fas fa-certificate"></i></div>
                         <div>
-                            <h4 class="fw-bold" data-en="Pillar 1: Micro-Credentials" data-bm="Teras 1: Mikro-Kredential">Pillar 1: Micro-Credentials</h4>
-                            <p class="text-muted mb-0" data-en="Rapid technical skill transfer tailored and driven by current industry needs." data-bm="Pemindahan kemahiran teknikal yang pantas dan dipacu oleh keperluan industri semasa.">Rapid technical skill transfer tailored and driven by current industry needs.</p>
+                            <h4 class="fw-bold" data-en="Pillar 1: Micro-Credentials" data-bm="Teras 1: Mikro-Kredential" data-zh="支柱 1：微证书">Pillar 1: Micro-Credentials</h4>
+                            <p class="text-muted mb-0" data-en="Rapid technical skill transfer tailored and driven by current industry needs." data-bm="Pemindahan kemahiran teknikal yang pantas dan dipacu oleh keperluan industri semasa." data-zh="根据当前行业需求量身定制并推动的快速技术技能转移。">Rapid technical skill transfer tailored and driven by current industry needs.</p>
                         </div>
                     </div>
                     
                     <div class="pillar-box d-flex align-items-start reveal delay-2">
                         <div class="pillar-icon flex-shrink-0 me-4"><i class="fas fa-language"></i></div>
                         <div>
-                            <h4 class="fw-bold" data-en="Pillar 2: Technical Mandarin" data-bm="Teras 2: Mandarin Industri">Pillar 2: Technical Mandarin</h4>
-                            <p class="text-muted mb-0" data-en="Specialized modules for seamless professional interaction with Chinese technology partners." data-bm="Modul khas bagi memastikan interaksi profesional yang lancar dengan rakan teknologi China.">Specialized modules for seamless professional interaction with Chinese technology partners.</p>
+                            <h4 class="fw-bold" data-en="Pillar 2: Technical Mandarin" data-bm="Teras 2: Mandarin Industri" data-zh="支柱 2：技术中文">Pillar 2: Technical Mandarin</h4>
+                            <p class="text-muted mb-0" data-en="Specialized modules for seamless professional interaction with Chinese technology partners." data-bm="Modul khas bagi memastikan interaksi profesional yang lancar dengan rakan teknologi China." data-zh="为与中国技术合作伙伴进行无缝专业互动而设计的专门模块。">Specialized modules for seamless professional interaction with Chinese technology partners.</p>
                         </div>
                     </div>
                     
                     <div class="pillar-box d-flex align-items-start reveal delay-3">
                         <div class="pillar-icon flex-shrink-0 me-4"><i class="fas fa-user-tie"></i></div>
                         <div>
-                            <h4 class="fw-bold" data-en="Pillar 3: Employability (EEP)" data-bm="Teras 3: Kebolehpasaran (EEP)">Pillar 3: Employability (EEP)</h4>
-                            <p class="text-muted mb-0" data-en="Structured career pathways through apprenticeships and direct industry job placements." data-bm="Laluan kerjaya berstruktur melalui perantisan dan penempatan kerja terus ke industri.">Structured career pathways through apprenticeships and direct industry job placements.</p>
+                            <h4 class="fw-bold" data-en="Pillar 3: Employability (EEP)" data-bm="Teras 3: Kebolehpasaran (EEP)" data-zh="支柱 3：就业能力 (EEP)">Pillar 3: Employability (EEP)</h4>
+                            <p class="text-muted mb-0" data-en="Structured career pathways through apprenticeships and direct industry job placements." data-bm="Laluan kerjaya berstruktur melalui perantisan dan penempatan kerja terus ke industri." data-zh="通过学徒制和直接的行业工作安置实现结构化的职业路径。">Structured career pathways through apprenticeships and direct industry job placements.</p>
                         </div>
                     </div>
                 </div>
@@ -569,9 +612,9 @@
     <section id="news" class="py-5">
         <div class="container py-4">
             <div class="text-center mb-5 reveal">
-                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Latest News & Activities" data-bm="Berita & Aktiviti Terkini">Latest News & Activities</h2>
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Latest News & Activities" data-bm="Berita & Aktiviti Terkini" data-zh="最新新闻与活动">Latest News & Activities</h2>
                 <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
-                <p class="text-muted" data-en="Stay updated with our events, collaborations, and announcements." data-bm="Kekal terkini dengan acara, kolaborasi, dan pengumuman kami.">Stay updated with our events, collaborations, and announcements.</p>
+                <p class="text-muted" data-en="Stay updated with our events, collaborations, and announcements." data-bm="Kekal terkini dengan acara, kolaborasi, dan pengumuman kami." data-zh="随时了解我们的活动、合作和公告。">Stay updated with our events, collaborations, and announcements.</p>
             </div>
             
             <!-- Dynamic News Container -->
@@ -580,7 +623,7 @@
             </div>
             
             <div class="text-center mt-5" id="empty-news-message" style="display: none;">
-                <p class="text-muted fst-italic" data-en="No news available at the moment." data-bm="Tiada berita tersedia pada masa ini.">No news available at the moment.</p>
+                <p class="text-muted fst-italic" data-en="No news available at the moment." data-bm="Tiada berita tersedia pada masa ini." data-zh="目前没有新闻。">No news available at the moment.</p>
             </div>
         </div>
     </section>
@@ -589,9 +632,9 @@
     <section id="ecosystem" class="py-5" style="background-color: var(--primary-blue);">
         <div class="container py-5">
             <div class="text-center mb-5 reveal">
-                <h2 class="display-6 fw-bold text-white" data-en="Join the MCI Ecosystem" data-bm="Sertai Ekosistem MCI">Join the MCI Ecosystem</h2>
+                <h2 class="display-6 fw-bold text-white" data-en="Join the MCI Ecosystem" data-bm="Sertai Ekosistem MCI" data-zh="加入 MCI 生态系统">Join the MCI Ecosystem</h2>
                 <div class="bg-warning mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
-                <p class="text-white-50 fs-5" data-en="A Collaborative Global Ecosystem." data-bm="Ekosistem Global yang Kolaboratif.">A Collaborative Global Ecosystem.</p>
+                <p class="text-white-50 fs-5" data-en="A Collaborative Global Ecosystem." data-bm="Ekosistem Global yang Kolaboratif." data-zh="协作的全球生态系统。">A Collaborative Global Ecosystem.</p>
             </div>
             
             <div class="row g-4 justify-content-center">
@@ -599,22 +642,22 @@
                 <div class="col-md-6 col-lg-5 reveal delay-1">
                     <div class="ecosystem-card text-center d-flex flex-column">
                         <div class="mb-4"><i class="fas fa-user-graduate fa-4x text-primary"></i></div>
-                        <h3 class="fw-bold text-dark mb-3" data-en="For Students & Talent" data-bm="Untuk Pelajar & Bakat">For Students & Talent</h3>
-                        <p class="text-muted flex-grow-1" data-en="Upskill with industry-recognized certifications and secure direct career placements in high-value tech sectors." data-bm="Tingkatkan kemahiran dengan pensijilan yang diiktiraf industri dan dapatkan penempatan kerjaya dalam sektor teknologi bernilai tinggi.">
+                        <h3 class="fw-bold text-dark mb-3" data-en="For Students & Talent" data-bm="Untuk Pelajar & Bakat" data-zh="面向学生与人才">For Students & Talent</h3>
+                        <p class="text-muted flex-grow-1" data-en="Upskill with industry-recognized certifications and secure direct career placements in high-value tech sectors." data-bm="Tingkatkan kemahiran dengan pensijilan yang diiktiraf industri dan dapatkan penempatan kerjaya dalam sektor teknologi bernilai tinggi." data-zh="通过行业认可的认证提升技能，并在高价值科技领域获得直接的职业安置。">
                             Upskill with industry-recognized certifications and secure direct career placements in high-value tech sectors.
                         </p>
-                        <a href="#contact" class="btn btn-outline-primary btn-lg mt-3" style="border-radius: 50px;" data-en="Explore Programmes" data-bm="Terokai Program">Explore Programmes</a>
+                        <a href="#contact" class="btn btn-outline-primary btn-lg mt-3" style="border-radius: 50px;" data-en="Explore Programmes" data-bm="Terokai Program" data-zh="探索计划">Explore Programmes</a>
                     </div>
                 </div>
                 <!-- For Institutions & Industry -->
                 <div class="col-md-6 col-lg-5 reveal delay-2">
                     <div class="ecosystem-card text-center d-flex flex-column">
                         <div class="mb-4"><i class="fas fa-handshake fa-4x" style="color: var(--mci-red);"></i></div>
-                        <h3 class="fw-bold text-dark mb-3" data-en="For Institutions & Industry" data-bm="Untuk Institusi & Industri">For Institutions & Industry</h3>
-                        <p class="text-muted flex-grow-1" data-en="Collaborate with us to develop future-ready talents, co-design curriculums, and drive technological innovation." data-bm="Bekerjasama dengan kami untuk membangunkan bakat masa hadapan, mereka bentuk kurikulum bersama, dan memacu inovasi teknologi.">
+                        <h3 class="fw-bold text-dark mb-3" data-en="For Institutions & Industry" data-bm="Untuk Institusi & Industri" data-zh="面向机构与工业">For Institutions & Industry</h3>
+                        <p class="text-muted flex-grow-1" data-en="Collaborate with us to develop future-ready talents, co-design curriculums, and drive technological innovation." data-bm="Bekerjasama dengan kami untuk membangunkan bakat masa hadapan, mereka bentuk kurikulum bersama, dan memacu inovasi teknologi." data-zh="与我们合作培养面向未来的人才，共同设计课程并推动技术创新。">
                             Collaborate with us to develop future-ready talents, co-design curriculums, and drive technological innovation.
                         </p>
-                        <a href="#contact" class="btn btn-mci btn-lg mt-3" style="border-radius: 50px;" data-en="Partner With Us" data-bm="Bekerjasama Dengan Kami">Partner With Us</a>
+                        <a href="#contact" class="btn btn-mci btn-lg mt-3" style="border-radius: 50px;" data-en="Partner With Us" data-bm="Bekerjasama Dengan Kami" data-zh="与我们合作">Partner With Us</a>
                     </div>
                 </div>
             </div>
@@ -628,12 +671,12 @@
                 <!-- Form -->
                 <div class="col-lg-5 reveal">
                     <div class="contact-form h-100">
-                        <h3 class="fw-bold mb-2" style="color: var(--primary-blue);" data-en="Get In Touch" data-bm="Hubungi Kami">Get In Touch</h3>
-                        <p class="text-muted mb-4" data-en="Send a Message to connect with our team." data-bm="Hantar mesej untuk berhubung dengan pasukan kami.">Send a Message to connect with our team.</p>
+                        <h3 class="fw-bold mb-2" style="color: var(--primary-blue);" data-en="Get In Touch" data-bm="Hubungi Kami" data-zh="联系我们">Get In Touch</h3>
+                        <p class="text-muted mb-4" data-en="Send a Message to connect with our team." data-bm="Hantar mesej untuk berhubung dengan pasukan kami." data-zh="发送消息以联系我们的团队。">Send a Message to connect with our team.</p>
                         
                         <form id="contactForm" action="mailto:mci@mara.gov.my" method="POST" enctype="text/plain">
                             <div class="mb-3">
-                                <label class="form-label fw-medium" data-en="Full Name" data-bm="Nama Penuh">Full Name</label>
+                                <label class="form-label fw-medium" data-en="Full Name" data-bm="Nama Penuh" data-zh="姓名">Full Name</label>
                                 <input type="text" class="form-control" name="Name" placeholder="John Doe" required>
                             </div>
                             <div class="mb-3">
@@ -641,23 +684,23 @@
                                 <input type="email" class="form-control" name="Email" placeholder="name@example.com" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-medium" data-en="Inquiry Type" data-bm="Jenis Pertanyaan">Inquiry Type</label>
+                                <label class="form-label fw-medium" data-en="Inquiry Type" data-bm="Jenis Pertanyaan" data-zh="咨询类型">Inquiry Type</label>
                                 <select class="form-select" name="Subject">
-                                    <option value="For Students & Talent" data-en="For Students & Talent" data-bm="Untuk Pelajar & Bakat">For Students & Talent</option>
-                                    <option value="For Institutions & Industry" data-en="For Institutions & Industry" data-bm="Untuk Institusi & Industri">For Institutions & Industry</option>
+                                    <option value="For Students & Talent" data-en="For Students & Talent" data-bm="Untuk Pelajar & Bakat" data-zh="面向学生与人才">For Students & Talent</option>
+                                    <option value="For Institutions & Industry" data-en="For Institutions & Industry" data-bm="Untuk Institusi & Industri" data-zh="面向机构与工业">For Institutions & Industry</option>
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label fw-medium" data-en="Message" data-bm="Mesej">Message</label>
+                                <label class="form-label fw-medium" data-en="Message" data-bm="Mesej" data-zh="留言">Message</label>
                                 <textarea class="form-control" name="Message" rows="4" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-mci w-100 fs-5 mb-4" data-en="Send Message" data-bm="Hantar Mesej">Send Message</button>
+                            <button type="submit" class="btn btn-mci w-100 fs-5 mb-4" data-en="Send Message" data-bm="Hantar Mesej" data-zh="发送留言">Send Message</button>
                         </form>
                         
                         <!-- Added Contact Information Info here -->
                         <div class="mt-2 pt-4 border-top">
-                            <h5 class="fw-bold" style="color: var(--primary-blue);" data-en="Get in touch." data-bm="Hubungi kami.">Get in touch.</h5>
-                            <p class="text-muted small mb-3" data-en="Ready to connect with MCI? Reach out to explore collaborations, programme enrolment or partnership opportunities." data-bm="Bersedia untuk berhubung dengan MCI? Hubungi kami untuk meneroka kerjasama, pendaftaran program atau peluang perkongsian.">Ready to connect with MCI? Reach out to explore collaborations, programme enrolment or partnership opportunities.</p>
+                            <h5 class="fw-bold" style="color: var(--primary-blue);" data-en="Get in touch." data-bm="Hubungi kami." data-zh="保持联系。">Get in touch.</h5>
+                            <p class="text-muted small mb-3" data-en="Ready to connect with MCI? Reach out to explore collaborations, programme enrolment or partnership opportunities." data-bm="Bersedia untuk berhubung dengan MCI? Hubungi kami untuk meneroka kerjasama, pendaftaran program atau peluang perkongsian." data-zh="准备好与 MCI 建立联系了吗？联系我们以探索合作、课程注册或合作伙伴机会。">Ready to connect with MCI? Reach out to explore collaborations, programme enrolment or partnership opportunities.</p>
                             <div class="d-flex flex-column gap-2 fw-medium">
                                 <a href="mailto:mci@mara.gov.my" class="text-decoration-none text-dark"><i class="fas fa-envelope text-danger me-2"></i> mci@mara.gov.my</a>
                                 <a href="https://www.mcitvet.my" target="_blank" class="text-decoration-none text-dark"><i class="fas fa-globe text-primary me-2"></i> www.mcitvet.my</a>
@@ -669,7 +712,7 @@
                 <!-- Map -->
                 <div class="col-lg-7 reveal delay-2">
                     <div class="d-flex flex-column h-100">
-                        <h3 class="fw-bold mb-2" style="color: var(--primary-blue);" data-en="MCI Command Node" data-bm="Nod Perintah MCI">MCI Command Node</h3>
+                        <h3 class="fw-bold mb-2" style="color: var(--primary-blue);" data-en="MCI Command Node" data-bm="Nod Perintah MCI" data-zh="MCI 指挥中心">MCI Command Node</h3>
                         <p class="text-muted mb-4"><i class="fas fa-map-marker-alt text-danger me-2"></i> Tingkat 21, Ibu Pejabat MARA, 21 Jalan MARA, 50609 Kuala Lumpur</p>
                         <div class="map-container flex-grow-1">
                             <iframe 
@@ -688,7 +731,7 @@
         <div class="footer-shape"></div>
         <div class="container text-center pt-4">
             <h2 class="fw-bold mb-3">MCI</h2>
-            <p class="text-white-50" data-en="A Wholly-Owned Subsidiary of MARA" data-bm="Anak Syarikat Milik Penuh MARA">A Wholly-Owned Subsidiary of MARA</p>
+            <p class="text-white-50" data-en="A Wholly-Owned Subsidiary of MARA" data-bm="Anak Syarikat Milik Penuh MARA" data-zh="MARA 的全资子公司">A Wholly-Owned Subsidiary of MARA</p>
             
             <div class="social-links my-4">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -698,57 +741,182 @@
             
             <hr class="border-secondary mt-4">
             <div class="d-flex justify-content-between align-items-center flex-wrap">
-                <p class="small text-white-50 mb-0">© 2026 Malaysia-China Institute (MCI). <span data-en="All Rights Reserved." data-bm="Hak Cipta Terpelihara.">All Rights Reserved.</span></p>
-                <!-- Admin Access Trigger (Password Protected) -->
-                <a href="#" onclick="window.checkAdminPassword(event)" class="text-white-50 text-decoration-none small mt-2 mt-md-0">
-                    <i class="fas fa-lock me-1"></i> <span data-en="Admin Access" data-bm="Akses Admin">Admin Access</span>
+                <p class="small text-white-50 mb-0">© 2026 Malaysia-China Institute (MCI). <span data-en="All Rights Reserved." data-bm="Hak Cipta Terpelihara." data-zh="版权所有。">All Rights Reserved.</span></p>
+                <!-- Admin Access Trigger (Secure Firebase Login) -->
+                <a href="#" onclick="window.showLoginModal(event)" class="text-white-50 text-decoration-none small mt-2 mt-md-0">
+                    <i class="fas fa-lock me-1"></i> <span data-en="Admin Access" data-bm="Akses Admin" data-zh="管理员访问">Admin Access</span>
                 </a>
             </div>
         </div>
     </footer>
 
-    <!-- Admin Modal -->
-    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <!-- Secure Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title" id="adminModalLabel"><i class="fas fa-cogs me-2"></i> Admin Panel - Add News/Activity</h5>
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <i class="fas fa-user-shield me-2 text-warning"></i> 
+                        <span data-en="Admin Authentication" data-bm="Pengesahan Admin" data-zh="管理员认证">Pengesahan Admin</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="adminLoginForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-dark" data-en="Admin Email" data-bm="E-mel Admin" data-zh="管理员电邮">E-mel Admin</label>
+                            <input type="email" class="form-control" id="adminEmail" placeholder="admin@mara.gov.my" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark" data-en="Password" data-bm="Kata Laluan" data-zh="密码">Kata Laluan</label>
+                            <input type="password" class="form-control" id="adminPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-mci w-100" data-en="Secure Login" data-bm="Log Masuk Selamat" data-zh="安全登录">Log Masuk Selamat</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal (With Tabs) -->
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="adminModalLabel"><i class="fas fa-cogs me-2"></i> Admin Panel</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="adminNewsForm">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Title (English) <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="newsTitleEn" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Title (Bahasa Melayu) <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="newsTitleBm" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="newsDate" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Image URL (Optional)</label>
-                                <input type="url" class="form-control" id="newsImg" placeholder="https://example.com/image.jpg">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Content (English) <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="newsContentEn" rows="4" required></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Content (Bahasa Melayu) <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="newsContentBm" rows="4" required></textarea>
-                            </div>
+                    
+                    <!-- Tab Navigation -->
+                    <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-bold text-dark" id="news-tab" data-bs-toggle="tab" data-bs-target="#news-panel" type="button" role="tab">
+                                <i class="fas fa-newspaper me-1 text-primary"></i> 
+                                <span data-en="Add News" data-bm="Tambah Berita" data-zh="添加新闻">Tambah Berita</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold text-dark" id="slider-tab" data-bs-toggle="tab" data-bs-target="#slider-panel" type="button" role="tab">
+                                <i class="fas fa-images me-1 text-success"></i> 
+                                <span data-en="Update Slider" data-bm="Kemas Kini Slider" data-zh="更新幻灯片">Kemas Kini Slider</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Contents -->
+                    <div class="tab-content" id="adminTabsContent">
+                        
+                        <!-- TAB 1: News Form -->
+                        <div class="tab-pane fade show active" id="news-panel" role="tabpanel">
+                            <form id="adminNewsForm">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Title (English) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="newsTitleEn" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Title (Bahasa Melayu) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="newsTitleBm" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Title (Mandarin) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="newsTitleZh" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Date <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="newsDate" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Image URL (Optional)</label>
+                                        <input type="url" class="form-control" id="newsImg" placeholder="https://example.com/image.jpg">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Content (English) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="newsContentEn" rows="4" required></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Content (Bahasa Melayu) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="newsContentBm" rows="4" required></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Content (Mandarin) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="newsContentZh" rows="4" required></textarea>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-danger" onclick="window.clearAllNews()">Clear All News</button>
+                                    <button type="submit" class="btn btn-primary">Publish News</button>
+                                </div>
+                            </form>
                         </div>
-                        <hr class="my-4">
-                        <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-danger" onclick="window.clearAllNews()">Clear All News</button>
-                            <button type="submit" class="btn btn-primary">Publish News</button>
+
+                        <!-- TAB 2: Slider Form -->
+                        <div class="tab-pane fade" id="slider-panel" role="tabpanel">
+                            <div class="alert alert-info small mb-4">
+                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan muncul pada bahagian gambar depan (Slider Utama) di bahagian atas laman web.
+                            </div>
+                            <form id="adminSliderForm">
+                                <div class="row g-3">
+                                    <!-- Image URl -->
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold">Slider Background Image URL <span class="text-danger">*</span></label>
+                                        <input type="url" class="form-control" id="sliderImg" placeholder="https://example.com/bg-image.jpg" required>
+                                    </div>
+                                    
+                                    <!-- Badge (Top Tagline) -->
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small">Badge Label (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderBadgeEn" placeholder="e.g. THE TALENT GATEWAY" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small">Badge Label (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderBadgeBm" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small">Badge Label (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderBadgeZh" required>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-primary small mt-2">Main Title (EN) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="sliderTitleEn" rows="2" required></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-primary small mt-2">Main Title (BM) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="sliderTitleBm" rows="2" required></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-primary small mt-2">Main Title (ZH) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="sliderTitleZh" rows="2" required></textarea>
+                                    </div>
+
+                                    <!-- Subtitle -->
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-success small mt-2">Subtitle (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderSubEn" placeholder="e.g. INNOVATE . CONNECT" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-success small mt-2">Subtitle (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderSubBm" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-success small mt-2">Subtitle (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderSubZh" required>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-danger" onclick="window.clearAllSlides()">Clear All Slides</button>
+                                    <button type="submit" class="btn btn-primary">Publish New Slide</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -761,7 +929,7 @@
     <script type="module">
         // Firebase Cloud Firestore Integration
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- 1. Dynamic Navbar ---
@@ -777,7 +945,7 @@
         });
         if(window.scrollY === 0) document.getElementById('navbar').classList.add('navbar-dark');
 
-        // --- 2. Bilingual Switcher ---
+        // --- 2. Trilingual Switcher ---
         window.setLanguage = function(lang) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll(`[onclick="setLanguage('${lang}')"]`).forEach(b => b.classList.add('active'));
@@ -791,7 +959,7 @@
                     } else if (el.tagName === 'INPUT' && el.type === 'placeholder') {
                         el.placeholder = el.getAttribute(`data-${lang}`);
                     } else {
-                        el.innerText = el.getAttribute(`data-${lang}`);
+                        el.innerHTML = el.getAttribute(`data-${lang}`);
                     }
                     el.style.opacity = 1;
                 }, 200);
@@ -834,27 +1002,20 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // --- 4. Admin Authentication ---
-        window.checkAdminPassword = function(e) {
+        // --- 4. SECURE Admin Authentication ---
+        // Buka modal login apabila ditekan (bukan lagi prompt terbuka)
+        window.showLoginModal = function(e) {
             e.preventDefault();
-            const currentLang = localStorage.getItem('mci_lang') || 'en';
-            const promptMsg = currentLang === 'bm' ? "Sila masukkan kata laluan admin:" : "Please enter admin password:";
-            const password = prompt(promptMsg);
-            
-            if (password === "mci2026") {
-                var adminModal = new bootstrap.Modal(document.getElementById('adminModal'));
-                adminModal.show();
-            } else if (password !== null) {
-                const errorMsg = currentLang === 'bm' ? "Kata laluan salah!" : "Incorrect password!";
-                alert(errorMsg);
-            }
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
         };
 
         // --- 5. Firebase Cloud Database Setup ---
         let newsData = [];
+        let sliderData = [];
         let currentUser = null;
 
-        // Render UI Function
+        // Render UI Function for News
         function renderNews() {
             const container = document.getElementById('news-container');
             const emptyMessage = document.getElementById('empty-news-message');
@@ -866,6 +1027,9 @@
                 emptyMessage.style.display = 'none';
                 newsData.forEach((news, index) => {
                     const delay = (index % 3 + 1);
+                    const titleZh = news.title_zh || news.title_en;
+                    const contentZh = news.content_zh || news.content_en;
+
                     const cardHTML = `
                         <div class="col-md-6 col-lg-4 reveal active">
                             <div class="card news-card h-100 d-flex flex-column">
@@ -874,8 +1038,8 @@
                                 </div>
                                 <div class="card-body p-4 d-flex flex-column">
                                     <small class="text-muted mb-2 d-block"><i class="far fa-calendar-alt text-danger me-1"></i> ${news.date}</small>
-                                    <h5 class="card-title fw-bold mb-3" data-en="${news.title_en}" data-bm="${news.title_bm}">${news.title_en}</h5>
-                                    <p class="card-text text-muted flex-grow-1" data-en="${news.content_en}" data-bm="${news.content_bm}">${news.content_en}</p>
+                                    <h5 class="card-title fw-bold mb-3" data-en="${news.title_en}" data-bm="${news.title_bm}" data-zh="${titleZh}">${news.title_en}</h5>
+                                    <p class="card-text text-muted flex-grow-1" data-en="${news.content_en}" data-bm="${news.content_bm}" data-zh="${contentZh}">${news.content_en}</p>
                                 </div>
                             </div>
                         </div>
@@ -888,8 +1052,78 @@
             window.setLanguage(currentLang);
         }
 
+        // Render UI Function for Slider
+        function renderSlider() {
+            const inner = document.getElementById('hero-inner');
+            const indicators = document.getElementById('hero-indicators');
+
+            if (sliderData.length === 0) {
+                indicators.innerHTML = `<button type="button" data-bs-target="#home" data-bs-slide-to="0" class="active"></button>`;
+                inner.innerHTML = `
+                    <div class="carousel-item active" style="background-image: url('img/news/hero.png');">
+                        <div class="container carousel-caption text-center">
+                            <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                                  data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
+                                THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
+                            </span>
+                            <h1 class="display-4 fw-bold mb-3" 
+                                data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
+                                data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
+                                data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
+                                MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
+                            </h1>
+                            <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
+                                INNOVATE . CONNECT . INSPIRE
+                            </h4>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                <a href="#about" class="btn btn-mci btn-lg pulse-btn" data-en="Explore The Platform" data-bm="Terokai Platform Ini" data-zh="探索平台">Explore The Platform</a>
+                                <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            inner.innerHTML = '';
+            indicators.innerHTML = '';
+
+            sliderData.forEach((slide, index) => {
+                const activeClass = index === 0 ? 'active' : '';
+                
+                indicators.insertAdjacentHTML('beforeend', `<button type="button" data-bs-target="#home" data-bs-slide-to="${index}" class="${activeClass}"></button>`);
+                
+                const slideHTML = `
+                    <div class="carousel-item ${activeClass}" style="background-image: url('${slide.img}');">
+                        <div class="container carousel-caption text-center">
+                            <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                                  data-en="${slide.badge_en}" data-bm="${slide.badge_bm}" data-zh="${slide.badge_zh}">
+                                ${slide.badge_en}
+                            </span>
+                            <h1 class="display-4 fw-bold mb-3" 
+                                data-en="${slide.title_en}" data-bm="${slide.title_bm}" data-zh="${slide.title_zh}">
+                                ${slide.title_en}
+                            </h1>
+                            <h4 class="mb-5 text-light fw-medium" data-en="${slide.sub_en}" data-bm="${slide.sub_bm}" data-zh="${slide.sub_zh}">
+                                ${slide.sub_en}
+                            </h4>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                <a href="#about" class="btn btn-mci btn-lg pulse-btn" data-en="Explore The Platform" data-bm="Terokai Platform Ini" data-zh="探索平台">Explore The Platform</a>
+                                <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                inner.insertAdjacentHTML('beforeend', slideHTML);
+            });
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            window.setLanguage(currentLang);
+        }
+
+        let auth, db, customAppId;
+
         try {
-            // Your web app's Firebase configuration
             const firebaseConfig = {
                 apiKey: "AIzaSyC46TOR_r_JqZIwQw_iS-CC1cRE8KkXrtA",
                 authDomain: "mci-website-db.firebaseapp.com",
@@ -901,81 +1135,169 @@
             };
 
             const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-            const customAppId = "mci-portal";
+            auth = getAuth(app);
+            db = getFirestore(app);
+            customAppId = "mci-portal";
 
-            // Setup Auth
+            // Log masuk tanpa nama untuk pengunjung awam (supaya boleh baca berita jika Firebase Rules ditetapkan)
             const initAuth = async () => {
                 try {
-                    await signInAnonymously(auth);
+                    if(!auth.currentUser) await signInAnonymously(auth);
                 } catch (error) { console.error("Auth init error:", error); }
             };
             initAuth();
 
-            // Listen for Auth changes and trigger Live Database connection
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
                 if (user) {
                     const newsRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcinews');
-                    
-                    // Real-time Data Listener
                     onSnapshot(newsRef, (snapshot) => {
                         newsData = [];
-                        snapshot.forEach((doc) => {
-                            newsData.push(doc.data());
-                        });
-                        
-                        // Sort by ID (Timestamp) descending - Newest first
+                        snapshot.forEach((doc) => { newsData.push(doc.data()); });
                         newsData.sort((a, b) => b.id - a.id);
                         renderNews();
-                        
-                    }, (error) => {
-                        console.error("Error reading from database:", error);
-                    });
+                    }, (error) => console.error("Error reading news from database:", error));
+
+                    const sliderRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcislider');
+                    onSnapshot(sliderRef, (snapshot) => {
+                        sliderData = [];
+                        snapshot.forEach((doc) => { sliderData.push(doc.data()); });
+                        sliderData.sort((a, b) => b.id - a.id); 
+                        renderSlider();
+                    }, (error) => console.error("Error reading slider from database:", error));
                 }
             });
 
-            // Add News Function
+            // ------------------------------------------
+            // Log Masuk Keselamatan (Security Login)
+            // ------------------------------------------
+            document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('adminEmail').value;
+                const password = document.getElementById('adminPassword').value;
+
+                try {
+                    // Cuba log masuk menggunakan akaun rasmi
+                    await signInWithEmailAndPassword(auth, email, password);
+                    
+                    // Jika berjaya, tutup modal login dan buka Admin Panel
+                    bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                    var adminModal = new bootstrap.Modal(document.getElementById('adminModal'));
+                    adminModal.show();
+                    
+                    this.reset();
+                } catch (error) {
+                    console.error("Login error:", error);
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let errorMsg = "Login Failed. Invalid Email or Password.";
+                    if(currentLang === 'bm') errorMsg = "Log Masuk Gagal. E-mel atau Kata Laluan tidak sah.";
+                    if(currentLang === 'zh') errorMsg = "登录失败。无效的电子邮件或密码。";
+                    alert(errorMsg);
+                }
+            });
+
+            // ------------------------------------------
+            // Fungsi Semakan Admin Sebelum Publish
+            // ------------------------------------------
+            function checkIsAdmin() {
+                if (!currentUser || currentUser.isAnonymous) {
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let errorMsg = "Unauthorized action. Please log in as Admin.";
+                    if(currentLang === 'bm') errorMsg = "Tindakan tidak dibenarkan. Sila log masuk sebagai Admin.";
+                    if(currentLang === 'zh') errorMsg = "未授权操作。请以管理员身份登录。";
+                    alert(errorMsg);
+                    return false;
+                }
+                return true;
+            }
+
+            // ------------------------------------------
+            // Add News Form Logic
+            // ------------------------------------------
             document.getElementById('adminNewsForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                if (!currentUser) { alert("Sistem Pangkalan Data sedang dimuatkan, sila tunggu sebentar."); return; }
+                if (!checkIsAdmin()) return;
                 
                 const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
                 const userImg = document.getElementById('newsImg').value.trim();
-                const newsId = Date.now(); // Generate unique ID based on time
+                const newsId = Date.now(); 
 
                 const newNews = {
                     id: newsId,
                     title_en: document.getElementById('newsTitleEn').value,
                     title_bm: document.getElementById('newsTitleBm').value,
+                    title_zh: document.getElementById('newsTitleZh').value,
                     date: document.getElementById('newsDate').value,
                     img: userImg !== "" ? userImg : defaultImg,
                     content_en: document.getElementById('newsContentEn').value,
-                    content_bm: document.getElementById('newsContentBm').value
+                    content_bm: document.getElementById('newsContentBm').value,
+                    content_zh: document.getElementById('newsContentZh').value
                 };
 
                 try {
-                    // Save directly to Firestore Database
                     const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', newsId.toString());
                     await setDoc(docRef, newNews);
                     
-                    bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
                     this.reset();
-                    
                     const currentLang = localStorage.getItem('mci_lang') || 'en';
-                    alert(currentLang === 'bm' ? 'Berita berjaya disiarkan ke pangkalan data awam!' : 'News successfully published to public database!');
+                    let successMsg = 'News successfully published!';
+                    if (currentLang === 'bm') successMsg = 'Berita berjaya disiarkan!';
+                    if (currentLang === 'zh') successMsg = '新闻成功发布！';
+                    alert(successMsg);
                 } catch (error) {
                     console.error("Error saving news:", error);
-                    alert("Ralat semasa menyimpan berita. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
                 }
             });
 
-            // Clear All News Function
+            // ------------------------------------------
+            // Add Slider Form Logic
+            // ------------------------------------------
+            document.getElementById('adminSliderForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const slideId = Date.now(); 
+
+                const newSlide = {
+                    id: slideId,
+                    img: document.getElementById('sliderImg').value.trim(),
+                    badge_en: document.getElementById('sliderBadgeEn').value,
+                    badge_bm: document.getElementById('sliderBadgeBm').value,
+                    badge_zh: document.getElementById('sliderBadgeZh').value,
+                    title_en: document.getElementById('sliderTitleEn').value,
+                    title_bm: document.getElementById('sliderTitleBm').value,
+                    title_zh: document.getElementById('sliderTitleZh').value,
+                    sub_en: document.getElementById('sliderSubEn').value,
+                    sub_bm: document.getElementById('sliderSubBm').value,
+                    sub_zh: document.getElementById('sliderSubZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', slideId.toString());
+                    await setDoc(docRef, newSlide);
+                    
+                    this.reset();
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let successMsg = 'Slide successfully published!';
+                    if (currentLang === 'bm') successMsg = 'Slaid berjaya disiarkan!';
+                    if (currentLang === 'zh') successMsg = '幻灯片成功发布！';
+                    alert(successMsg);
+                } catch (error) {
+                    console.error("Error saving slide:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+            // ------------------------------------------
+            // Delete Functions
+            // ------------------------------------------
             window.clearAllNews = async function() {
-                if (!currentUser) return;
+                if (!checkIsAdmin()) return;
                 const currentLang = localStorage.getItem('mci_lang') || 'en';
-                const confirmMsg = currentLang === 'bm' ? 'Anda pasti mahu memadam semua berita dari pangkalan data awam?' : 'Are you sure you want to delete all news from the public database?';
+                let confirmMsg = 'Are you sure you want to delete all news?';
+                if (currentLang === 'bm') confirmMsg = 'Anda pasti mahu memadam semua berita?';
+                if (currentLang === 'zh') confirmMsg = '您确定要删除所有新闻吗？';
                 
                 if(confirm(confirmMsg)) {
                     for(const item of newsData) {
@@ -983,9 +1305,25 @@
                             await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', item.id.toString()));
                         } catch(e) { console.error("Error deleting:", e); }
                     }
-                    bootstrap.Modal.getInstance(document.getElementById('adminModal')).hide();
                 }
             };
+
+            window.clearAllSlides = async function() {
+                if (!checkIsAdmin()) return;
+                const currentLang = localStorage.getItem('mci_lang') || 'en';
+                let confirmMsg = 'Are you sure you want to delete all custom slides?';
+                if (currentLang === 'bm') confirmMsg = 'Anda pasti mahu memadam semua slaid?';
+                if (currentLang === 'zh') confirmMsg = '您确定要删除所有幻灯片吗？';
+                
+                if(confirm(confirmMsg)) {
+                    for(const item of sliderData) {
+                        try {
+                            await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', item.id.toString()));
+                        } catch(e) { console.error("Error deleting:", e); }
+                    }
+                }
+            };
+
         } catch (err) {
             console.error("Database connection error:", err);
         }
