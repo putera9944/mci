@@ -811,13 +811,19 @@
                         <div class="tab-pane fade show active" id="news-panel" role="tabpanel">
                             <form id="adminNewsForm">
                                 <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-3">
+                                        <span class="text-muted small"><i class="fas fa-info-circle me-1"></i> <b>Tips:</b> Isi maklumat dalam <b>Bahasa Melayu (BM)</b> sahaja, kemudian tekan butang terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateNews()" id="btnTransNews">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Title (English) <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="newsTitleEn" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Title (Bahasa Melayu) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="newsTitleBm" required>
+                                        <input type="text" class="form-control border-primary" id="newsTitleBm" required placeholder="Taip tajuk di sini...">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Title (Mandarin) <span class="text-danger">*</span></label>
@@ -839,7 +845,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Content (Bahasa Melayu) <span class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="newsContentBm" rows="4" required></textarea>
+                                        <textarea class="form-control border-primary" id="newsContentBm" rows="4" required placeholder="Taip isi kandungan di sini..."></textarea>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Content (Mandarin) <span class="text-danger">*</span></label>
@@ -856,11 +862,17 @@
 
                         <!-- TAB 2: Slider Form -->
                         <div class="tab-pane fade" id="slider-panel" role="tabpanel">
-                            <div class="alert alert-info small mb-4">
+                            <div class="alert alert-info small mb-2 mt-3">
                                 <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan muncul pada bahagian gambar depan (Slider Utama) di bahagian atas laman web.
                             </div>
                             <form id="adminSliderForm">
                                 <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-2">
+                                        <span class="text-muted small"><i class="fas fa-lightbulb me-1"></i> <b>Tips:</b> Isi ruang label, tajuk & subteks dalam <b>Bahasa Melayu (BM)</b> dahulu, kemudian tekan terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateSlider()" id="btnTransSlider">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
                                     <!-- Image URl -->
                                     <div class="col-12">
                                         <label class="form-label fw-bold">Slider Background Image URL <span class="text-danger">*</span></label>
@@ -874,7 +886,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold text-muted small">Badge Label (BM) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="sliderBadgeBm" required>
+                                        <input type="text" class="form-control border-primary" id="sliderBadgeBm" required placeholder="Contoh: GERBANG BAKAT">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold text-muted small">Badge Label (ZH) <span class="text-danger">*</span></label>
@@ -888,7 +900,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold text-primary small mt-2">Main Title (BM) <span class="text-danger">*</span></label>
-                                        <textarea class="form-control" id="sliderTitleBm" rows="2" required></textarea>
+                                        <textarea class="form-control border-primary" id="sliderTitleBm" rows="2" required placeholder="Taip tajuk utama slider..."></textarea>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold text-primary small mt-2">Main Title (ZH) <span class="text-danger">*</span></label>
@@ -902,7 +914,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold text-success small mt-2">Subtitle (BM) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="sliderSubBm" required>
+                                        <input type="text" class="form-control border-primary" id="sliderSubBm" required placeholder="Contoh: INOVASI . HUBUNG">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold text-success small mt-2">Subtitle (ZH) <span class="text-danger">*</span></label>
@@ -1210,6 +1222,86 @@
                 }
                 return true;
             }
+
+            // ------------------------------------------
+            // API Terjemahan Automatik (MyMemory Translation)
+            // ------------------------------------------
+            async function translateText(text, fromLang, toLang) {
+                if (!text || text.trim() === '') return '';
+                // MyMemory API kod: Malay=ms, English=en, Chinese=zh
+                try {
+                    const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`);
+                    const data = await response.json();
+                    if (data && data.responseData && data.responseData.translatedText) {
+                        return data.responseData.translatedText;
+                    }
+                    return text; // Fallback jika gagal
+                } catch (error) {
+                    console.error("Translation API Error:", error);
+                    return text;
+                }
+            }
+
+            window.autoTranslateNews = async function() {
+                const titleBm = document.getElementById('newsTitleBm').value;
+                const contentBm = document.getElementById('newsContentBm').value;
+                const btn = document.getElementById('btnTransNews');
+
+                if (!titleBm && !contentBm) {
+                    alert("Sila masukkan Tajuk atau Kandungan dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    if (titleBm) {
+                        document.getElementById('newsTitleEn').value = await translateText(titleBm, 'ms', 'en');
+                        document.getElementById('newsTitleZh').value = await translateText(titleBm, 'ms', 'zh-CN');
+                    }
+                    if (contentBm) {
+                        document.getElementById('newsContentEn').value = await translateText(contentBm, 'ms', 'en');
+                        document.getElementById('newsContentZh').value = await translateText(contentBm, 'ms', 'zh-CN');
+                    }
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
+
+            window.autoTranslateSlider = async function() {
+                const badgeBm = document.getElementById('sliderBadgeBm').value;
+                const titleBm = document.getElementById('sliderTitleBm').value;
+                const subBm = document.getElementById('sliderSubBm').value;
+                const btn = document.getElementById('btnTransSlider');
+
+                if (!badgeBm && !titleBm && !subBm) {
+                    alert("Sila masukkan sekurang-kurangnya satu maklumat dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    if (badgeBm) {
+                        document.getElementById('sliderBadgeEn').value = await translateText(badgeBm, 'ms', 'en');
+                        document.getElementById('sliderBadgeZh').value = await translateText(badgeBm, 'ms', 'zh-CN');
+                    }
+                    if (titleBm) {
+                        document.getElementById('sliderTitleEn').value = await translateText(titleBm, 'ms', 'en');
+                        document.getElementById('sliderTitleZh').value = await translateText(titleBm, 'ms', 'zh-CN');
+                    }
+                    if (subBm) {
+                        document.getElementById('sliderSubEn').value = await translateText(subBm, 'ms', 'en');
+                        document.getElementById('sliderSubZh').value = await translateText(subBm, 'ms', 'zh-CN');
+                    }
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
 
             // ------------------------------------------
             // Add News Form Logic
