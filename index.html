@@ -296,7 +296,7 @@
         .social-links a { 
             display: inline-flex; width: 40px; height: 40px; border-radius: 50%; 
             background: rgba(255,255,255,0.1); align-items: center; justify-content: center; 
-            color: white; margin: 0 10px; transition: 0.3s; text-decoration: none;
+            color: white; margin: 0 10px 0 0; transition: 0.3s; text-decoration: none;
         }
         .social-links a:hover { background: var(--accent-gold); color: var(--primary-blue); transform: translateY(-5px); }
 
@@ -339,11 +339,11 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#home" data-en="Home" data-bm="Utama" data-zh="首页">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#news" data-en="News" data-bm="Berita" data-zh="新闻">News</a></li>
                     <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#about" data-en="About" data-bm="Mengenai Kami" data-zh="关于我们">About</a></li>
                     <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#team" data-en="Team" data-bm="Pasukan" data-zh="团队">Team</a></li>
                     <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#hubs" data-en="Hubs" data-bm="Pusat Satelit" data-zh="枢纽">Hubs</a></li>
                     <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#pillars" data-en="Framework" data-bm="Kerangka" data-zh="框架">Framework</a></li>
-                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#news" data-en="News" data-bm="Berita" data-zh="新闻">News</a></li>
                     <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#contact" data-en="Contact" data-bm="Hubungi" data-zh="联系我们">Contact</a></li>
                     
                     <li class="nav-item ms-xl-3 d-none d-xl-block">
@@ -385,7 +385,7 @@
                         INNOVATE . CONNECT . INSPIRE
                     </h4>
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="#about" class="btn btn-mci btn-lg pulse-btn" data-en="Explore The Platform" data-bm="Terokai Platform Ini" data-zh="探索平台">Explore The Platform</a>
+                        <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
                         <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
                     </div>
                 </div>
@@ -422,8 +422,33 @@
         </div>
     </div>
 
+    <!-- News & Activities Section (Moved Up Here) -->
+    <section id="news" class="py-5 mt-5">
+        <div class="container py-4">
+            <div class="text-center mb-5 reveal">
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Latest News & Activities" data-bm="Berita & Aktiviti Terkini" data-zh="最新新闻与活动">Latest News & Activities</h2>
+                <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
+                <p class="text-muted" data-en="Stay updated with our events, collaborations, and announcements." data-bm="Kekal terkini dengan acara, kolaborasi, dan pengumuman kami." data-zh="随时了解我们的活动、合作和公告。">Stay updated with our events, collaborations, and announcements.</p>
+            </div>
+            
+            <!-- Dynamic News Container -->
+            <div class="row g-4" id="news-container">
+                <!-- News cards will be generated here by JavaScript from Database -->
+            </div>
+
+            <!-- Pagination Container -->
+            <div id="news-pagination" class="d-flex justify-content-center mt-5">
+                <!-- Pagination buttons will be generated here -->
+            </div>
+            
+            <div class="text-center mt-5" id="empty-news-message" style="display: none;">
+                <p class="text-muted fst-italic" data-en="No news available at the moment." data-bm="Tiada berita tersedia pada masa ini." data-zh="目前没有新闻。">No news available at the moment.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
-    <section id="about" class="py-5 mt-4">
+    <section id="about" class="py-5 bg-light">
         <div class="container py-5">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 reveal">
@@ -439,7 +464,7 @@
                         To be the premier regional gateway connecting Malaysia, ASEAN, and China through education, talent development, and changemakers.
                     </p>
                     
-                    <div class="p-4 rounded-3 mb-4" style="background: var(--bg-light); border-left: 5px solid var(--accent-gold);">
+                    <div class="p-4 rounded-3 mb-4" style="background: white; border-left: 5px solid var(--accent-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
                         <p class="mb-0 fw-medium" data-en="To deliver high-value Malaysia-China education, talent development, entrepreneurship, and technology solutions that strengthen global competitiveness and drive sustainable economic growth." data-bm="Untuk menyampaikan pendidikan bernilai tinggi Malaysia-China, pembangunan bakat, keusahawanan, dan penyelesaian teknologi yang memperkukuh daya saing global dan memacu pertumbuhan ekonomi yang mampan." data-zh="提供高价值的马中教育、人才发展、创业和技术解决方案，增强全球竞争力并推动可持续经济增长。">
                             To deliver high-value Malaysia-China education, talent development, entrepreneurship, and technology solutions that strengthen global competitiveness and drive sustainable economic growth.
                         </p>
@@ -450,7 +475,7 @@
     </section>
 
     <!-- Organization Chart / Leadership Team Section -->
-    <section id="team" class="py-5 bg-light">
+    <section id="team" class="py-5">
         <div class="container py-4">
             <div class="text-center mb-5 reveal">
                 <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Leadership & Organization" data-bm="Barisan Kepimpinan & Organisasi" data-zh="领导与组织">Leadership & Organization</h2>
@@ -527,7 +552,7 @@
     </section>
 
     <!-- Interactive Satellite Hubs Grid -->
-    <section id="hubs" class="py-5">
+    <section id="hubs" class="py-5 bg-light">
         <div class="container py-4">
             <div class="text-center mb-5 reveal">
                 <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="High-Growth Technology Sectors" data-bm="Sektor Teknologi Pertumbuhan Tinggi" data-zh="高增长技术领域">High-Growth Technology Sectors</h2>
@@ -538,7 +563,7 @@
             <div class="row g-4 justify-content-center">
                 <!-- PJ -->
                 <div class="col-md-6 col-lg-3 reveal delay-1">
-                    <div class="card hub-card p-4 text-center bg-light">
+                    <div class="card hub-card p-4 text-center">
                         <div class="hub-icon-wrapper"><i class="fas fa-microchip hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Petaling Jaya</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="AI & IoT" data-bm="Kecerdasan Buatan (AI) & IoT" data-zh="人工智能与物联网">AI & IoT</p>
@@ -546,7 +571,7 @@
                 </div>
                 <!-- Bagan Datuk -->
                 <div class="col-md-6 col-lg-3 reveal delay-2">
-                    <div class="card hub-card p-4 text-center bg-light">
+                    <div class="card hub-card p-4 text-center">
                         <div class="hub-icon-wrapper"><i class="fas fa-car-battery hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">GIATMARA Bagan Datuk</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Electric Vehicle (EV)" data-bm="Kenderaan Elektrik (EV)" data-zh="电动汽车 (EV)">Electric Vehicle (EV)</p>
@@ -554,7 +579,7 @@
                 </div>
                 <!-- SPU -->
                 <div class="col-md-6 col-lg-3 reveal delay-3">
-                    <div class="card hub-card p-4 text-center bg-light">
+                    <div class="card hub-card p-4 text-center">
                         <div class="hub-icon-wrapper"><i class="fas fa-bolt hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA SPU</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="High Voltage Energy" data-bm="Tenaga Voltan Tinggi" data-zh="高压能源">High Voltage Energy</p>
@@ -562,7 +587,7 @@
                 </div>
                 <!-- UniKL MFI -->
                 <div class="col-md-6 col-lg-3 reveal delay-4">
-                    <div class="card hub-card p-4 text-center bg-light">
+                    <div class="card hub-card p-4 text-center">
                         <div class="hub-icon-wrapper"><i class="fas fa-vr-cardboard hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">UniKL MFI</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Emerging Technologies" data-bm="Teknologi Terkini" data-zh="新兴技术">Emerging Technologies</p>
@@ -570,7 +595,7 @@
                 </div>
                 <!-- Kuantan -->
                 <div class="col-md-6 col-lg-4 reveal delay-1">
-                    <div class="card hub-card p-4 text-center bg-light">
+                    <div class="card hub-card p-4 text-center">
                         <div class="hub-icon-wrapper"><i class="fas fa-robot hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Kuantan</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Smart Manufacturing" data-bm="Pembuatan Pintar" data-zh="智能制造">Smart Manufacturing</p>
@@ -578,7 +603,7 @@
                 </div>
                 <!-- Besut -->
                 <div class="col-md-6 col-lg-4 reveal delay-2">
-                    <div class="card hub-card p-4 text-center bg-light">
+                    <div class="card hub-card p-4 text-center">
                         <div class="hub-icon-wrapper"><i class="fas fa-server hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Besut</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Data Centre Technologies" data-bm="Teknologi Pusat Data" data-zh="数据中心技术">Data Centre Technologies</p>
@@ -586,7 +611,7 @@
                 </div>
                 <!-- Bintulu -->
                 <div class="col-md-6 col-lg-4 reveal delay-3">
-                    <div class="card hub-card p-4 text-center bg-light">
+                    <div class="card hub-card p-4 text-center">
                         <div class="hub-icon-wrapper"><i class="fas fa-wind hub-icon"></i></div>
                         <h5 class="fw-bold text-dark">TVETMARA Bintulu</h5>
                         <p class="small text-muted mb-0 fw-medium" data-en="Energy Technologies" data-bm="Teknologi Tenaga" data-zh="能源技术">Energy Technologies</p>
@@ -597,7 +622,7 @@
     </section>
 
     <!-- Core Academic Pillars -->
-    <section id="pillars" class="py-5 bg-light">
+    <section id="pillars" class="py-5">
         <div class="container py-4">
             <h2 class="text-center display-6 fw-bold mb-5 reveal" style="color: var(--primary-blue);" data-en="Industry-Aligned Programmes for Real-World Impact" data-bm="Program Selari Industri untuk Impak Dunia Sebenar" data-zh="针对现实世界影响的行业相关计划">Industry-Aligned Programmes for Real-World Impact</h2>
             
@@ -606,55 +631,30 @@
                     <img src="img/news/Career.png" alt="Collaboration" class="img-fluid rounded-4 shadow-lg mb-4 mb-lg-0">
                 </div>
                 <div class="col-lg-6 ps-lg-5">
-                    <div class="pillar-box d-flex align-items-start reveal delay-1">
-                        <div class="pillar-icon flex-shrink-0 me-4"><i class="fas fa-certificate"></i></div>
+                    <div class="pillar-box d-flex align-items-start reveal delay-1" style="background: var(--bg-light);">
+                        <div class="pillar-icon flex-shrink-0 me-4" style="background: white;"><i class="fas fa-certificate"></i></div>
                         <div>
                             <h4 class="fw-bold" data-en="Pillar 1: Micro-Credentials" data-bm="Teras 1: Mikro-Kredential" data-zh="支柱 1：微证书">Pillar 1: Micro-Credentials</h4>
                             <p class="text-muted mb-0" data-en="Rapid technical skill transfer tailored and driven by current industry needs." data-bm="Pemindahan kemahiran teknikal yang pantas dan dipacu oleh keperluan industri semasa." data-zh="根据当前行业需求量身定制并推动的快速技术技能转移。">Rapid technical skill transfer tailored and driven by current industry needs.</p>
                         </div>
                     </div>
                     
-                    <div class="pillar-box d-flex align-items-start reveal delay-2">
-                        <div class="pillar-icon flex-shrink-0 me-4"><i class="fas fa-language"></i></div>
+                    <div class="pillar-box d-flex align-items-start reveal delay-2" style="background: var(--bg-light);">
+                        <div class="pillar-icon flex-shrink-0 me-4" style="background: white;"><i class="fas fa-language"></i></div>
                         <div>
                             <h4 class="fw-bold" data-en="Pillar 2: Technical Mandarin" data-bm="Teras 2: Mandarin Industri" data-zh="支柱 2：技术中文">Pillar 2: Technical Mandarin</h4>
                             <p class="text-muted mb-0" data-en="Specialized modules for seamless professional interaction with Chinese technology partners." data-bm="Modul khas bagi memastikan interaksi profesional yang lancar dengan rakan teknologi China." data-zh="为与中国技术合作伙伴进行无缝专业互动而设计的专门模块。">Specialized modules for seamless professional interaction with Chinese technology partners.</p>
                         </div>
                     </div>
                     
-                    <div class="pillar-box d-flex align-items-start reveal delay-3">
-                        <div class="pillar-icon flex-shrink-0 me-4"><i class="fas fa-user-tie"></i></div>
+                    <div class="pillar-box d-flex align-items-start reveal delay-3" style="background: var(--bg-light);">
+                        <div class="pillar-icon flex-shrink-0 me-4" style="background: white;"><i class="fas fa-user-tie"></i></div>
                         <div>
                             <h4 class="fw-bold" data-en="Pillar 3: Employability (EEP)" data-bm="Teras 3: Kebolehpasaran (EEP)" data-zh="支柱 3：就业能力 (EEP)">Pillar 3: Employability (EEP)</h4>
                             <p class="text-muted mb-0" data-en="Structured career pathways through apprenticeships and direct industry job placements." data-bm="Laluan kerjaya berstruktur melalui perantisan dan penempatan kerja terus ke industri." data-zh="通过学徒制和直接的行业工作安置实现结构化的职业路径。">Structured career pathways through apprenticeships and direct industry job placements.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- News & Activities Section -->
-    <section id="news" class="py-5">
-        <div class="container py-4">
-            <div class="text-center mb-5 reveal">
-                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Latest News & Activities" data-bm="Berita & Aktiviti Terkini" data-zh="最新新闻与活动">Latest News & Activities</h2>
-                <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
-                <p class="text-muted" data-en="Stay updated with our events, collaborations, and announcements." data-bm="Kekal terkini dengan acara, kolaborasi, dan pengumuman kami." data-zh="随时了解我们的活动、合作和公告。">Stay updated with our events, collaborations, and announcements.</p>
-            </div>
-            
-            <!-- Dynamic News Container -->
-            <div class="row g-4" id="news-container">
-                <!-- News cards will be generated here by JavaScript from Database -->
-            </div>
-
-            <!-- Pagination Container -->
-            <div id="news-pagination" class="d-flex justify-content-center mt-5">
-                <!-- Pagination buttons will be generated here -->
-            </div>
-            
-            <div class="text-center mt-5" id="empty-news-message" style="display: none;">
-                <p class="text-muted fst-italic" data-en="No news available at the moment." data-bm="Tiada berita tersedia pada masa ini." data-zh="目前没有新闻。">No news available at the moment.</p>
             </div>
         </div>
     </section>
@@ -757,21 +757,50 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer with Visitor Stats -->
     <footer>
         <div class="footer-shape"></div>
-        <div class="container text-center pt-4">
-            <h2 class="fw-bold mb-3">MCI</h2>
-            <p class="text-white-50" data-en="A Wholly-Owned Subsidiary of MARA" data-bm="Anak Syarikat Milik Penuh MARA" data-zh="MARA 的全资子公司">A Wholly-Owned Subsidiary of MARA</p>
-            
-            <div class="social-links my-4">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
+        <div class="container pt-5">
+            <div class="row align-items-center mb-5">
+                <!-- Logo & Socials -->
+                <div class="col-lg-5 text-center text-lg-start mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3">MCI</h2>
+                    <p class="text-white-50" data-en="A Wholly-Owned Subsidiary of MARA" data-bm="Anak Syarikat Milik Penuh MARA" data-zh="MARA 的全资子公司">A Wholly-Owned Subsidiary of MARA</p>
+                    
+                    <div class="social-links mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Visitor Statistics Block -->
+                <div class="col-lg-7">
+                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                        <h6 class="fw-bold text-center text-uppercase text-white-50 mb-4" style="letter-spacing: 2px;" data-en="Visitor Statistics" data-bm="Statistik Pelawat" data-zh="访客统计">Statistik Pelawat</h6>
+                        <div class="row g-3 text-center">
+                            <div class="col-4 border-end border-secondary">
+                                <i class="fas fa-user-clock mb-2 text-warning fs-3"></i>
+                                <h4 class="fw-bold mb-0" id="statToday">0</h4>
+                                <p class="small text-white-50 mb-0 mt-1" style="font-size: 0.8rem;" data-en="Today's Visitors" data-bm="Pelawat Hari Ini" data-zh="今日访客">Pelawat Hari Ini</p>
+                            </div>
+                            <div class="col-4 border-end border-secondary">
+                                <i class="fas fa-users mb-2 text-info fs-3"></i>
+                                <h4 class="fw-bold mb-0" id="statTotal">0</h4>
+                                <p class="small text-white-50 mb-0 mt-1" style="font-size: 0.8rem;" data-en="Total Visitors" data-bm="Jumlah Pelawat" data-zh="总访客数">Jumlah Pelawat</p>
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-globe mb-2 text-success fs-3"></i>
+                                <h4 class="fw-bold mb-0" id="statHits">0</h4>
+                                <p class="small text-white-50 mb-0 mt-1" style="font-size: 0.8rem;" data-en="Total Hits" data-bm="Jumlah Capaian" data-zh="总点击量">Jumlah Capaian</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <hr class="border-secondary mt-4">
-            <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
                 <p class="small text-white-50 mb-0">© 2026 Malaysia-China Institute (MCI). <span data-en="All Rights Reserved." data-bm="Hak Cipta Terpelihara." data-zh="版权所有。">All Rights Reserved.</span></p>
                 <!-- Admin Access Trigger (Secure Firebase Login) -->
                 <a href="#" onclick="window.showLoginModal(event)" class="text-white-50 text-decoration-none small mt-2 mt-md-0">
@@ -1104,14 +1133,57 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // --- 4. SECURE Admin Authentication ---
+        // --- 4. Visitor Counter Simulation Logic ---
+        function initVisitorCounter() {
+            let today = new Date().toISOString().split('T')[0];
+            let storedDate = localStorage.getItem('mci_visit_date');
+            
+            // Angka asas supaya ia tidak bermula dari kosong (untuk tujuan demo)
+            let hits = parseInt(localStorage.getItem('mci_hits') || '84520');
+            let totalVis = parseInt(localStorage.getItem('mci_total_vis') || '21500');
+            let todayVis = parseInt(localStorage.getItem('mci_today_vis') || '45');
+
+            // Tambah Capaian (Hits) setiap kali halaman dimuatkan semula
+            hits += 1;
+
+            // Reset 'Hari Ini' jika tarikh sudah berubah
+            if (storedDate !== today) {
+                todayVis = Math.floor(Math.random() * 15) + 5; // Mulakan hari baru dengan sedikit angka rawak
+                localStorage.setItem('mci_visit_date', today);
+            }
+
+            // Tambah Pelawat jika ini adalah sesi baru (baru buka browser)
+            if (!sessionStorage.getItem('mci_session_visited')) {
+                todayVis += 1;
+                totalVis += 1;
+                sessionStorage.setItem('mci_session_visited', 'true');
+            }
+
+            // Simpan ke dalam Local Storage
+            localStorage.setItem('mci_hits', hits.toString());
+            localStorage.setItem('mci_total_vis', totalVis.toString());
+            localStorage.setItem('mci_today_vis', todayVis.toString());
+
+            // Paparkan di UI (Bahagian Footer)
+            document.getElementById('statToday').innerText = todayVis.toLocaleString();
+            document.getElementById('statTotal').innerText = totalVis.toLocaleString();
+            document.getElementById('statHits').innerText = hits.toLocaleString();
+        }
+
+        // Jalankan kaunter apabila laman web dibuka
+        window.addEventListener('DOMContentLoaded', () => {
+            initVisitorCounter();
+        });
+
+
+        // --- 5. SECURE Admin Authentication ---
         window.showLoginModal = function(e) {
             e.preventDefault();
             var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
             loginModal.show();
         };
 
-        // --- 5. Firebase Cloud Database Setup & Rendering ---
+        // --- 6. Firebase Cloud Database Setup & Rendering ---
         let newsData = [];
         let sliderData = [];
         let currentUser = null;
@@ -1317,7 +1389,7 @@
                             INNOVATE . CONNECT . INSPIRE
                         </h4>
                         <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <a href="#about" class="btn btn-mci btn-lg pulse-btn" data-en="Explore The Platform" data-bm="Terokai Platform Ini" data-zh="探索平台">Explore The Platform</a>
+                            <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
                             <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
                         </div>
                     </div>
@@ -1345,7 +1417,7 @@
                                 ${slide.sub_en}
                             </h4>
                             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                                <a href="#about" class="btn btn-mci btn-lg pulse-btn" data-en="Explore The Platform" data-bm="Terokai Platform Ini" data-zh="探索平台">Explore The Platform</a>
+                                <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
                                 <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
                             </div>
                         </div>
