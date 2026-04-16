@@ -759,44 +759,20 @@
         </div>
     </section>
 
-    <!-- Footer with Visitor Stats -->
+    <!-- Footer without Visitor Stats -->
     <footer>
         <div class="footer-shape"></div>
         <div class="container pt-5">
-            <div class="row align-items-center mb-5">
-                <!-- Logo & Socials -->
-                <div class="col-lg-5 text-center text-lg-start mb-4 mb-lg-0">
+            <div class="row align-items-center mb-5 justify-content-center">
+                <!-- Logo & Socials Centered -->
+                <div class="col-12 text-center mb-4 mb-lg-0">
                     <h2 class="fw-bold mb-3">MCI</h2>
                     <p class="text-white-50" data-en="A Wholly-Owned Subsidiary of MARA" data-bm="Anak Syarikat Milik Penuh MARA" data-zh="MARA 的全资子公司">A Wholly-Owned Subsidiary of MARA</p>
                     
-                    <div class="social-links mt-4">
+                    <div class="social-links mt-4 d-flex justify-content-center">
                         <a href="https://www.facebook.com/mcitvet" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/mcitvetmara" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
                         <!-- LinkedIn & Twitter hidden as requested -->
-                    </div>
-                </div>
-                
-                <!-- Visitor Statistics Block -->
-                <div class="col-lg-7">
-                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
-                        <h6 class="fw-bold text-center text-uppercase text-white-50 mb-4" style="letter-spacing: 2px;" data-en="Visitor Statistics" data-bm="Statistik Pelawat" data-zh="访客统计">Statistik Pelawat</h6>
-                        <div class="row g-3 text-center">
-                            <div class="col-4 border-end border-secondary">
-                                <i class="fas fa-user-clock mb-2 text-warning fs-3"></i>
-                                <h4 class="fw-bold mb-0" id="statToday">0</h4>
-                                <p class="small text-white-50 mb-0 mt-1" style="font-size: 0.8rem;" data-en="Today's Visitors" data-bm="Pelawat Hari Ini" data-zh="今日访客">Pelawat Hari Ini</p>
-                            </div>
-                            <div class="col-4 border-end border-secondary">
-                                <i class="fas fa-users mb-2 text-info fs-3"></i>
-                                <h4 class="fw-bold mb-0" id="statTotal">0</h4>
-                                <p class="small text-white-50 mb-0 mt-1" style="font-size: 0.8rem;" data-en="Total Visitors" data-bm="Jumlah Pelawat" data-zh="总访客数">Jumlah Pelawat</p>
-                            </div>
-                            <div class="col-4">
-                                <i class="fas fa-globe mb-2 text-success fs-3"></i>
-                                <h4 class="fw-bold mb-0" id="statHits">0</h4>
-                                <p class="small text-white-50 mb-0 mt-1" style="font-size: 0.8rem;" data-en="Total Hits" data-bm="Jumlah Capaian" data-zh="总点击量">Jumlah Capaian</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1136,47 +1112,7 @@
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
         // --- 4. Visitor Counter Simulation Logic ---
-        function initVisitorCounter() {
-            let today = new Date().toISOString().split('T')[0];
-            let storedDate = localStorage.getItem('mci_visit_date');
-            
-            // Angka asas supaya ia tidak bermula dari kosong (untuk tujuan demo)
-            let hits = parseInt(localStorage.getItem('mci_hits') || '84520');
-            let totalVis = parseInt(localStorage.getItem('mci_total_vis') || '21500');
-            let todayVis = parseInt(localStorage.getItem('mci_today_vis') || '45');
-
-            // Tambah Capaian (Hits) setiap kali halaman dimuatkan semula
-            hits += 1;
-
-            // Reset 'Hari Ini' jika tarikh sudah berubah
-            if (storedDate !== today) {
-                todayVis = Math.floor(Math.random() * 15) + 5; // Mulakan hari baru dengan sedikit angka rawak
-                localStorage.setItem('mci_visit_date', today);
-            }
-
-            // Tambah Pelawat jika ini adalah sesi baru (baru buka browser)
-            if (!sessionStorage.getItem('mci_session_visited')) {
-                todayVis += 1;
-                totalVis += 1;
-                sessionStorage.setItem('mci_session_visited', 'true');
-            }
-
-            // Simpan ke dalam Local Storage
-            localStorage.setItem('mci_hits', hits.toString());
-            localStorage.setItem('mci_total_vis', totalVis.toString());
-            localStorage.setItem('mci_today_vis', todayVis.toString());
-
-            // Paparkan di UI (Bahagian Footer)
-            document.getElementById('statToday').innerText = todayVis.toLocaleString();
-            document.getElementById('statTotal').innerText = totalVis.toLocaleString();
-            document.getElementById('statHits').innerText = hits.toLocaleString();
-        }
-
-        // Jalankan kaunter apabila laman web dibuka
-        window.addEventListener('DOMContentLoaded', () => {
-            initVisitorCounter();
-        });
-
+        // (Kod statistik telah disembunyikan buat masa ini atas permintaan pelanggan)
 
         // --- 5. SECURE Admin Authentication ---
         window.showLoginModal = function(e) {
