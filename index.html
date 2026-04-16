@@ -248,6 +248,27 @@
         .news-img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .news-card:hover .news-img-container img { transform: scale(1.1); }
         
+        /* Text Truncation for News */
+        .news-content-preview {
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limit to 3 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+        }
+        .read-more-link {
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .read-more-link:hover {
+            color: var(--mci-red);
+            text-decoration: underline;
+        }
+        
         /* Pagination */
         .pagination .page-link { color: var(--primary-blue); border-color: #dee2e6; }
         .pagination .page-item.active .page-link { background-color: var(--primary-blue); border-color: var(--primary-blue); color: white; }
@@ -760,6 +781,28 @@
         </div>
     </footer>
 
+    <!-- Full News Detail Modal -->
+    <div class="modal fade" id="newsDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="newsDetailTitle" style="color: var(--primary-blue);"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img id="newsDetailImg" src="" alt="News Image" class="w-100" style="max-height: 450px; object-fit: cover;">
+                    <div class="p-4 p-md-5">
+                        <small class="text-muted mb-4 d-block fw-medium"><i class="far fa-calendar-alt text-danger me-2"></i> <span id="newsDetailDate"></span></small>
+                        <p id="newsDetailContent" class="text-dark" style="line-height: 1.8; font-size: 1.05rem;"></p>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal" data-en="Close" data-bm="Tutup" data-zh="关闭">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Secure Login Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -1069,7 +1112,39 @@
             }
         };
 
-        // Render UI Function for News (With Pagination)
+        // Fungsi Tunjuk Berita Penuh (Modal)
+        window.showFullNews = function(id) {
+            const news = newsData.find(n => n.id === id);
+            if(!news) return;
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            
+            let title = news.title_en;
+            let content = news.content_en;
+            
+            if (currentLang === 'bm') {
+                title = news.title_bm;
+                content = news.content_bm;
+            } else if (currentLang === 'zh') {
+                title = news.title_zh || news.title_en;
+                content = news.content_zh || news.content_en;
+            }
+
+            document.getElementById('newsDetailTitle').innerText = title;
+            document.getElementById('newsDetailImg').src = news.img;
+            document.getElementById('newsDetailDate').innerText = news.date;
+            
+            // Formatkan teks supaya line breaks (enter) dikekalkan apabila dibaca
+            document.getElementById('newsDetailContent').innerHTML = content.replace(/\n/g, '<br>');
+
+            var newsModal = new bootstrap.Modal(document.getElementById('newsDetailModal'));
+            newsModal.show();
+            
+            // Guna bahasa yang betul pada butang tutup (close)
+            window.setLanguage(currentLang);
+        };
+
+        // Render UI Function for News (With Pagination & Read More)
         function renderNews() {
             const container = document.getElementById('news-container');
             const paginationContainer = document.getElementById('news-pagination');
@@ -1104,7 +1179,17 @@
                                 <div class="card-body p-4 d-flex flex-column">
                                     <small class="text-muted mb-2 d-block"><i class="far fa-calendar-alt text-danger me-1"></i> ${news.date}</small>
                                     <h5 class="card-title fw-bold mb-3" data-en="${news.title_en}" data-bm="${news.title_bm}" data-zh="${titleZh}">${news.title_en}</h5>
-                                    <p class="card-text text-muted flex-grow-1" data-en="${news.content_en}" data-bm="${news.content_bm}" data-zh="${contentZh}">${news.content_en}</p>
+                                    
+                                    <div class="flex-grow-1">
+                                        <p class="card-text text-muted news-content-preview" data-en="${news.content_en}" data-bm="${news.content_bm}" data-zh="${contentZh}">${news.content_en}</p>
+                                    </div>
+                                    
+                                    <div class="mt-auto pt-3 border-top">
+                                        <a class="read-more-link d-inline-flex align-items-center" onclick="window.showFullNews(${news.id})">
+                                            <span data-en="Read More" data-bm="Baca Lanjut" data-zh="阅读更多">Read More</span> 
+                                            <i class="fas fa-arrow-right ms-2 small"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
