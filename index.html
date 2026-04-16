@@ -781,7 +781,7 @@
         </div>
     </footer>
 
-    <!-- Full News Detail Modal -->
+    <!-- Full News Detail Modal (Dikemas kini dengan Slider/Carousel) -->
     <div class="modal fade" id="newsDetailModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -790,7 +790,25 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
-                    <img id="newsDetailImg" src="" alt="News Image" class="w-100" style="max-height: 450px; object-fit: cover;">
+                    
+                    <!-- Ruangan Slider Untuk Pelbagai Gambar -->
+                    <div id="newsDetailCarousel" class="carousel slide bg-dark" data-bs-ride="carousel">
+                        <div class="carousel-indicators" id="newsDetailIndicators">
+                            <!-- Indicator akan dimuatkan di sini oleh JS -->
+                        </div>
+                        <div class="carousel-inner" id="newsDetailImages">
+                            <!-- Gambar akan dimuatkan di sini oleh JS -->
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#newsDetailCarousel" data-bs-slide="prev" id="newsDetailPrev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#newsDetailCarousel" data-bs-slide="next" id="newsDetailNext">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
                     <div class="p-4 p-md-5">
                         <small class="text-muted mb-4 d-block fw-medium"><i class="far fa-calendar-alt text-danger me-2"></i> <span id="newsDetailDate"></span></small>
                         <p id="newsDetailContent" class="text-dark" style="line-height: 1.8; font-size: 1.05rem;"></p>
@@ -889,8 +907,9 @@
                                         <input type="date" class="form-control" id="newsDate" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label fw-bold">Image URL (Optional)</label>
-                                        <input type="url" class="form-control" id="newsImg" placeholder="https://example.com/image.jpg">
+                                        <!-- Ditukar ke textarea untuk sokongan pelbagai gambar dipisahkan dengan koma -->
+                                        <label class="form-label fw-bold">Image URLs <small class="text-muted fw-normal">(Pisahkan dengan koma ',' jika lebih dari satu)</small></label>
+                                        <textarea class="form-control" id="newsImg" rows="2" placeholder="https://contoh.com/gambar1.jpg, https://contoh.com/gambar2.jpg"></textarea>
                                     </div>
 
                                     <div class="col-md-4">
@@ -1112,7 +1131,7 @@
             }
         };
 
-        // Fungsi Tunjuk Berita Penuh (Modal)
+        // Fungsi Tunjuk Berita Penuh (Modal) DENGAN sokongan pelbagai gambar (Carousel)
         window.showFullNews = function(id) {
             const news = newsData.find(n => n.id === id);
             if(!news) return;
@@ -1131,7 +1150,44 @@
             }
 
             document.getElementById('newsDetailTitle').innerText = title;
-            document.getElementById('newsDetailImg').src = news.img;
+            
+            // --- LOGIK CAROUSEL UNTUK PELBAGAI GAMBAR ---
+            const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
+            const imgString = news.img || defaultImg;
+            // Pisahkan pautan gambar menggunakan koma, buang ruang kosong
+            const images = imgString.split(',').map(url => url.trim()).filter(url => url !== "");
+            if(images.length === 0) images.push(defaultImg);
+
+            const indicators = document.getElementById('newsDetailIndicators');
+            const inner = document.getElementById('newsDetailImages');
+            const prevBtn = document.getElementById('newsDetailPrev');
+            const nextBtn = document.getElementById('newsDetailNext');
+
+            indicators.innerHTML = '';
+            inner.innerHTML = '';
+
+            images.forEach((imgUrl, index) => {
+                const activeClass = index === 0 ? 'active' : '';
+                indicators.innerHTML += `<button type="button" data-bs-target="#newsDetailCarousel" data-bs-slide-to="${index}" class="${activeClass}" aria-current="${index === 0 ? 'true' : 'false'}"></button>`;
+                inner.innerHTML += `
+                    <div class="carousel-item ${activeClass}">
+                        <img src="${imgUrl}" class="d-block w-100" style="max-height: 450px; object-fit: cover;" alt="News Image ${index + 1}" onerror="this.src='${defaultImg}'">
+                    </div>
+                `;
+            });
+
+            // Tunjuk atau sembunyikan butang kawalan slider bergantung kepada jumlah gambar
+            if (images.length > 1) {
+                prevBtn.style.display = 'block';
+                nextBtn.style.display = 'block';
+                indicators.style.display = 'flex';
+            } else {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                indicators.style.display = 'none';
+            }
+            // --------------------------------------------
+
             document.getElementById('newsDetailDate').innerText = news.date;
             
             // Formatkan teks supaya line breaks (enter) dikekalkan apabila dibaca
@@ -1170,11 +1226,17 @@
                     const titleZh = news.title_zh || news.title_en;
                     const contentZh = news.content_zh || news.content_en;
 
+                    // --- Ambil gambar pertama sahaja untuk paparan kad hadapan ---
+                    const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
+                    const imgString = news.img || defaultImg;
+                    const imgArray = imgString.split(',').map(u => u.trim()).filter(u => u !== "");
+                    const thumbImg = imgArray.length > 0 ? imgArray[0] : defaultImg;
+
                     const cardHTML = `
                         <div class="col-md-6 col-lg-4 reveal active">
                             <div class="card news-card h-100 d-flex flex-column">
                                 <div class="news-img-container">
-                                    <img src="${news.img}" alt="News Image" onerror="this.src='https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80'">
+                                    <img src="${thumbImg}" alt="News Image" onerror="this.src='${defaultImg}'">
                                 </div>
                                 <div class="card-body p-4 d-flex flex-column">
                                     <small class="text-muted mb-2 d-block"><i class="far fa-calendar-alt text-danger me-1"></i> ${news.date}</small>
@@ -1611,6 +1673,7 @@
                 document.getElementById('newsTitleBm').value = news.title_bm;
                 document.getElementById('newsTitleZh').value = news.title_zh;
                 document.getElementById('newsDate').value = news.date;
+                // Kekalkan format koma yang sama supaya admin mudah edit
                 document.getElementById('newsImg').value = news.img.includes('unsplash') ? '' : news.img; 
                 document.getElementById('newsContentEn').value = news.content_en;
                 document.getElementById('newsContentBm').value = news.content_bm;
