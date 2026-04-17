@@ -420,7 +420,7 @@
                     <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Industry Partners by 2028" data-bm="Rakan Industri menjelang 2028" data-zh="2028年工业合作伙伴">Industry Partners by 2028</p>
                 </div>
                 <div class="col-md-4">
-                    <div class="counter" data-target="7">0</div>
+                    <div class="counter" id="hubs-counter" data-target="7">0</div>
                     <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Strategic Satellite Hubs" data-bm="Pusat Satelit Strategik" data-zh="战略卫星枢纽">Strategic Satellite Hubs</p>
                 </div>
             </div>
@@ -1671,6 +1671,16 @@
                         hubsData.sort((a, b) => a.order - b.order); 
                         renderHubs();
                         renderAdminLists();
+                        
+                        // Kemas kini nombor bilangan Pusat Satelit pada bahagian 'Stats' secara dinamik
+                        const hubsCounterEl = document.getElementById('hubs-counter');
+                        if(hubsCounterEl) {
+                            hubsCounterEl.setAttribute('data-target', hubsData.length);
+                            // Jika animasi nombor dah berjalan, terus paparkan nombor sebenar terkini
+                            if (hasCounted) {
+                                hubsCounterEl.innerText = hubsData.length;
+                            }
+                        }
                     }, (error) => console.error("Error reading hubs from database:", error));
                 }
             });
