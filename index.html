@@ -495,8 +495,9 @@
                 <p class="text-muted" data-en="Meet the visionary team driving the MCI platform forward." data-bm="Kenali barisan kepimpinan yang memacu platform MCI ke hadapan." data-zh="认识推动 MCI 平台发展的富有远见的团队。">Meet the visionary team driving the MCI platform forward.</p>
             </div>
             
-            <div class="row g-4 justify-content-center" id="team-container">
-                <!-- Senarai Ahli Pasukan akan dijana (generate) di sini secara dinamik oleh JavaScript dari Pangkalan Data -->
+            <!-- Ruang Pasukan akan dikemaskini secara dinamik -->
+            <div id="team-container" class="d-flex flex-column align-items-center w-100">
+                <!-- Senarai Ahli Pasukan akan dijana (generate) di sini secara dinamik oleh JavaScript mengikut Tier -->
             </div>
         </div>
     </section>
@@ -980,10 +981,10 @@
                             </div>
                         </div>
 
-                        <!-- TAB 3: Team Form -->
+                        <!-- TAB 3: Team Form (With Tiers) -->
                         <div class="tab-pane fade" id="team-panel" role="tabpanel">
                             <div class="alert alert-warning small mb-2 mt-3">
-                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan dikemaskini terus ke Carta Organisasi Pasukan. Tetapkan 'Susunan (Order)' (1, 2, 3...) untuk susunan dari atas ke bawah.
+                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan dikemaskini terus ke Carta Organisasi Pasukan. Tetapkan 'Tier' untuk tahap jawatan dan 'Susunan' (1, 2, 3...) untuk kedudukan di dalam tier tersebut.
                             </div>
                             <form id="adminTeamForm">
                                 <input type="hidden" id="editTeamId" value="">
@@ -995,13 +996,23 @@
                                         </button>
                                     </div>
                                     
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Nama Penuh <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="teamName" required placeholder="Contoh: Ir. Mohd Faiz bin Mat Daud">
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Pautan Gambar (URL) <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="teamImg" placeholder="https://example.com/gambar.jpg atau img/team/GM.jpeg" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label fw-bold">Tahap (Tier) <span class="text-danger">*</span></label>
+                                        <select class="form-select border-warning" id="teamTier" required>
+                                            <option value="1">Tier 1 (Ketua / GM)</option>
+                                            <option value="2">Tier 2 (Pengurusan Kanan)</option>
+                                            <option value="3">Tier 3 (Pengurus)</option>
+                                            <option value="4">Tier 4 (Eksekutif)</option>
+                                            <option value="5">Tier 5 (Lain-lain)</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label fw-bold">Susunan <span class="text-danger">*</span></label>
@@ -1326,27 +1337,58 @@
                 return;
             }
 
+            // Kumpulkan data ahli mengikut Tier
+            const tiers = { 1: [], 2: [], 3: [], 4: [], 5: [] };
             teamData.forEach(member => {
-                const roleZh = member.role_zh || member.role_en;
-                // Tetapkan saiz lajur (column) lebih besar untuk 'Susunan 1' (Ketua), selebihnya saiz biasa
-                let colClass = member.order == 1 ? "col-md-6 col-lg-4" : "col-md-6 col-lg-3";
-
-                container.innerHTML += `
-                    <div class="${colClass} reveal active">
-                        <div class="team-card">
-                            <div class="team-img-wrapper">
-                                <img src="${member.img}" alt="${member.name}" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80'">
-                            </div>
-                            <div class="team-info">
-                                <p class="team-role" data-en="${member.role_en}" data-bm="${member.role_bm}" data-zh="${roleZh}">${member.role_en}</p>
-                                <h5 class="team-name">${member.name}</h5>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const t = member.tier || 1; // Default ke tier 1 jika tiada
+                if (!tiers[t]) tiers[t] = [];
+                tiers[t].push(member);
             });
 
             const currentLang = localStorage.getItem('mci_lang') || 'en';
+
+            // Menjana paparan (Render) mengikut urutan Tier
+            Object.keys(tiers).sort().forEach(tierKey => {
+                const members = tiers[tierKey];
+                if (members.length === 0) return;
+
+                // Susun ahli di dalam tier yang sama mengikut 'order'
+                members.sort((a, b) => a.order - b.order);
+
+                // Buat pembalut (wrapper) baris untuk setiap Tier
+                let tierHtml = `<div class="row g-4 justify-content-center mb-4 w-100 tier-group" data-tier="${tierKey}">`;
+                
+                members.forEach(member => {
+                    const roleZh = member.role_zh || member.role_en;
+                    
+                    // Tetapkan saiz lajur (column) lebih besar untuk Tier 1 (Ketua)
+                    let colClass = "col-md-6 col-lg-3"; 
+                    if (tierKey == 1) {
+                        colClass = "col-md-6 col-lg-4";
+                    }
+
+                    tierHtml += `
+                        <div class="${colClass} reveal active">
+                            <div class="team-card">
+                                <div class="team-img-wrapper">
+                                    <img src="${member.img}" alt="${member.name}" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80'">
+                                </div>
+                                <div class="team-info">
+                                    <p class="team-role" data-en="${member.role_en}" data-bm="${member.role_bm}" data-zh="${roleZh}">${member.role_en}</p>
+                                    <h5 class="team-name">${member.name}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                tierHtml += `</div>`;
+                // Tambah sedikit jarak pemisah antara tier sekiranya perlu (Pilihan)
+                // if (tierKey == 1 && tiers[2].length > 0) tierHtml += `<div class="w-100 my-2"></div>`;
+                
+                container.insertAdjacentHTML('beforeend', tierHtml);
+            });
+
             window.setLanguage(currentLang);
         }
 
@@ -1375,6 +1417,29 @@
                 }
             }
 
+            const sliderListContainer = document.getElementById('adminSliderList');
+            if(sliderListContainer) {
+                sliderListContainer.innerHTML = '';
+                if(sliderData.length === 0) {
+                    sliderListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada slider dipaparkan.</div>';
+                } else {
+                    sliderData.forEach(slide => {
+                        sliderListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="fw-bold text-dark">${slide.title_bm}</span> <br>
+                                    <small class="text-muted"><i class="fas fa-tag me-1"></i> ${slide.badge_bm}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editSlide(${slide.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteSlide(${slide.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
             const teamListContainer = document.getElementById('adminTeamList');
             if(teamListContainer) {
                 teamListContainer.innerHTML = '';
@@ -1385,7 +1450,8 @@
                         teamListContainer.innerHTML += `
                             <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
                                 <div>
-                                    <span class="badge bg-secondary me-2">#${member.order}</span>
+                                    <span class="badge bg-warning text-dark me-1">Tier ${member.tier || 1}</span>
+                                    <span class="badge bg-secondary me-2">Susunan #${member.order}</span>
                                     <span class="fw-bold text-dark">${member.name}</span> <br>
                                     <small class="text-muted"><i class="fas fa-briefcase me-1"></i> ${member.role_bm}</small>
                                 </div>
@@ -1452,7 +1518,7 @@
                     onSnapshot(teamRef, (snapshot) => {
                         teamData = [];
                         snapshot.forEach((doc) => { teamData.push(doc.data()); });
-                        teamData.sort((a, b) => a.order - b.order); // Susun berdasarkan nombor (order)
+                        teamData.sort((a, b) => a.order - b.order); // Sort default based on order
                         renderTeam();
                         renderAdminLists();
                     }, (error) => console.error("Error reading team from database:", error));
@@ -1696,6 +1762,7 @@
                     id: teamId,
                     name: document.getElementById('teamName').value,
                     img: document.getElementById('teamImg').value.trim(),
+                    tier: parseInt(document.getElementById('teamTier').value),
                     order: parseInt(document.getElementById('teamOrder').value),
                     role_en: document.getElementById('teamRoleEn').value,
                     role_bm: document.getElementById('teamRoleBm').value,
@@ -1792,6 +1859,7 @@
                 document.getElementById('editTeamId').value = member.id;
                 document.getElementById('teamName').value = member.name;
                 document.getElementById('teamImg').value = member.img;
+                document.getElementById('teamTier').value = member.tier || 1;
                 document.getElementById('teamOrder').value = member.order;
                 document.getElementById('teamRoleEn').value = member.role_en;
                 document.getElementById('teamRoleBm').value = member.role_bm;
