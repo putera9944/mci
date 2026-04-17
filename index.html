@@ -397,11 +397,11 @@
             <!-- Akan dijanakan secara dinamik -->
         </div>
 
-        <button class="carousel-control-prev" type="button" data-bs-target="#home" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#home" data-bs-slide="prev" id="mainSliderPrev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#home" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#home" data-bs-slide="next" id="mainSliderNext">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -1306,11 +1306,13 @@
         }
 
         // ==========================================
-        // FUNGSI RENDER SLIDER YANG BARU DITAMBAH
+        // FUNGSI RENDER SLIDER YANG DIBEIKI (CAROUSEL FIX)
         // ==========================================
         function renderSlider() {
             const indicators = document.getElementById('hero-indicators');
             const inner = document.getElementById('hero-inner');
+            const prevBtn = document.getElementById('mainSliderPrev');
+            const nextBtn = document.getElementById('mainSliderNext');
             
             if (!indicators || !inner) return;
 
@@ -1319,25 +1321,69 @@
             inner.innerHTML = '';
 
             const currentLang = localStorage.getItem('mci_lang') || 'en';
+            // Kiraan slider kini adalah: 1 (Slider Asal) + jumlah slider dari pangkalan data
+            let slideCount = 1 + sliderData.length;
 
-            // Jika admin belum letak apa-apa slider, paparkan slider lalai (default) ini
-            if (sliderData.length === 0) {
-                indicators.innerHTML = '<button type="button" data-bs-target="#home" data-bs-slide-to="0" class="active"></button>';
-                inner.innerHTML = `
-                    <div class="carousel-item active" style="background-image: url('img/news/hero.png'); background-color: var(--primary-blue);">
+            // Tunjuk/Sembunyi anak panah jika slaid hanya 1 (Tiada keperluan untuk menekan next jika hanya ada 1 gambar)
+            if (slideCount <= 1) {
+                if(prevBtn) prevBtn.style.display = 'none';
+                if(nextBtn) nextBtn.style.display = 'none';
+                indicators.style.display = 'none';
+            } else {
+                if(prevBtn) prevBtn.style.display = 'flex';
+                if(nextBtn) nextBtn.style.display = 'flex';
+                indicators.style.display = 'flex';
+            }
+
+            // 1. Sentiasa paparkan Slider Asal (Default) sebagai Slide Pertama (Index 0)
+            indicators.innerHTML += '<button type="button" data-bs-target="#home" data-bs-slide-to="0" class="active"></button>';
+            inner.innerHTML += `
+                <div class="carousel-item active" style="background-image: url('img/news/hero.png'); background-color: var(--primary-blue);">
+                    <div class="container carousel-caption text-center">
+                        <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                              data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
+                            THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
+                        </span>
+                        <h1 class="display-4 fw-bold mb-3" 
+                            data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
+                            data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
+                            data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
+                            MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
+                        </h1>
+                        <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
+                            INNOVATE . CONNECT . INSPIRE
+                        </h4>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
+                            <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 2. Loop untuk letakkan slider tambahan dari database Firebase selepas slider pertama
+            sliderData.forEach((slide, idx) => {
+                const index = idx + 1; // Ditambah 1 kerana index 0 telah diambil oleh slider asal
+                const isActive = ''; // Slider tambahan tidak 'active' secara lalai
+                const badgeZh = slide.badge_zh || slide.badge_en;
+                const titleZh = slide.title_zh || slide.title_en;
+                const subZh = slide.sub_zh || slide.sub_en;
+
+                indicators.innerHTML += `<button type="button" data-bs-target="#home" data-bs-slide-to="${index}" class="${isActive}"></button>`;
+                
+                inner.innerHTML += `
+                    <div class="carousel-item ${isActive}" style="background-image: url('${slide.img}'); background-color: var(--primary-blue);">
                         <div class="container carousel-caption text-center">
                             <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
-                                  data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
-                                THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
+                                  data-en="${slide.badge_en}" data-bm="${slide.badge_bm}" data-zh="${badgeZh}">
+                                ${slide.badge_en}
                             </span>
                             <h1 class="display-4 fw-bold mb-3" 
-                                data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
-                                data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
-                                data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
-                                MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
+                                data-en="${slide.title_en}" data-bm="${slide.title_bm}" data-zh="${titleZh}">
+                                ${slide.title_en}
                             </h1>
-                            <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
-                                INNOVATE . CONNECT . INSPIRE
+                            <h4 class="mb-5 text-light fw-medium" data-en="${slide.sub_en}" data-bm="${slide.sub_bm}" data-zh="${subZh}">
+                                ${slide.sub_en}
                             </h4>
                             <div class="d-flex justify-content-center gap-3 flex-wrap">
                                 <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
@@ -1346,45 +1392,27 @@
                         </div>
                     </div>
                 `;
-            } else {
-                // Loop untuk letakkan slider dari database Firebase
-                sliderData.forEach((slide, index) => {
-                    const isActive = index === 0 ? 'active' : '';
-                    const badgeZh = slide.badge_zh || slide.badge_en;
-                    const titleZh = slide.title_zh || slide.title_en;
-                    const subZh = slide.sub_zh || slide.sub_en;
-
-                    indicators.innerHTML += `<button type="button" data-bs-target="#home" data-bs-slide-to="${index}" class="${isActive}"></button>`;
-                    
-                    inner.innerHTML += `
-                        <div class="carousel-item ${isActive}" style="background-image: url('${slide.img}'); background-color: var(--primary-blue);">
-                            <div class="container carousel-caption text-center">
-                                <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
-                                      data-en="${slide.badge_en}" data-bm="${slide.badge_bm}" data-zh="${badgeZh}">
-                                    ${slide.badge_en}
-                                </span>
-                                <h1 class="display-4 fw-bold mb-3" 
-                                    data-en="${slide.title_en}" data-bm="${slide.title_bm}" data-zh="${titleZh}">
-                                    ${slide.title_en}
-                                </h1>
-                                <h4 class="mb-5 text-light fw-medium" data-en="${slide.sub_en}" data-bm="${slide.sub_bm}" data-zh="${subZh}">
-                                    ${slide.sub_en}
-                                </h4>
-                                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                                    <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
-                                    <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
+            });
             
             // Segar semula bahasa selepas render
             window.setLanguage(currentLang);
+
+            // MEMULAKAN SEMULA (RE-INITIALIZE) BOOTSTRAP CAROUSEL
+            // Ini penting supaya bootstrap menyedari terdapat slide baharu yang dimasukkan dan mengaktifkan anak panah
+            const carouselElement = document.getElementById('home');
+            if (carouselElement && typeof bootstrap !== 'undefined') {
+                let bsCarousel = bootstrap.Carousel.getInstance(carouselElement);
+                if (bsCarousel) {
+                    bsCarousel.dispose(); // Padam memori slider lama
+                }
+                // Mulakan slider baru dengan DOM terkini
+                new bootstrap.Carousel(carouselElement, {
+                    interval: 10000,
+                    ride: 'carousel'
+                });
+            }
         }
         // ==========================================
-
 
         // Render UI Function for Team
         function renderTeam() {
@@ -1621,7 +1649,7 @@
                         sliderData = [];
                         snapshot.forEach((doc) => { sliderData.push(doc.data()); });
                         sliderData.sort((a, b) => a.id - b.id);
-                        renderSlider(); // <-- FUNGSI INI KINI WUJUD!
+                        renderSlider(); 
                         renderAdminLists();
                     }, (error) => console.error("Error reading slider from database:", error));
 
