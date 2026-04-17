@@ -1172,6 +1172,7 @@
         
         // Pembolehubah Global untuk simpan data berita yang sedang dipaparkan di Modal
         window.currentViewingNews = null;
+        window.hasAutoOpenedNews = false; // Elak modal asyik dibuka semula
         
         // News Pagination State
         let currentNewsPage = 1;
@@ -1262,28 +1263,29 @@
             if (currentLang === 'bm') title = news.title_bm;
             if (currentLang === 'zh') title = news.title_zh || news.title_en;
 
-            // Memandangkan ini Single Page Application, kita kongsi pautan asal laman web ini
+            // Jana pautan (URL) yang mempunyai ID Berita supaya boleh buka terus
             const baseUrl = window.location.href.split('#')[0].split('?')[0]; 
+            const newsSpecificUrl = `${baseUrl}?news=${news.id}`;
             const textToShare = `${title} - Malaysia China Institute (MCI)`;
             let shareLink = '';
 
             switch(platform) {
                 case 'facebook':
-                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(baseUrl)}&quote=${encodeURIComponent(textToShare)}`;
+                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(newsSpecificUrl)}&quote=${encodeURIComponent(textToShare)}`;
                     window.open(shareLink, '_blank', 'width=600,height=400');
                     break;
                 case 'whatsapp':
-                    shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " | " + baseUrl)}`;
+                    shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " | " + newsSpecificUrl)}`;
                     window.open(shareLink, '_blank');
                     break;
                 case 'twitter':
-                    shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}&url=${encodeURIComponent(baseUrl)}`;
+                    shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}&url=${encodeURIComponent(newsSpecificUrl)}`;
                     window.open(shareLink, '_blank', 'width=600,height=400');
                     break;
                 case 'copy':
                     // Salin Teks dan Pautan menggunakan execCommand (Lebih stabil di dalam Canvas/iFrame)
                     const tempInput = document.createElement('input');
-                    tempInput.value = `${textToShare} ${baseUrl}`;
+                    tempInput.value = `${textToShare} ${newsSpecificUrl}`;
                     document.body.appendChild(tempInput);
                     tempInput.select();
                     document.execCommand('copy');
@@ -1717,6 +1719,17 @@
                         if(currentNewsPage > Math.ceil(newsData.length / newsPerPage)) currentNewsPage = 1;
                         renderNews();
                         renderAdminLists();
+                        
+                        // Cek URL untuk pautan spesifik berita (Buka Automatik Modal)
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const newsIdParam = urlParams.get('news');
+                        if (newsIdParam && !window.hasAutoOpenedNews) {
+                            const targetNewsId = parseInt(newsIdParam);
+                            if (newsData.some(n => n.id === targetNewsId)) {
+                                window.showFullNews(targetNewsId);
+                                window.hasAutoOpenedNews = true;
+                            }
+                        }
                     }, (error) => console.error("Error reading news from database:", error));
 
                     // Fetch Slider
@@ -2221,6 +2234,16 @@
         window.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('mci_lang') || 'en';
             window.setLanguage(savedLang);
+            
+            // Bersihkan URL apabila Modal ditutup supaya tidak terbuka secara rawak sekiranya 'refresh'
+            const newsDetailModalEl = document.getElementById('newsDetailModal');
+            if(newsDetailModalEl) {
+                newsDetailModalEl.addEventListener('hidden.bs.modal', function () {
+                    const url = new URL(window.location);
+                    url.searchParams.delete('news');
+                    window.history.replaceState({}, '', url);
+                });
+            }
         });
     </script>
 </body>
