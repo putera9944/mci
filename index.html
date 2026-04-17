@@ -389,33 +389,12 @@
     <header id="home" class="hero-carousel carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
         <!-- Indicators will be generated here -->
         <div class="carousel-indicators" id="hero-indicators">
-            <button type="button" data-bs-target="#home" data-bs-slide-to="0" class="active"></button>
+            <!-- Akan dijanakan secara dinamik -->
         </div>
         
         <!-- Slides will be generated here -->
         <div class="carousel-inner" id="hero-inner">
-            <!-- Default Slide (Dipaparkan serta-merta untuk elak skrin hitam) -->
-            <div class="carousel-item active" style="background-image: url('img/news/hero.png'); background-color: var(--primary-blue);">
-                <div class="container carousel-caption text-center">
-                    <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
-                          data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
-                        THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
-                    </span>
-                    <h1 class="display-4 fw-bold mb-3" 
-                        data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
-                        data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
-                        data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
-                        MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
-                    </h1>
-                    <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
-                        INNOVATE . CONNECT . INSPIRE
-                    </h4>
-                    <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
-                        <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
-                    </div>
-                </div>
-            </div>
+            <!-- Akan dijanakan secara dinamik -->
         </div>
 
         <button class="carousel-control-prev" type="button" data-bs-target="#home" data-bs-slide="prev">
@@ -1155,9 +1134,6 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // --- 4. Visitor Counter Simulation Logic ---
-        // (Kod statistik telah disembunyikan buat masa ini atas permintaan pelanggan)
-
         // --- 5. SECURE Admin Authentication ---
         window.showLoginModal = function(e) {
             e.preventDefault();
@@ -1187,7 +1163,7 @@
             }
         };
 
-        // Fungsi Tunjuk Berita Penuh (Modal) DENGAN sokongan pelbagai gambar (Carousel)
+        // Fungsi Tunjuk Berita Penuh
         window.showFullNews = function(id) {
             const news = newsData.find(n => n.id === id);
             if(!news) return;
@@ -1207,10 +1183,8 @@
 
             document.getElementById('newsDetailTitle').innerText = title;
             
-            // --- LOGIK CAROUSEL UNTUK PELBAGAI GAMBAR ---
             const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
             const imgString = news.img || defaultImg;
-            // Pisahkan pautan gambar menggunakan koma, buang ruang kosong
             const images = imgString.split(',').map(url => url.trim()).filter(url => url !== "");
             if(images.length === 0) images.push(defaultImg);
 
@@ -1232,7 +1206,6 @@
                 `;
             });
 
-            // Tunjuk atau sembunyikan butang kawalan slider bergantung kepada jumlah gambar
             if (images.length > 1) {
                 prevBtn.style.display = 'block';
                 nextBtn.style.display = 'block';
@@ -1242,21 +1215,16 @@
                 nextBtn.style.display = 'none';
                 indicators.style.display = 'none';
             }
-            // --------------------------------------------
 
             document.getElementById('newsDetailDate').innerText = news.date;
-            
-            // Formatkan teks supaya line breaks (enter) dikekalkan apabila dibaca
             document.getElementById('newsDetailContent').innerHTML = content.replace(/\n/g, '<br>');
 
             var newsModal = new bootstrap.Modal(document.getElementById('newsDetailModal'));
             newsModal.show();
-            
-            // Guna bahasa yang betul pada butang tutup (close)
             window.setLanguage(currentLang);
         };
 
-        // Render UI Function for News (With Pagination & Read More)
+        // Render UI Function for News
         function renderNews() {
             const container = document.getElementById('news-container');
             const paginationContainer = document.getElementById('news-pagination');
@@ -1282,7 +1250,6 @@
                     const titleZh = news.title_zh || news.title_en;
                     const contentZh = news.content_zh || news.content_en;
 
-                    // --- Ambil gambar pertama sahaja untuk paparan kad hadapan ---
                     const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
                     const imgString = news.img || defaultImg;
                     const imgArray = imgString.split(',').map(u => u.trim()).filter(u => u !== "");
@@ -1315,32 +1282,21 @@
                     container.insertAdjacentHTML('beforeend', cardHTML);
                 });
 
-                // Render Pagination Buttons if more than 3 items
                 if (totalPages > 1) {
                     let paginationHTML = `<nav aria-label="Navigasi berita"><ul class="pagination pagination-lg mb-0 shadow-sm">`;
-                    
-                    // Butang Previous (Seterusnya)
                     paginationHTML += `<li class="page-item ${currentNewsPage === 1 ? 'disabled' : ''}">
-                        <button class="page-link" onclick="window.changeNewsPage(${currentNewsPage - 1})" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </button>
+                        <button class="page-link" onclick="window.changeNewsPage(${currentNewsPage - 1})" aria-label="Previous"><span aria-hidden="true">&laquo;</span></button>
                     </li>`;
 
-                    // Butang Nombor (1, 2, 3...)
                     for (let i = 1; i <= totalPages; i++) {
                         paginationHTML += `<li class="page-item ${currentNewsPage === i ? 'active' : ''}">
                             <button class="page-link" onclick="window.changeNewsPage(${i})">${i}</button>
                         </li>`;
                     }
 
-                    // Butang Next
                     paginationHTML += `<li class="page-item ${currentNewsPage === totalPages ? 'disabled' : ''}">
-                        <button class="page-link" onclick="window.changeNewsPage(${currentNewsPage + 1})" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </button>
-                    </li>`;
-
-                    paginationHTML += `</ul></nav>`;
+                        <button class="page-link" onclick="window.changeNewsPage(${currentNewsPage + 1})" aria-label="Next"><span aria-hidden="true">&raquo;</span></button>
+                    </li></ul></nav>`;
                     paginationContainer.innerHTML = paginationHTML;
                 }
             }
@@ -1348,6 +1304,87 @@
             const currentLang = localStorage.getItem('mci_lang') || 'en';
             window.setLanguage(currentLang);
         }
+
+        // ==========================================
+        // FUNGSI RENDER SLIDER YANG BARU DITAMBAH
+        // ==========================================
+        function renderSlider() {
+            const indicators = document.getElementById('hero-indicators');
+            const inner = document.getElementById('hero-inner');
+            
+            if (!indicators || !inner) return;
+
+            // Bersihkan html sedia ada
+            indicators.innerHTML = '';
+            inner.innerHTML = '';
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+
+            // Jika admin belum letak apa-apa slider, paparkan slider lalai (default) ini
+            if (sliderData.length === 0) {
+                indicators.innerHTML = '<button type="button" data-bs-target="#home" data-bs-slide-to="0" class="active"></button>';
+                inner.innerHTML = `
+                    <div class="carousel-item active" style="background-image: url('img/news/hero.png'); background-color: var(--primary-blue);">
+                        <div class="container carousel-caption text-center">
+                            <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                                  data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
+                                THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
+                            </span>
+                            <h1 class="display-4 fw-bold mb-3" 
+                                data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
+                                data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
+                                data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
+                                MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
+                            </h1>
+                            <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
+                                INNOVATE . CONNECT . INSPIRE
+                            </h4>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
+                                <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Loop untuk letakkan slider dari database Firebase
+                sliderData.forEach((slide, index) => {
+                    const isActive = index === 0 ? 'active' : '';
+                    const badgeZh = slide.badge_zh || slide.badge_en;
+                    const titleZh = slide.title_zh || slide.title_en;
+                    const subZh = slide.sub_zh || slide.sub_en;
+
+                    indicators.innerHTML += `<button type="button" data-bs-target="#home" data-bs-slide-to="${index}" class="${isActive}"></button>`;
+                    
+                    inner.innerHTML += `
+                        <div class="carousel-item ${isActive}" style="background-image: url('${slide.img}'); background-color: var(--primary-blue);">
+                            <div class="container carousel-caption text-center">
+                                <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                                      data-en="${slide.badge_en}" data-bm="${slide.badge_bm}" data-zh="${badgeZh}">
+                                    ${slide.badge_en}
+                                </span>
+                                <h1 class="display-4 fw-bold mb-3" 
+                                    data-en="${slide.title_en}" data-bm="${slide.title_bm}" data-zh="${titleZh}">
+                                    ${slide.title_en}
+                                </h1>
+                                <h4 class="mb-5 text-light fw-medium" data-en="${slide.sub_en}" data-bm="${slide.sub_bm}" data-zh="${subZh}">
+                                    ${slide.sub_en}
+                                </h4>
+                                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                    <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
+                                    <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Segar semula bahasa selepas render
+            window.setLanguage(currentLang);
+        }
+        // ==========================================
+
 
         // Render UI Function for Team
         function renderTeam() {
@@ -1360,31 +1397,26 @@
                 return;
             }
 
-            // Kumpulkan data ahli mengikut Tier
             const tiers = { 1: [], 2: [], 3: [], 4: [], 5: [] };
             teamData.forEach(member => {
-                const t = member.tier || 1; // Default ke tier 1 jika tiada
+                const t = member.tier || 1; 
                 if (!tiers[t]) tiers[t] = [];
                 tiers[t].push(member);
             });
 
             const currentLang = localStorage.getItem('mci_lang') || 'en';
 
-            // Menjana paparan (Render) mengikut urutan Tier
             Object.keys(tiers).sort().forEach(tierKey => {
                 const members = tiers[tierKey];
                 if (members.length === 0) return;
 
-                // Susun ahli di dalam tier yang sama mengikut 'order'
                 members.sort((a, b) => a.order - b.order);
 
-                // Buat pembalut (wrapper) baris untuk setiap Tier
                 let tierHtml = `<div class="row g-4 justify-content-center mb-4 w-100 tier-group" data-tier="${tierKey}">`;
                 
                 members.forEach(member => {
                     const roleZh = member.role_zh || member.role_en;
                     
-                    // Tetapkan saiz lajur (column) lebih besar untuk Tier 1 (Ketua)
                     let colClass = "col-md-6 col-lg-3"; 
                     if (tierKey == 1) {
                         colClass = "col-md-6 col-lg-4";
@@ -1427,11 +1459,7 @@
 
             hubsData.forEach((hub, index) => {
                 const sectorZh = hub.sector_zh || hub.sector_en;
-                // Selang-seli animasi delay
                 const delayClass = `delay-${(index % 4) + 1}`;
-                
-                // Set saiz grid: Jika 3 baris bawah, col-lg-4. Jika 4, col-lg-3
-                // Biar auto Bootstrap justify content
                 const colClass = hubsData.length <= 4 ? "col-md-6 col-lg-3" : "col-md-6 col-lg-4 col-xl-3";
 
                 container.innerHTML += `
@@ -1593,7 +1621,7 @@
                         sliderData = [];
                         snapshot.forEach((doc) => { sliderData.push(doc.data()); });
                         sliderData.sort((a, b) => a.id - b.id);
-                        renderSlider();
+                        renderSlider(); // <-- FUNGSI INI KINI WUJUD!
                         renderAdminLists();
                     }, (error) => console.error("Error reading slider from database:", error));
 
