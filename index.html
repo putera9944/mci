@@ -221,13 +221,27 @@
         }
         .hub-card:hover::before { height: 100%; background: var(--primary-blue); z-index: -1; }
         .hub-card:hover * { color: white !important; transition: 0.3s; }
-        .hub-icon-wrapper { 
-            width: 80px; height: 80px; border-radius: 50%; background: var(--bg-light);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px; transition: 0.5s;
+        
+        .hub-logo-wrapper {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: 0.5s;
+            background: transparent;
+            padding: 10px;
+            border-radius: 10px;
         }
-        .hub-card:hover .hub-icon-wrapper { background: rgba(255,255,255,0.2); transform: scale(1.1); }
-        .hub-icon { font-size: 2rem; color: var(--mci-red); }
+        .hub-card:hover .hub-logo-wrapper { 
+            background: rgba(255,255,255,0.9); /* Keep logo visible on hover */
+            transform: scale(1.05); 
+        }
+        .hub-logo-wrapper img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
 
         /* Pillars Section */
         .pillar-box { 
@@ -511,63 +525,8 @@
                 <p class="text-muted" data-en="Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities." data-bm="Penghantaran Hub-and-Spoke 'Asset-Light' melalui fasiliti IPMA sedia ada." data-zh="通过现有 IPMA 设施的轻资产轮辐式交付。">Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities.</p>
             </div>
             
-            <div class="row g-4 justify-content-center">
-                <!-- PJ -->
-                <div class="col-md-6 col-lg-3 reveal delay-1">
-                    <div class="card hub-card p-4 text-center">
-                        <div class="hub-icon-wrapper"><i class="fas fa-microchip hub-icon"></i></div>
-                        <h5 class="fw-bold text-dark">TVETMARA Petaling Jaya</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="AI & IoT" data-bm="Kecerdasan Buatan (AI) & IoT" data-zh="人工智能与物联网">AI & IoT</p>
-                    </div>
-                </div>
-                <!-- Bagan Datuk -->
-                <div class="col-md-6 col-lg-3 reveal delay-2">
-                    <div class="card hub-card p-4 text-center">
-                        <div class="hub-icon-wrapper"><i class="fas fa-car-battery hub-icon"></i></div>
-                        <h5 class="fw-bold text-dark">GIATMARA Bagan Datuk</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Electric Vehicle (EV)" data-bm="Kenderaan Elektrik (EV)" data-zh="电动汽车 (EV)">Electric Vehicle (EV)</p>
-                    </div>
-                </div>
-                <!-- SPU -->
-                <div class="col-md-6 col-lg-3 reveal delay-3">
-                    <div class="card hub-card p-4 text-center">
-                        <div class="hub-icon-wrapper"><i class="fas fa-bolt hub-icon"></i></div>
-                        <h5 class="fw-bold text-dark">TVETMARA SPU</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="High Voltage Energy" data-bm="Tenaga Voltan Tinggi" data-zh="高压能源">High Voltage Energy</p>
-                    </div>
-                </div>
-                <!-- UniKL MFI -->
-                <div class="col-md-6 col-lg-3 reveal delay-4">
-                    <div class="card hub-card p-4 text-center">
-                        <div class="hub-icon-wrapper"><i class="fas fa-vr-cardboard hub-icon"></i></div>
-                        <h5 class="fw-bold text-dark">UniKL MFI</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Emerging Technologies" data-bm="Teknologi Terkini" data-zh="新兴技术">Emerging Technologies</p>
-                    </div>
-                </div>
-                <!-- Kuantan -->
-                <div class="col-md-6 col-lg-4 reveal delay-1">
-                    <div class="card hub-card p-4 text-center">
-                        <div class="hub-icon-wrapper"><i class="fas fa-robot hub-icon"></i></div>
-                        <h5 class="fw-bold text-dark">TVETMARA Kuantan</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Smart Manufacturing" data-bm="Pembuatan Pintar" data-zh="智能制造">Smart Manufacturing</p>
-                    </div>
-                </div>
-                <!-- Besut -->
-                <div class="col-md-6 col-lg-4 reveal delay-2">
-                    <div class="card hub-card p-4 text-center">
-                        <div class="hub-icon-wrapper"><i class="fas fa-server hub-icon"></i></div>
-                        <h5 class="fw-bold text-dark">TVETMARA Besut</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Data Centre Technologies" data-bm="Teknologi Pusat Data" data-zh="数据中心技术">Data Centre Technologies</p>
-                    </div>
-                </div>
-                <!-- Bintulu -->
-                <div class="col-md-6 col-lg-4 reveal delay-3">
-                    <div class="card hub-card p-4 text-center">
-                        <div class="hub-icon-wrapper"><i class="fas fa-wind hub-icon"></i></div>
-                        <h5 class="fw-bold text-dark">TVETMARA Bintulu</h5>
-                        <p class="small text-muted mb-0 fw-medium" data-en="Energy Technologies" data-bm="Teknologi Tenaga" data-zh="能源技术">Energy Technologies</p>
-                    </div>
-                </div>
+            <div class="row g-4 justify-content-center" id="hubs-container">
+                <!-- Senarai Hab/Pusat Satelit akan dijana secara dinamik di sini oleh JavaScript dari Pangkalan Data -->
             </div>
         </div>
     </section>
@@ -835,6 +794,12 @@
                                 <span data-en="Update Team" data-bm="Kemas Kini Pasukan" data-zh="更新团队">Kemas Kini Pasukan</span>
                             </button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold text-dark" id="hubs-tab" data-bs-toggle="tab" data-bs-target="#hubs-panel" type="button" role="tab">
+                                <i class="fas fa-network-wired me-1 text-info"></i> 
+                                <span data-en="Update Hubs" data-bm="Kemas Kini Hab" data-zh="更新中心">Kemas Kini Hab</span>
+                            </button>
+                        </li>
                     </ul>
 
                     <!-- Tab Contents -->
@@ -1002,7 +967,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Pautan Gambar (URL) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="teamImg" placeholder="https://example.com/gambar.jpg atau img/team/GM.jpeg" required>
+                                        <input type="text" class="form-control" id="teamImg" placeholder="img/team/GM.jpeg" required>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label fw-bold">Tahap (Tier) <span class="text-danger">*</span></label>
@@ -1042,6 +1007,63 @@
                             <div class="mt-5">
                                 <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-warning me-2"></i>Senarai Ahli Pasukan</h6>
                                 <div id="adminTeamList" class="list-group">
+                                    <!-- List injected by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 4: Hubs / Satellite Centers Form -->
+                        <div class="tab-pane fade" id="hubs-panel" role="tabpanel">
+                            <div class="alert alert-info small mb-2 mt-3">
+                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan dipaparkan pada bahagian Sektor Teknologi Pusat Satelit. Sila guna pautan logo yang bersesuaian.
+                            </div>
+                            <form id="adminHubsForm">
+                                <input type="hidden" id="editHubId" value="">
+                                <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-2">
+                                        <span class="text-muted small"><i class="fas fa-language me-1"></i> <b>Tips:</b> Isi maklumat sektor dalam <b>Bahasa Melayu (BM)</b> dahulu, kemudian tekan butang terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateHub()" id="btnTransHub">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="col-md-5">
+                                        <label class="form-label fw-bold">Nama Institusi <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubName" required placeholder="Contoh: TVETMARA Petaling Jaya">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="form-label fw-bold">Pautan Logo <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubLogo" placeholder="Contoh: img/logo/logo-TVETMARA.png" required>
+                                        <small class="text-muted">Logo dicadangkan: img/logo/logo-giat.png, img/logo/logo-TVETMARA.png, img/logo/logo-unikl.png</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label fw-bold">Susunan <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="hubOrder" required placeholder="1, 2, 3..." min="1">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Bidang / Sektor (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubSectorEn" required placeholder="e.g. AI & IoT">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Bidang / Sektor (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border-primary" id="hubSectorBm" required placeholder="Contoh: Kecerdasan Buatan (AI) & IoT">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Bidang / Sektor (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubSectorZh" required>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllHubs()">Padam Semua Hab</button>
+                                    <button type="submit" class="btn btn-info fw-bold text-dark" id="btnSubmitHub">Tambah Pusat Satelit</button>
+                                </div>
+                            </form>
+
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-info me-2"></i>Senarai Pusat Satelit / Hab</h6>
+                                <div id="adminHubsList" class="list-group">
                                     <!-- List injected by JS -->
                                 </div>
                             </div>
@@ -1147,6 +1169,7 @@
         let newsData = [];
         let sliderData = [];
         let teamData = [];
+        let hubsData = [];
         let currentUser = null;
         
         // News Pagination State
@@ -1383,10 +1406,45 @@
                 });
                 
                 tierHtml += `</div>`;
-                // Tambah sedikit jarak pemisah antara tier sekiranya perlu (Pilihan)
-                // if (tierKey == 1 && tiers[2].length > 0) tierHtml += `<div class="w-100 my-2"></div>`;
-                
                 container.insertAdjacentHTML('beforeend', tierHtml);
+            });
+
+            window.setLanguage(currentLang);
+        }
+
+        // Render UI Function for Hubs
+        function renderHubs() {
+            const container = document.getElementById('hubs-container');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if (hubsData.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center text-muted fst-italic">Tiada rekod Pusat Satelit ditemui. Sila tambah di Panel Admin.</div>';
+                return;
+            }
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+
+            hubsData.forEach((hub, index) => {
+                const sectorZh = hub.sector_zh || hub.sector_en;
+                // Selang-seli animasi delay
+                const delayClass = `delay-${(index % 4) + 1}`;
+                
+                // Set saiz grid: Jika 3 baris bawah, col-lg-4. Jika 4, col-lg-3
+                // Biar auto Bootstrap justify content
+                const colClass = hubsData.length <= 4 ? "col-md-6 col-lg-3" : "col-md-6 col-lg-4 col-xl-3";
+
+                container.innerHTML += `
+                    <div class="${colClass} reveal active ${delayClass}">
+                        <div class="card hub-card p-4 text-center">
+                            <div class="hub-logo-wrapper">
+                                <img src="${hub.logo}" alt="${hub.name}" onerror="this.src='https://via.placeholder.com/150x80?text=Logo'">
+                            </div>
+                            <h5 class="fw-bold text-dark">${hub.name}</h5>
+                            <p class="small text-muted mb-0 fw-medium" data-en="${hub.sector_en}" data-bm="${hub.sector_bm}" data-zh="${sectorZh}">${hub.sector_en}</p>
+                        </div>
+                    </div>
+                `;
             });
 
             window.setLanguage(currentLang);
@@ -1464,6 +1522,30 @@
                     });
                 }
             }
+
+            const hubsListContainer = document.getElementById('adminHubsList');
+            if(hubsListContainer) {
+                hubsListContainer.innerHTML = '';
+                if(hubsData.length === 0) {
+                    hubsListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada pusat satelit dipaparkan.</div>';
+                } else {
+                    hubsData.forEach(hub => {
+                        hubsListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="badge bg-secondary me-2">#${hub.order}</span>
+                                    <span class="fw-bold text-dark">${hub.name}</span> <br>
+                                    <small class="text-muted"><i class="fas fa-cogs me-1"></i> ${hub.sector_bm}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editHub(${hub.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteHub(${hub.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
         }
 
         let auth, db, customAppId;
@@ -1494,34 +1576,46 @@
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
                 if (user) {
+                    // Fetch News
                     const newsRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcinews');
                     onSnapshot(newsRef, (snapshot) => {
                         newsData = [];
                         snapshot.forEach((doc) => { newsData.push(doc.data()); });
                         newsData.sort((a, b) => b.id - a.id);
-                        // Reset page ke 1 kalau data baru masuk supaya tak nampak kosong
                         if(currentNewsPage > Math.ceil(newsData.length / newsPerPage)) currentNewsPage = 1;
                         renderNews();
                         renderAdminLists();
                     }, (error) => console.error("Error reading news from database:", error));
 
+                    // Fetch Slider
                     const sliderRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcislider');
                     onSnapshot(sliderRef, (snapshot) => {
                         sliderData = [];
                         snapshot.forEach((doc) => { sliderData.push(doc.data()); });
-                        sliderData.sort((a, b) => a.id - b.id); // Sort order by oldest first so it adds neatly
+                        sliderData.sort((a, b) => a.id - b.id);
                         renderSlider();
                         renderAdminLists();
                     }, (error) => console.error("Error reading slider from database:", error));
 
+                    // Fetch Team
                     const teamRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mciteam');
                     onSnapshot(teamRef, (snapshot) => {
                         teamData = [];
                         snapshot.forEach((doc) => { teamData.push(doc.data()); });
-                        teamData.sort((a, b) => a.order - b.order); // Sort default based on order
+                        teamData.sort((a, b) => a.order - b.order); 
                         renderTeam();
                         renderAdminLists();
                     }, (error) => console.error("Error reading team from database:", error));
+
+                    // Fetch Hubs
+                    const hubsRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs');
+                    onSnapshot(hubsRef, (snapshot) => {
+                        hubsData = [];
+                        snapshot.forEach((doc) => { hubsData.push(doc.data()); });
+                        hubsData.sort((a, b) => a.order - b.order); 
+                        renderHubs();
+                        renderAdminLists();
+                    }, (error) => console.error("Error reading hubs from database:", error));
                 }
             });
 
@@ -1661,8 +1755,29 @@
                 }
             };
 
+            window.autoTranslateHub = async function() {
+                const sectorBm = document.getElementById('hubSectorBm').value;
+                const btn = document.getElementById('btnTransHub');
+
+                if (!sectorBm) {
+                    alert("Sila masukkan Bidang/Sektor dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    document.getElementById('hubSectorEn').value = await translateText(sectorBm, 'ms', 'en');
+                    document.getElementById('hubSectorZh').value = await translateText(sectorBm, 'ms', 'zh-CN');
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
+
             // ------------------------------------------
-            // Add News Form Logic
+            // Add Forms Logic
             // ------------------------------------------
             document.getElementById('adminNewsForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
@@ -1705,9 +1820,6 @@
                 }
             });
 
-            // ------------------------------------------
-            // Add Slider Form Logic
-            // ------------------------------------------
             document.getElementById('adminSliderForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 if (!checkIsAdmin()) return;
@@ -1737,20 +1849,13 @@
                     document.getElementById('editSlideId').value = "";
                     document.getElementById('btnSubmitSlider').innerText = "Publish New Slide";
 
-                    const currentLang = localStorage.getItem('mci_lang') || 'en';
-                    let successMsg = editId ? 'Slide successfully updated!' : 'Slide successfully published!';
-                    if (currentLang === 'bm') successMsg = editId ? 'Slaid berjaya dikemaskini!' : 'Slaid berjaya disiarkan!';
-                    if (currentLang === 'zh') successMsg = editId ? '幻灯片成功更新！' : '幻灯片成功发布！';
-                    alert(successMsg);
+                    alert("Slaid berjaya disiarkan!");
                 } catch (error) {
                     console.error("Error saving slide:", error);
                     alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
                 }
             });
 
-            // ------------------------------------------
-            // Add Team Form Logic
-            // ------------------------------------------
             document.getElementById('adminTeamForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 if (!checkIsAdmin()) return;
@@ -1777,16 +1882,45 @@
                     document.getElementById('editTeamId').value = "";
                     document.getElementById('btnSubmitTeam').innerText = "Tambah Pasukan";
 
-                    const currentLang = localStorage.getItem('mci_lang') || 'en';
-                    let successMsg = editId ? 'Team member updated!' : 'Team member added!';
-                    if (currentLang === 'bm') successMsg = editId ? 'Ahli pasukan dikemaskini!' : 'Ahli pasukan ditambah!';
-                    if (currentLang === 'zh') successMsg = editId ? '团队成员已更新！' : '团队成员已添加！';
-                    alert(successMsg);
+                    alert("Ahli pasukan berjaya disimpan!");
                 } catch (error) {
                     console.error("Error saving team member:", error);
                     alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
                 }
             });
+
+            document.getElementById('adminHubsForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const editId = document.getElementById('editHubId').value;
+                const hubId = editId ? parseInt(editId) : Date.now(); 
+
+                const newHub = {
+                    id: hubId,
+                    name: document.getElementById('hubName').value,
+                    logo: document.getElementById('hubLogo').value.trim(),
+                    order: parseInt(document.getElementById('hubOrder').value),
+                    sector_en: document.getElementById('hubSectorEn').value,
+                    sector_bm: document.getElementById('hubSectorBm').value,
+                    sector_zh: document.getElementById('hubSectorZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs', hubId.toString());
+                    await setDoc(docRef, newHub);
+                    
+                    this.reset();
+                    document.getElementById('editHubId').value = "";
+                    document.getElementById('btnSubmitHub').innerText = "Tambah Pusat Satelit";
+
+                    alert("Pusat Satelit berjaya disimpan!");
+                } catch (error) {
+                    console.error("Error saving hub:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
 
             // ------------------------------------------
             // Edit & Delete Individual Items Functions
@@ -1800,7 +1934,6 @@
                 document.getElementById('newsTitleBm').value = news.title_bm;
                 document.getElementById('newsTitleZh').value = news.title_zh;
                 document.getElementById('newsDate').value = news.date;
-                // Kekalkan format koma yang sama supaya admin mudah edit
                 document.getElementById('newsImg').value = news.img.includes('unsplash') ? '' : news.img; 
                 document.getElementById('newsContentEn').value = news.content_en;
                 document.getElementById('newsContentBm').value = news.content_bm;
@@ -1812,12 +1945,9 @@
 
             window.deleteNews = async function(id) {
                 if (!checkIsAdmin()) return;
-                const currentLang = localStorage.getItem('mci_lang') || 'en';
-                let msg = currentLang === 'bm' ? 'Padam berita ini secara kekal?' : 'Permanently delete this news?';
-                if(confirm(msg)) {
-                    try {
-                        await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', id.toString()));
-                    } catch(e) { console.error("Error deleting:", e); }
+                if(confirm("Padam berita ini secara kekal?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
                 }
             };
 
@@ -1843,12 +1973,9 @@
 
             window.deleteSlide = async function(id) {
                 if (!checkIsAdmin()) return;
-                const currentLang = localStorage.getItem('mci_lang') || 'en';
-                let msg = currentLang === 'bm' ? 'Padam slider ini secara kekal?' : 'Permanently delete this slide?';
-                if(confirm(msg)) {
-                    try {
-                        await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', id.toString()));
-                    } catch(e) { console.error("Error deleting:", e); }
+                if(confirm("Padam slider ini secara kekal?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
                 }
             };
 
@@ -1871,62 +1998,75 @@
 
             window.deleteTeam = async function(id) {
                 if (!checkIsAdmin()) return;
-                const currentLang = localStorage.getItem('mci_lang') || 'en';
-                let msg = currentLang === 'bm' ? 'Padam ahli pasukan ini?' : 'Delete this team member?';
-                if(confirm(msg)) {
-                    try {
-                        await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', id.toString()));
-                    } catch(e) { console.error("Error deleting:", e); }
+                if(confirm("Padam ahli pasukan ini?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
+            window.editHub = function(id) {
+                const hub = hubsData.find(h => h.id === id);
+                if(!hub) return;
+
+                document.getElementById('editHubId').value = hub.id;
+                document.getElementById('hubName').value = hub.name;
+                document.getElementById('hubLogo').value = hub.logo;
+                document.getElementById('hubOrder').value = hub.order;
+                document.getElementById('hubSectorEn').value = hub.sector_en;
+                document.getElementById('hubSectorBm').value = hub.sector_bm;
+                document.getElementById('hubSectorZh').value = hub.sector_zh;
+
+                document.getElementById('btnSubmitHub').innerText = "Kemaskini Pusat Satelit";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteHub = async function(id) {
+                if (!checkIsAdmin()) return;
+                if(confirm("Padam pusat satelit/hab ini?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
                 }
             };
 
             // ------------------------------------------
-            // Delete Functions
+            // Delete All Functions
             // ------------------------------------------
             window.clearAllNews = async function() {
                 if (!checkIsAdmin()) return;
-                const currentLang = localStorage.getItem('mci_lang') || 'en';
-                let confirmMsg = 'Are you sure you want to delete all news?';
-                if (currentLang === 'bm') confirmMsg = 'Anda pasti mahu memadam semua berita?';
-                if (currentLang === 'zh') confirmMsg = '您确定要删除所有新闻吗？';
-                
-                if(confirm(confirmMsg)) {
+                if(confirm('Anda pasti mahu memadam semua berita?')) {
                     for(const item of newsData) {
-                        try {
-                            await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', item.id.toString()));
-                        } catch(e) { console.error("Error deleting:", e); }
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
                     }
                 }
             };
 
             window.clearAllSlides = async function() {
                 if (!checkIsAdmin()) return;
-                const currentLang = localStorage.getItem('mci_lang') || 'en';
-                let confirmMsg = 'Are you sure you want to delete all custom slides?';
-                if (currentLang === 'bm') confirmMsg = 'Anda pasti mahu memadam semua slaid?';
-                if (currentLang === 'zh') confirmMsg = '您确定要删除所有幻灯片吗？';
-                
-                if(confirm(confirmMsg)) {
+                if(confirm('Anda pasti mahu memadam semua slaid?')) {
                     for(const item of sliderData) {
-                        try {
-                            await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', item.id.toString()));
-                        } catch(e) { console.error("Error deleting:", e); }
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
                     }
                 }
             };
 
             window.clearAllTeam = async function() {
                 if (!checkIsAdmin()) return;
-                const currentLang = localStorage.getItem('mci_lang') || 'en';
-                let confirmMsg = 'Are you sure you want to delete all team members?';
-                if (currentLang === 'bm') confirmMsg = 'Anda pasti mahu memadam semua rekod pasukan?';
-                if (currentLang === 'zh') confirmMsg = '您确定要删除所有团队成员吗？';
-                
-                if(confirm(confirmMsg)) {
+                if(confirm('Anda pasti mahu memadam semua rekod pasukan?')) {
                     for(const item of teamData) {
-                        try {
-                            await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', item.id.toString()));
-                        } catch(e) { console.error("Error deleting:", e); }
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
+                    }
+                }
+            };
+
+            window.clearAllHubs = async function() {
+                if (!checkIsAdmin()) return;
+                if(confirm('Anda pasti mahu memadam semua rekod pusat satelit?')) {
+                    for(const item of hubsData) {
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
                     }
                 }
             };
