@@ -7,6 +7,16 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>MCI | Malaysia China Institute</title>
     
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0BNQFKE0NL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0BNQFKE0NL');
+    </script>
+    
     <!-- Favicon -->
     <link rel="icon" href="https://i.postimg.cc/GBPX4ZLZ/favicon.png" type="image/png">
 
@@ -485,70 +495,8 @@
                 <p class="text-muted" data-en="Meet the visionary team driving the MCI platform forward." data-bm="Kenali barisan kepimpinan yang memacu platform MCI ke hadapan." data-zh="认识推动 MCI 平台发展的富有远见的团队。">Meet the visionary team driving the MCI platform forward.</p>
             </div>
             
-            <div class="row g-4 justify-content-center">
-                <!-- Person 1 (Top Level / General Manager) -->
-                <div class="col-md-6 col-lg-4 reveal delay-1">
-                    <div class="team-card">
-                        <div class="team-img-wrapper">
-                            <img src="img/team/GM.jpeg" alt="General Manager - Ir. Mohd Faiz bin Mat Daud" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80'">
-                        </div>
-                        <div class="team-info">
-                            <p class="team-role" data-en="General Manager" data-bm="Pengurus Besar" data-zh="总经理">General Manager</p>
-                            <h5 class="team-name">Ir. Mohd Faiz bin Mat Daud</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-4 mt-2 justify-content-center">
-                <!-- Person 2 (GM Finance) -->
-                <div class="col-md-6 col-lg-3 reveal delay-2">
-                    <div class="team-card">
-                        <div class="team-img-wrapper">
-                            <img src="img/team/GM-F.jpeg" alt="General Manager (Finance) - Fazarul Shiha binti Mat Isa" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80'">
-                        </div>
-                        <div class="team-info">
-                            <p class="team-role" data-en="General Manager (Finance)" data-bm="Pengurus Besar (Kewangan)" data-zh="总经理（财务）">General Manager (Finance)</p>
-                            <h5 class="team-name">Fazarul Shiha binti Mat Isa</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- Person 3 (SM Strategic) -->
-                <div class="col-md-6 col-lg-3 reveal delay-3">
-                    <div class="team-card">
-                        <div class="team-img-wrapper">
-                            <img src="img/team/SM-Strategic.jpeg" alt="Senior Manager (Strategic & Business Development) - Ir. Ts. Mohd Rushdi bin Abd Aziz" onerror="this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80'">
-                        </div>
-                        <div class="team-info">
-                            <p class="team-role" data-en="Senior Manager (Strategic & Business Dev)" data-bm="Pengurus Kanan (Strategik & Pembangunan Perniagaan)" data-zh="高级经理（战略与业务发展）">Senior Manager (Strategic & Business Dev)</p>
-                            <h5 class="team-name">Ir. Ts. Mohd Rushdi bin Abd Aziz</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- Person 4 (SM Sales) -->
-                <div class="col-md-6 col-lg-3 reveal delay-4">
-                    <div class="team-card">
-                        <div class="team-img-wrapper">
-                            <img src="img/team/SM-Sales.jpeg" alt="Senior Manager (Sales & Marketing) - Ts. Mohd Asiq bin Hamdi" onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80'">
-                        </div>
-                        <div class="team-info">
-                            <p class="team-role" data-en="Senior Manager (Sales & Marketing)" data-bm="Pengurus Kanan (Jualan & Pemasaran)" data-zh="高级经理（销售与营销）">Senior Manager (Sales & Marketing)</p>
-                            <h5 class="team-name">Ts. Mohd Asiq bin Hamdi</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- Person 5 (SM Research) -->
-                <div class="col-md-6 col-lg-3 reveal delay-1">
-                    <div class="team-card">
-                        <div class="team-img-wrapper">
-                            <img src="img/team/SM-Research.jpeg" alt="Senior Manager (Research & Data) - Ts. Dr. Razni bin Khalid" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80'">
-                        </div>
-                        <div class="team-info">
-                            <p class="team-role" data-en="Senior Manager (Research & Data)" data-bm="Pengurus Kanan (Penyelidikan & Data)" data-zh="高级经理（研究与数据）">Senior Manager (Research & Data)</p>
-                            <h5 class="team-name">Ts. Dr. Razni bin Khalid</h5>
-                        </div>
-                    </div>
-                </div>
+            <div class="row g-4 justify-content-center" id="team-container">
+                <!-- Senarai Ahli Pasukan akan dijana (generate) di sini secara dinamik oleh JavaScript dari Pangkalan Data -->
             </div>
         </div>
     </section>
@@ -880,6 +828,12 @@
                                 <span data-en="Update Slider" data-bm="Kemas Kini Slider" data-zh="更新幻灯片">Kemas Kini Slider</span>
                             </button>
                         </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold text-dark" id="team-tab" data-bs-toggle="tab" data-bs-target="#team-panel" type="button" role="tab">
+                                <i class="fas fa-users me-1 text-warning"></i> 
+                                <span data-en="Update Team" data-bm="Kemas Kini Pasukan" data-zh="更新团队">Kemas Kini Pasukan</span>
+                            </button>
+                        </li>
                     </ul>
 
                     <!-- Tab Contents -->
@@ -1025,6 +979,63 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- TAB 3: Team Form -->
+                        <div class="tab-pane fade" id="team-panel" role="tabpanel">
+                            <div class="alert alert-warning small mb-2 mt-3">
+                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan dikemaskini terus ke Carta Organisasi Pasukan. Tetapkan 'Susunan (Order)' (1, 2, 3...) untuk susunan dari atas ke bawah.
+                            </div>
+                            <form id="adminTeamForm">
+                                <input type="hidden" id="editTeamId" value="">
+                                <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-2">
+                                        <span class="text-muted small"><i class="fas fa-language me-1"></i> <b>Tips:</b> Isi jawatan dalam <b>Bahasa Melayu (BM)</b> dahulu, kemudian tekan butang terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateTeam()" id="btnTransTeam">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="col-md-5">
+                                        <label class="form-label fw-bold">Nama Penuh <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="teamName" required placeholder="Contoh: Ir. Mohd Faiz bin Mat Daud">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="form-label fw-bold">Pautan Gambar (URL) <span class="text-danger">*</span></label>
+                                        <input type="url" class="form-control" id="teamImg" placeholder="https://example.com/gambar.jpg" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label fw-bold">Susunan <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="teamOrder" required placeholder="1, 2, 3..." min="1">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Jawatan (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="teamRoleEn" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Jawatan (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border-primary" id="teamRoleBm" required placeholder="Contoh: Pengurus Besar">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Jawatan (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="teamRoleZh" required>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllTeam()">Padam Semua Rekod</button>
+                                    <button type="submit" class="btn btn-warning fw-bold text-dark" id="btnSubmitTeam">Tambah Pasukan</button>
+                                </div>
+                            </form>
+
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-warning me-2"></i>Senarai Ahli Pasukan</h6>
+                                <div id="adminTeamList" class="list-group">
+                                    <!-- List injected by JS -->
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -1124,6 +1135,7 @@
         // --- 6. Firebase Cloud Database Setup & Rendering ---
         let newsData = [];
         let sliderData = [];
+        let teamData = [];
         let currentUser = null;
         
         // News Pagination State
@@ -1303,68 +1315,36 @@
             window.setLanguage(currentLang);
         }
 
-        // Render UI Function for Slider (Default Always First)
-        function renderSlider() {
-            const inner = document.getElementById('hero-inner');
-            const indicators = document.getElementById('hero-indicators');
+        // Render UI Function for Team
+        function renderTeam() {
+            const container = document.getElementById('team-container');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if (teamData.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center text-muted fst-italic">Tiada rekod pasukan ditemui. Sila tambah di Panel Admin.</div>';
+                return;
+            }
 
-            // 1. Paparan Default (Sentiasa No 1)
-            let indicatorsHTML = `<button type="button" data-bs-target="#home" data-bs-slide-to="0" class="active"></button>`;
-            let innerHTML = `
-                <div class="carousel-item active" style="background-image: url('img/news/hero.png'); background-color: #003366;">
-                    <div class="container carousel-caption text-center">
-                        <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
-                              data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
-                            THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
-                        </span>
-                        <h1 class="display-4 fw-bold mb-3" 
-                            data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
-                            data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
-                            data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
-                            MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
-                        </h1>
-                        <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
-                            INNOVATE . CONNECT . INSPIRE
-                        </h4>
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
-                            <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
-                        </div>
-                    </div>
-                </div>
-            `;
+            teamData.forEach(member => {
+                const roleZh = member.role_zh || member.role_en;
+                // Tetapkan saiz lajur (column) lebih besar untuk 'Susunan 1' (Ketua), selebihnya saiz biasa
+                let colClass = member.order == 1 ? "col-md-6 col-lg-4" : "col-md-6 col-lg-3";
 
-            // 2. Tambah Paparan Dari Database Selepas Paparan Default
-            sliderData.forEach((slide, index) => {
-                const slideIndex = index + 1; // Mula dari index 1 sebab default ialah 0
-                
-                indicatorsHTML += `<button type="button" data-bs-target="#home" data-bs-slide-to="${slideIndex}"></button>`;
-                
-                innerHTML += `
-                    <div class="carousel-item" style="background-image: url('${slide.img}');">
-                        <div class="container carousel-caption text-center">
-                            <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
-                                  data-en="${slide.badge_en}" data-bm="${slide.badge_bm}" data-zh="${slide.badge_zh}">
-                                ${slide.badge_en}
-                            </span>
-                            <h1 class="display-4 fw-bold mb-3" 
-                                data-en="${slide.title_en}" data-bm="${slide.title_bm}" data-zh="${slide.title_zh}">
-                                ${slide.title_en}
-                            </h1>
-                            <h4 class="mb-5 text-light fw-medium" data-en="${slide.sub_en}" data-bm="${slide.sub_bm}" data-zh="${slide.sub_zh}">
-                                ${slide.sub_en}
-                            </h4>
-                            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                                <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
-                                <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                container.innerHTML += `
+                    <div class="${colClass} reveal active">
+                        <div class="team-card">
+                            <div class="team-img-wrapper">
+                                <img src="${member.img}" alt="${member.name}" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80'">
+                            </div>
+                            <div class="team-info">
+                                <p class="team-role" data-en="${member.role_en}" data-bm="${member.role_bm}" data-zh="${roleZh}">${member.role_en}</p>
+                                <h5 class="team-name">${member.name}</h5>
                             </div>
                         </div>
                     </div>
                 `;
             });
-
-            indicators.innerHTML = indicatorsHTML;
-            inner.innerHTML = innerHTML;
 
             const currentLang = localStorage.getItem('mci_lang') || 'en';
             window.setLanguage(currentLang);
@@ -1395,22 +1375,23 @@
                 }
             }
 
-            const sliderListContainer = document.getElementById('adminSliderList');
-            if(sliderListContainer) {
-                sliderListContainer.innerHTML = '';
-                if(sliderData.length === 0) {
-                    sliderListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada slider dipaparkan.</div>';
+            const teamListContainer = document.getElementById('adminTeamList');
+            if(teamListContainer) {
+                teamListContainer.innerHTML = '';
+                if(teamData.length === 0) {
+                    teamListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada ahli pasukan dipaparkan.</div>';
                 } else {
-                    sliderData.forEach(slide => {
-                        sliderListContainer.innerHTML += `
+                    teamData.forEach(member => {
+                        teamListContainer.innerHTML += `
                             <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
                                 <div>
-                                    <span class="fw-bold text-dark">${slide.title_bm}</span> <br>
-                                    <small class="text-muted"><i class="fas fa-tag me-1"></i> ${slide.badge_bm}</small>
+                                    <span class="badge bg-secondary me-2">#${member.order}</span>
+                                    <span class="fw-bold text-dark">${member.name}</span> <br>
+                                    <small class="text-muted"><i class="fas fa-briefcase me-1"></i> ${member.role_bm}</small>
                                 </div>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editSlide(${slide.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteSlide(${slide.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editTeam(${member.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteTeam(${member.id})" title="Padam"><i class="fas fa-trash"></i></button>
                                 </div>
                             </div>
                         `;
@@ -1466,6 +1447,15 @@
                         renderSlider();
                         renderAdminLists();
                     }, (error) => console.error("Error reading slider from database:", error));
+
+                    const teamRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mciteam');
+                    onSnapshot(teamRef, (snapshot) => {
+                        teamData = [];
+                        snapshot.forEach((doc) => { teamData.push(doc.data()); });
+                        teamData.sort((a, b) => a.order - b.order); // Susun berdasarkan nombor (order)
+                        renderTeam();
+                        renderAdminLists();
+                    }, (error) => console.error("Error reading team from database:", error));
                 }
             });
 
@@ -1584,6 +1574,27 @@
                 }
             };
 
+            window.autoTranslateTeam = async function() {
+                const roleBm = document.getElementById('teamRoleBm').value;
+                const btn = document.getElementById('btnTransTeam');
+
+                if (!roleBm) {
+                    alert("Sila masukkan Jawatan dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    document.getElementById('teamRoleEn').value = await translateText(roleBm, 'ms', 'en');
+                    document.getElementById('teamRoleZh').value = await translateText(roleBm, 'ms', 'zh-CN');
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
+
             // ------------------------------------------
             // Add News Form Logic
             // ------------------------------------------
@@ -1672,6 +1683,45 @@
             });
 
             // ------------------------------------------
+            // Add Team Form Logic
+            // ------------------------------------------
+            document.getElementById('adminTeamForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const editId = document.getElementById('editTeamId').value;
+                const teamId = editId ? parseInt(editId) : Date.now(); 
+
+                const newMember = {
+                    id: teamId,
+                    name: document.getElementById('teamName').value,
+                    img: document.getElementById('teamImg').value.trim(),
+                    order: parseInt(document.getElementById('teamOrder').value),
+                    role_en: document.getElementById('teamRoleEn').value,
+                    role_bm: document.getElementById('teamRoleBm').value,
+                    role_zh: document.getElementById('teamRoleZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', teamId.toString());
+                    await setDoc(docRef, newMember);
+                    
+                    this.reset();
+                    document.getElementById('editTeamId').value = "";
+                    document.getElementById('btnSubmitTeam').innerText = "Tambah Pasukan";
+
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let successMsg = editId ? 'Team member updated!' : 'Team member added!';
+                    if (currentLang === 'bm') successMsg = editId ? 'Ahli pasukan dikemaskini!' : 'Ahli pasukan ditambah!';
+                    if (currentLang === 'zh') successMsg = editId ? '团队成员已更新！' : '团队成员已添加！';
+                    alert(successMsg);
+                } catch (error) {
+                    console.error("Error saving team member:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+            // ------------------------------------------
             // Edit & Delete Individual Items Functions
             // ------------------------------------------
             window.editNews = function(id) {
@@ -1735,6 +1785,33 @@
                 }
             };
 
+            window.editTeam = function(id) {
+                const member = teamData.find(t => t.id === id);
+                if(!member) return;
+
+                document.getElementById('editTeamId').value = member.id;
+                document.getElementById('teamName').value = member.name;
+                document.getElementById('teamImg').value = member.img;
+                document.getElementById('teamOrder').value = member.order;
+                document.getElementById('teamRoleEn').value = member.role_en;
+                document.getElementById('teamRoleBm').value = member.role_bm;
+                document.getElementById('teamRoleZh').value = member.role_zh;
+
+                document.getElementById('btnSubmitTeam').innerText = "Kemaskini Pasukan";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteTeam = async function(id) {
+                if (!checkIsAdmin()) return;
+                const currentLang = localStorage.getItem('mci_lang') || 'en';
+                let msg = currentLang === 'bm' ? 'Padam ahli pasukan ini?' : 'Delete this team member?';
+                if(confirm(msg)) {
+                    try {
+                        await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', id.toString()));
+                    } catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
             // ------------------------------------------
             // Delete Functions
             // ------------------------------------------
@@ -1765,6 +1842,22 @@
                     for(const item of sliderData) {
                         try {
                             await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', item.id.toString()));
+                        } catch(e) { console.error("Error deleting:", e); }
+                    }
+                }
+            };
+
+            window.clearAllTeam = async function() {
+                if (!checkIsAdmin()) return;
+                const currentLang = localStorage.getItem('mci_lang') || 'en';
+                let confirmMsg = 'Are you sure you want to delete all team members?';
+                if (currentLang === 'bm') confirmMsg = 'Anda pasti mahu memadam semua rekod pasukan?';
+                if (currentLang === 'zh') confirmMsg = '您确定要删除所有团队成员吗？';
+                
+                if(confirm(confirmMsg)) {
+                    for(const item of teamData) {
+                        try {
+                            await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', item.id.toString()));
                         } catch(e) { console.error("Error deleting:", e); }
                     }
                 }
