@@ -339,6 +339,20 @@
         #adminTabs .nav-link { color: #495057; border: 1px solid transparent; background: #f8f9fa; margin-right: 5px; }
         #adminTabs .nav-link:hover { border-color: #e9ecef; }
         #adminTabs .nav-link.active { color: var(--primary-blue) !important; background-color: #fff; border-color: #dee2e6 #dee2e6 #fff; border-bottom: 3px solid var(--primary-blue); }
+        
+        /* Share Buttons Styling */
+        .share-buttons button {
+            transition: 0.3s;
+            width: 35px;
+            height: 35px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .share-buttons button:hover {
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
@@ -675,7 +689,7 @@
         </div>
     </footer>
 
-    <!-- Full News Detail Modal (Dikemas kini dengan Slider/Carousel) -->
+    <!-- Full News Detail Modal (Dikemas kini dengan Slider & Share Buttons) -->
     <div class="modal fade" id="newsDetailModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -708,7 +722,15 @@
                         <p id="newsDetailContent" class="text-dark" style="line-height: 1.8; font-size: 1.05rem;"></p>
                     </div>
                 </div>
-                <div class="modal-footer bg-light">
+                <!-- Tambah Butang Perkongsian (Share) di sini -->
+                <div class="modal-footer bg-light d-flex justify-content-between align-items-center">
+                    <div class="share-buttons">
+                        <span class="text-muted small fw-bold me-2" data-en="Share:" data-bm="Kongsi:" data-zh="分享:">Kongsi:</span>
+                        <button class="btn btn-outline-primary rounded-circle me-1" onclick="shareNews('facebook')" title="Kongsi ke Facebook"><i class="fab fa-facebook-f"></i></button>
+                        <button class="btn btn-outline-success rounded-circle me-1" onclick="shareNews('whatsapp')" title="Kongsi ke WhatsApp"><i class="fab fa-whatsapp"></i></button>
+                        <button class="btn btn-outline-dark rounded-circle me-1" onclick="shareNews('twitter')" title="Kongsi ke X (Twitter)"><i class="fab fa-x-twitter"></i></button>
+                        <button class="btn btn-outline-secondary rounded-circle" id="btnCopyLink" onclick="shareNews('copy')" title="Salin Pautan (Copy Link)"><i class="fas fa-link"></i></button>
+                    </div>
                     <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal" data-en="Close" data-bm="Tutup" data-zh="关闭">Close</button>
                 </div>
             </div>
@@ -1148,6 +1170,9 @@
         let hubsData = [];
         let currentUser = null;
         
+        // Pembolehubah Global untuk simpan data berita yang sedang dipaparkan di Modal
+        window.currentViewingNews = null;
+        
         // News Pagination State
         let currentNewsPage = 1;
         const newsPerPage = 3;
@@ -1167,6 +1192,8 @@
         window.showFullNews = function(id) {
             const news = newsData.find(n => n.id === id);
             if(!news) return;
+
+            window.currentViewingNews = news; // Simpan berita untuk fungsi perkongsian
 
             const currentLang = localStorage.getItem('mci_lang') || 'en';
             
@@ -1222,6 +1249,55 @@
             var newsModal = new bootstrap.Modal(document.getElementById('newsDetailModal'));
             newsModal.show();
             window.setLanguage(currentLang);
+        };
+
+        // Fungsi Perkongsian (Share) Berita ke Media Sosial
+        window.shareNews = function(platform) {
+            if(!window.currentViewingNews) return;
+            
+            const news = window.currentViewingNews;
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            
+            let title = news.title_en;
+            if (currentLang === 'bm') title = news.title_bm;
+            if (currentLang === 'zh') title = news.title_zh || news.title_en;
+
+            // Memandangkan ini Single Page Application, kita kongsi pautan asal laman web ini
+            const baseUrl = window.location.href.split('#')[0].split('?')[0]; 
+            const textToShare = `${title} - Malaysia China Institute (MCI)`;
+            let shareLink = '';
+
+            switch(platform) {
+                case 'facebook':
+                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(baseUrl)}&quote=${encodeURIComponent(textToShare)}`;
+                    window.open(shareLink, '_blank', 'width=600,height=400');
+                    break;
+                case 'whatsapp':
+                    shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " | " + baseUrl)}`;
+                    window.open(shareLink, '_blank');
+                    break;
+                case 'twitter':
+                    shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}&url=${encodeURIComponent(baseUrl)}`;
+                    window.open(shareLink, '_blank', 'width=600,height=400');
+                    break;
+                case 'copy':
+                    // Salin Teks dan Pautan menggunakan execCommand (Lebih stabil di dalam Canvas/iFrame)
+                    const tempInput = document.createElement('input');
+                    tempInput.value = `${textToShare} ${baseUrl}`;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    
+                    // Visual maklum balas butang disalin
+                    const copyBtn = document.getElementById('btnCopyLink');
+                    if(copyBtn) {
+                        const originalHtml = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check text-success"></i>';
+                        setTimeout(() => { copyBtn.innerHTML = originalHtml; }, 2000);
+                    }
+                    break;
+            }
         };
 
         // Render UI Function for News
