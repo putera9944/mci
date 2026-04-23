@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tag keselamatan tambahan untuk memaksa naik taraf (upgrade) sebarang pautan HTTP kepada HTTPS -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>MCI | Malaysia China Institute</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0BNQFKE0NL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0BNQFKE0NL');
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://i.postimg.cc/GBPX4ZLZ/favicon.png" type="image/png">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --secondary-blue: #00509e;
+            --mci-red: #cc0000;
+            --mci-red-hover: #a30000;
+            --accent-gold: #ffcc00;
+            --bg-light: #f4f7f6;
+            --text-dark: #2d3436;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            scroll-behavior: smooth; 
+            color: var(--text-dark);
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Interactive */
+        .navbar { 
+            background-color: transparent; 
+            transition: all 0.4s ease-in-out;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        .navbar.scrolled {
+            background-color: #ffffff;
+            padding: 10px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--primary-blue);
+        }
+        .navbar-brand img { height: 55px; transition: 0.3s; }
+        
+        .nav-link { color: white !important; font-weight: 500; transition: 0.3s; position: relative; }
+        .navbar.scrolled .nav-link { color: var(--primary-blue) !important; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: 0; left: 0; background-color: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Language Switcher */
+        .lang-switch { 
+            border: 2px solid rgba(255,255,255,0.5); 
+            border-radius: 30px; 
+            padding: 3px; 
+            display: flex; 
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+        .navbar.scrolled .lang-switch {
+            border-color: var(--primary-blue);
+            background: #fff;
+        }
+        .lang-btn { 
+            background: transparent; border: none; padding: 5px 10px; 
+            font-size: 0.8rem; font-weight: 600; cursor: pointer; 
+            border-radius: 20px; transition: all 0.3s; color: white;
+        }
+        .navbar.scrolled .lang-btn { color: var(--primary-blue); }
+        .lang-btn.active { background-color: var(--primary-blue); color: white !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .navbar.scrolled .lang-btn.active { background-color: var(--primary-blue); color: white !important; }
+
+        /* Hero Carousel (Slider) */
+        .hero-carousel {
+            position: relative;
+            height: 100vh;
+            min-height: 650px;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+            background-color: #000; /* Fallback */
+        }
+        
+        .hero-carousel .carousel-inner, .hero-carousel .carousel-item {
+            height: 100%;
+        }
+
+        .hero-carousel .carousel-item {
+            background-size: cover; 
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay for the slider images */
+        .hero-carousel .carousel-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0, 51, 102, 0.9), rgba(0, 20, 50, 0.8));
+            z-index: 1;
+        }
+
+        .hero-carousel .carousel-caption {
+            z-index: 2;
+            bottom: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            left: 0;
+            right: 0;
+        }
+        
+        .btn-mci { 
+            background-color: var(--mci-red); color: white; border-radius: 50px; 
+            padding: 12px 35px; border: none; font-weight: 600; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative; overflow: hidden; z-index: 1;
+        }
+        .btn-mci::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%;
+            background-color: var(--mci-red-hover); z-index: -1; transition: width 0.4s ease;
+        }
+        .btn-mci:hover::before { width: 100%; }
+        .btn-mci:hover { transform: translateY(-5px); color: white; box-shadow: 0 10px 25px rgba(204,0,0,0.4); }
+        
+        .pulse-btn { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(204,0,0,0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(204,0,0,0); }
+            100% { box-shadow: 0 0 0 0 rgba(204,0,0,0); }
+        }
+
+        /* Stats Bar */
+        .stats-wrapper { position: relative; z-index: 10; margin-top: -80px; }
+        .stats-card {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 20px;
+            padding: 40px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-bottom: 5px solid var(--accent-gold);
+            transition: 0.3s;
+        }
+        .stats-card:hover { transform: translateY(-10px); }
+        .counter { font-size: 3rem; font-weight: 800; color: var(--primary-blue); line-height: 1; margin-bottom: 10px;}
+
+        /* About Platform */
+        .about-image-wrapper { position: relative; width: 100%; height: 100%; }
+        .about-image-wrapper::after {
+            content: ''; position: absolute; top: 20px; left: -20px; width: 100%; height: 100%;
+            border: 4px solid var(--accent-gold); border-radius: 20px; z-index: -1;
+        }
+        
+        /* Organization Chart / Team Cards */
+        .team-card {
+            background: white; border: none; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden;
+            transition: all 0.4s ease;
+            text-align: center;
+            height: 100%;
+        }
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        .team-img-wrapper {
+            width: 100%; height: 300px; overflow: hidden;
+            background-color: var(--bg-light);
+            position: relative;
+        }
+        .team-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top;
+            transition: transform 0.5s ease;
+        }
+        .team-card:hover .team-img-wrapper img { transform: scale(1.05); }
+        .team-info { padding: 25px 20px; position: relative; }
+        .team-role { 
+            color: var(--mci-red); font-size: 0.85rem; font-weight: 600; 
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+            min-height: 40px; 
+        }
+        .team-name { color: var(--primary-blue); font-weight: 700; font-size: 1.1rem; margin-bottom: 0; }
+
+        /* Hub Cards Grid */
+        .hub-card { 
+            border: none; border-radius: 15px; overflow: hidden;
+            background: white; height: 100%; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+        .hub-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--primary-blue); transition: 0.5s;
+        }
+        .hub-card:hover { 
+            transform: translateY(-15px); 
+            box-shadow: 0 20px 40px rgba(0, 51, 102, 0.15); 
+        }
+        .hub-card:hover::before { height: 100%; background: var(--primary-blue); z-index: -1; }
+        .hub-card:hover * { color: white !important; transition: 0.3s; }
+        
+        .hub-logo-wrapper {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: 0.5s;
+            background: transparent;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .hub-card:hover .hub-logo-wrapper { 
+            background: rgba(255,255,255,0.9); /* Keep logo visible on hover */
+            transform: scale(1.05); 
+        }
+        .hub-logo-wrapper img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        /* Pillars Section */
+        .pillar-box { 
+            background: white; padding: 30px; border-radius: 20px; 
+            border-left: 8px solid var(--accent-gold); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            margin-bottom: 25px; transition: 0.4s;
+            position: relative; overflow: hidden;
+        }
+        .pillar-box:hover { 
+            transform: translateX(10px); 
+            border-left-color: var(--mci-red);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .pillar-icon { 
+            width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
+            background: var(--bg-light); border-radius: 15px; color: var(--primary-blue); font-size: 2rem;
+            transition: 0.4s;
+        }
+        .pillar-box:hover .pillar-icon { background: var(--mci-red); color: white; rotate: 10deg; }
+
+        /* News & Activities Card */
+        .news-card {
+            border: none; border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.4s;
+            background: white; border-top: 4px solid var(--accent-gold);
+        }
+        .news-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-top-color: var(--primary-blue);}
+        .news-img-container { height: 200px; overflow: hidden; border-radius: 15px 15px 0 0; }
+        .news-img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .news-card:hover .news-img-container img { transform: scale(1.1); }
+        
+        /* Text Truncation for News */
+        .news-content-preview {
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limit to 3 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+        }
+        .read-more-link {
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .read-more-link:hover {
+            color: var(--mci-red);
+            text-decoration: underline;
+        }
+        
+        /* Pagination */
+        .pagination .page-link { color: var(--primary-blue); border-color: #dee2e6; }
+        .pagination .page-item.active .page-link { background-color: var(--primary-blue); border-color: var(--primary-blue); color: white; }
+
+        /* Ecosystem Cards */
+        .ecosystem-card {
+            background: white; border-radius: 20px; padding: 40px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); transition: 0.4s;
+            height: 100%; border-top: 5px solid var(--accent-gold);
+        }
+        .ecosystem-card:hover { transform: translateY(-10px); }
+
+        /* Contact & Map */
+        .contact-form {
+            background: white; padding: 40px; border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08); border-top: 5px solid var(--primary-blue);
+        }
+        .form-control, .form-select { border-radius: 10px; padding: 12px 15px; border: 2px solid #eee; transition: 0.3s; }
+        .form-control:focus, .form-select:focus { border-color: var(--primary-blue); box-shadow: none; }
+        .map-container { border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.08); height: 100%; min-height: 400px;}
+        
+        /* Footer */
+        footer { background: #001226; color: white; padding: 70px 0 30px; position: relative; }
+        .footer-shape { position: absolute; top: -50px; left: 0; width: 100%; height: 50px; background: #001226; clip-path: polygon(0 100%, 100% 100%, 100% 0); }
+        .social-links a { 
+            display: inline-flex; width: 40px; height: 40px; border-radius: 50%; 
+            background: rgba(255,255,255,0.1); align-items: center; justify-content: center; 
+            color: white; margin: 0 10px 0 0; transition: 0.3s; text-decoration: none;
+        }
+        .social-links a:hover { background: var(--accent-gold); color: var(--primary-blue); transform: translateY(-5px); }
+
+        /* Scroll Animations (Intersection Observer) */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* Admin Tabs Styling */
+        #adminTabs .nav-link { color: #495057; border: 1px solid transparent; background: #f8f9fa; margin-right: 5px; }
+        #adminTabs .nav-link:hover { border-color: #e9ecef; }
+        #adminTabs .nav-link.active { color: var(--primary-blue) !important; background-color: #fff; border-color: #dee2e6 #dee2e6 #fff; border-bottom: 3px solid var(--primary-blue); }
+        
+        /* Share Buttons Styling */
+        .share-buttons button {
+            transition: 0.3s;
+            width: 35px;
+            height: 35px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .share-buttons button:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-xl" id="navbar">
+        <div class="container-fluid px-3 px-xxl-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="#">
+                <img src="https://i.postimg.cc/QFy4Lp6f/logo.png" alt="MCI Logo" class="me-2" onerror="this.src='https://via.placeholder.com/50x50?text=MCI'">
+            </a>
+            
+            <div class="d-xl-none ms-auto me-3">
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                    <button class="lang-btn" onclick="setLanguage('bm')">BM</button>
+                    <button class="lang-btn" onclick="setLanguage('zh')">ZH</button>
+                </div>
+            </div>
+
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#home" data-en="Home" data-bm="Utama" data-zh="首页">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#news" data-en="News" data-bm="Berita" data-zh="新闻">News</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#about" data-en="About" data-bm="Mengenai Kami" data-zh="关于我们">About</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#team" data-en="Team" data-bm="Pasukan" data-zh="团队">Team</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#hubs" data-en="Hubs" data-bm="Pusat Satelit" data-zh="枢纽">Hubs</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#pillars" data-en="Framework" data-bm="Kerangka" data-zh="框架">Framework</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 px-xxl-3" href="#contact" data-en="Contact" data-bm="Hubungi" data-zh="联系我们">Contact</a></li>
+                    
+                    <li class="nav-item ms-xl-3 d-none d-xl-block">
+                        <div class="lang-switch">
+                            <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                            <button class="lang-btn" onclick="setLanguage('bm')">BM</button>
+                            <button class="lang-btn" onclick="setLanguage('zh')">ZH</button>
+                        </div>
+                    </li>
+                    <li class="nav-item mt-3 mt-xl-0"><a class="btn btn-mci ms-xl-3" href="#ecosystem" data-en="Join Us" data-bm="Sertai Kami" data-zh="加入我们">Join Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header id="home" class="hero-carousel carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+        <div class="carousel-indicators" id="hero-indicators">
+            </div>
+        
+        <div class="carousel-inner" id="hero-inner">
+            </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#home" data-bs-slide="prev" id="mainSliderPrev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#home" data-bs-slide="next" id="mainSliderNext">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </header>
+
+    <div class="container stats-wrapper">
+        <div class="stats-card text-center reveal">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-4 border-end border-light-subtle">
+                    <div class="counter" data-target="5000">0</div>
+                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Skilled Talents (10 Years)" data-bm="Bakat Mahir (10 Tahun)" data-zh="熟练人才（10年）">Skilled Talents (10 Years)</p>
+                </div>
+                <div class="col-md-4 border-end border-light-subtle">
+                    <div class="counter" data-target="45">0</div>
+                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Industry Partners by 2028" data-bm="Rakan Industri menjelang 2028" data-zh="2028年工业合作伙伴">Industry Partners by 2028</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="counter" id="hubs-counter" data-target="7">0</div>
+                    <p class="mb-0 text-muted fw-bold text-uppercase" data-en="Strategic Satellite Hubs" data-bm="Pusat Satelit Strategik" data-zh="战略卫星枢纽">Strategic Satellite Hubs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="news" class="py-5 mt-5">
+        <div class="container py-4">
+            <div class="text-center mb-5 reveal">
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Latest News & Activities" data-bm="Berita & Aktiviti Terkini" data-zh="最新新闻与活动">Latest News & Activities</h2>
+                <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
+                <p class="text-muted" data-en="Stay updated with our events, collaborations, and announcements." data-bm="Kekal terkini dengan acara, kolaborasi, dan pengumuman kami." data-zh="随时了解我们的活动、合作和公告。">Stay updated with our events, collaborations, and announcements.</p>
+            </div>
+            
+            <div class="row g-4" id="news-container">
+                </div>
+
+            <div id="news-pagination" class="d-flex justify-content-center mt-5">
+                </div>
+            
+            <div class="text-center mt-5" id="empty-news-message" style="display: none;">
+                <p class="text-muted fst-italic" data-en="No news available at the moment." data-bm="Tiada berita tersedia pada masa ini." data-zh="目前没有新闻。">No news available at the moment.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 reveal">
+                    <div class="about-image-wrapper">
+                        <img src="img/news/discussion3.png" alt="MCI Platform" class="w-100 rounded-4 shadow-lg position-relative z-1" style="height: 400px; object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 reveal delay-2">
+                    <span class="text-uppercase fw-bold mb-2 d-block" style="color: var(--mci-red); letter-spacing: 1px;" data-en="A Strategic Malaysia-China Collaboration" data-bm="Kolaborasi Strategik Malaysia-China" data-zh="马来西亚-中国战略合作">A Strategic Malaysia-China Collaboration</span>
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-blue);" data-en="MCI is a platform." data-bm="MCI adalah sebuah platform." data-zh="MCI 是一个平台。">MCI is a platform.</h2>
+                    
+                    <p class="lead text-muted mb-4" data-en="To be the premier regional gateway connecting Malaysia, ASEAN, and China through education, talent development, and changemakers." data-bm="Untuk menjadi gerbang serantau utama yang menghubungkan Malaysia, ASEAN, dan China melalui pendidikan, pembangunan bakat, dan pemacu perubahan." data-zh="成为连接马来西亚、东盟和中国的主要区域网关，通过教育、人才发展和推动变革。">
+                        To be the premier regional gateway connecting Malaysia, ASEAN, and China through education, talent development, and changemakers.
+                    </p>
+                    
+                    <div class="p-4 rounded-3 mb-4" style="background: white; border-left: 5px solid var(--accent-gold); box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                        <p class="mb-0 fw-medium" data-en="To deliver high-value Malaysia-China education, talent development, entrepreneurship, and technology solutions that strengthen global competitiveness and drive sustainable economic growth." data-bm="Untuk menyampaikan pendidikan bernilai tinggi Malaysia-China, pembangunan bakat, keusahawanan, dan penyelesaian teknologi yang memperkukuh daya saing global dan memacu pertumbuhan ekonomi yang mampan." data-zh="提供高价值的马中教育、人才发展、创业和技术解决方案，增强全球竞争力并推动可持续经济增长。">
+                            To deliver high-value Malaysia-China education, talent development, entrepreneurship, and technology solutions that strengthen global competitiveness and drive sustainable economic growth.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5 reveal">
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="Leadership & Organization" data-bm="Barisan Kepimpinan & Organisasi" data-zh="领导与组织">Leadership & Organization</h2>
+                <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
+                <p class="text-muted" data-en="Meet the visionary team driving the MCI platform forward." data-bm="Kenali barisan kepimpinan yang memacu platform MCI ke hadapan." data-zh="认识推动 MCI 平台发展的富有远见的团队。">Meet the visionary team driving the MCI platform forward.</p>
+            </div>
+            
+            <div id="team-container" class="d-flex flex-column align-items-center w-100">
+                </div>
+        </div>
+    </section>
+
+    <section id="hubs" class="py-5 bg-light">
+        <div class="container py-4">
+            <div class="text-center mb-5 reveal">
+                <h2 class="display-6 fw-bold" style="color: var(--primary-blue);" data-en="High-Growth Technology Sectors" data-bm="Sektor Teknologi Pertumbuhan Tinggi" data-zh="高增长技术领域">High-Growth Technology Sectors</h2>
+                <div class="bg-danger mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
+                <p class="text-muted" data-en="Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities." data-bm="Penghantaran Hub-and-Spoke 'Asset-Light' melalui fasiliti IPMA sedia ada." data-zh="通过现有 IPMA 设施的轻资产轮辐式交付。">Asset-Light Hub-and-Spoke Delivery via Existing IPMA Facilities.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center" id="hubs-container">
+                </div>
+        </div>
+    </section>
+
+    <section id="pillars" class="py-5">
+        <div class="container py-4">
+            <h2 class="text-center display-6 fw-bold mb-5 reveal" style="color: var(--primary-blue);" data-en="Industry-Aligned Programmes for Real-World Impact" data-bm="Program Selari Industri untuk Impak Dunia Sebenar" data-zh="针对现实世界影响的行业相关计划">Industry-Aligned Programmes for Real-World Impact</h2>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-6 reveal">
+                    <img src="img/news/Career.png" alt="Collaboration" class="img-fluid rounded-4 shadow-lg mb-4 mb-lg-0">
+                </div>
+                <div class="col-lg-6 ps-lg-5">
+                    <div class="pillar-box d-flex align-items-start reveal delay-1" style="background: var(--bg-light);">
+                        <div class="pillar-icon flex-shrink-0 me-4" style="background: white;"><i class="fas fa-certificate"></i></div>
+                        <div>
+                            <h4 class="fw-bold" data-en="Pillar 1: Micro-Credentials" data-bm="Teras 1: Mikro-Kredential" data-zh="支柱 1：微证书">Pillar 1: Micro-Credentials</h4>
+                            <p class="text-muted mb-0" data-en="Rapid technical skill transfer tailored and driven by current industry needs." data-bm="Pemindahan kemahiran teknikal yang pantas dan dipacu oleh keperluan industri semasa." data-zh="根据当前行业需求量身定制并推动的快速技术技能转移。">Rapid technical skill transfer tailored and driven by current industry needs.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pillar-box d-flex align-items-start reveal delay-2" style="background: var(--bg-light);">
+                        <div class="pillar-icon flex-shrink-0 me-4" style="background: white;"><i class="fas fa-language"></i></div>
+                        <div>
+                            <h4 class="fw-bold" data-en="Pillar 2: Technical Mandarin" data-bm="Teras 2: Mandarin Industri" data-zh="支柱 2：技术中文">Pillar 2: Technical Mandarin</h4>
+                            <p class="text-muted mb-0" data-en="Specialized modules for seamless professional interaction with Chinese technology partners." data-bm="Modul khas bagi memastikan interaksi profesional yang lancar dengan rakan teknologi China." data-zh="为与中国技术合作伙伴进行无缝专业互动而设计的专门模块。">Specialized modules for seamless professional interaction with Chinese technology partners.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pillar-box d-flex align-items-start reveal delay-3" style="background: var(--bg-light);">
+                        <div class="pillar-icon flex-shrink-0 me-4" style="background: white;"><i class="fas fa-user-tie"></i></div>
+                        <div>
+                            <h4 class="fw-bold" data-en="Pillar 3: Employability (EEP)" data-bm="Teras 3: Kebolehpasaran (EEP)" data-zh="支柱 3：就业能力 (EEP)">Pillar 3: Employability (EEP)</h4>
+                            <p class="text-muted mb-0" data-en="Structured career pathways through apprenticeships and direct industry job placements." data-bm="Laluan kerjaya berstruktur melalui perantisan dan penempatan kerja terus ke industri." data-zh="通过学徒制和直接的行业工作安置实现结构化的职业路径。">Structured career pathways through apprenticeships and direct industry job placements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="py-5" style="background-color: var(--primary-blue);">
+        <div class="container py-5">
+            <div class="text-center mb-5 reveal">
+                <h2 class="display-6 fw-bold text-white" data-en="Join the MCI Ecosystem" data-bm="Sertai Ekosistem MCI" data-zh="加入 MCI 生态系统">Join the MCI Ecosystem</h2>
+                <div class="bg-warning mx-auto mt-3 mb-4" style="height: 4px; width: 60px; border-radius: 2px;"></div>
+                <p class="text-white-50 fs-5" data-en="A Collaborative Global Ecosystem." data-bm="Ekosistem Global yang Kolaboratif." data-zh="协作的全球生态系统。">A Collaborative Global Ecosystem.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 col-lg-5 reveal delay-1">
+                    <div class="ecosystem-card text-center d-flex flex-column">
+                        <div class="mb-4"><i class="fas fa-user-graduate fa-4x text-primary"></i></div>
+                        <h3 class="fw-bold text-dark mb-3" data-en="For Students & Talent" data-bm="Untuk Pelajar & Bakat" data-zh="面向学生与人才">For Students & Talent</h3>
+                        <p class="text-muted flex-grow-1" data-en="Upskill with industry-recognized certifications and secure direct career placements in high-value tech sectors." data-bm="Tingkatkan kemahiran dengan pensijilan yang diiktiraf industri dan dapatkan penempatan kerjaya dalam sektor teknologi bernilai tinggi." data-zh="通过行业认可的认证提升技能，并在高价值科技领域获得直接的职业安置。">
+                            Upskill with industry-recognized certifications and secure direct career placements in high-value tech sectors.
+                        </p>
+                        <a href="#contact" class="btn btn-outline-primary btn-lg mt-3" style="border-radius: 50px;" data-en="Explore Programmes" data-bm="Terokai Program" data-zh="探索计划">Explore Programmes</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5 reveal delay-2">
+                    <div class="ecosystem-card text-center d-flex flex-column">
+                        <div class="mb-4"><i class="fas fa-handshake fa-4x" style="color: var(--mci-red);"></i></div>
+                        <h3 class="fw-bold text-dark mb-3" data-en="For Institutions & Industry" data-bm="Untuk Institusi & Industri" data-zh="面向机构与工业">For Institutions & Industry</h3>
+                        <p class="text-muted flex-grow-1" data-en="Collaborate with us to develop future-ready talents, co-design curriculums, and drive technological innovation." data-bm="Bekerjasama dengan kami untuk membangunkan bakat masa hadapan, mereka bentuk kurikulum bersama, dan memacu inovasi teknologi." data-zh="与我们合作培养面向未来的人才，共同设计课程并推动技术创新。">
+                            Collaborate with us to develop future-ready talents, co-design curriculums, and drive technological innovation.
+                        </p>
+                        <a href="#contact" class="btn btn-mci btn-lg mt-3" style="border-radius: 50px;" data-en="Partner With Us" data-bm="Bekerjasama Dengan Kami" data-zh="与我们合作">Partner With Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-5 bg-light position-relative">
+        <div class="container py-4">
+            <div class="row g-5 align-items-stretch">
+                <div class="col-lg-5 reveal">
+                    <div class="contact-form h-100">
+                        <h3 class="fw-bold mb-2" style="color: var(--primary-blue);" data-en="Get In Touch" data-bm="Hubungi Kami" data-zh="联系我们">Get In Touch</h3>
+                        <p class="text-muted mb-4" data-en="Send a Message to connect with our team." data-bm="Hantar mesej untuk berhubung dengan pasukan kami." data-zh="发送消息以联系我们的团队。">Send a Message to connect with our team.</p>
+                        
+                        <form id="contactForm" action="mailto:mci@mara.gov.my" method="POST" enctype="text/plain">
+                            <div class="mb-3">
+                                <label class="form-label fw-medium" data-en="Full Name" data-bm="Nama Penuh" data-zh="姓名">Full Name</label>
+                                <input type="text" class="form-control" name="Name" placeholder="John Doe" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-medium">Email</label>
+                                <input type="email" class="form-control" name="Email" placeholder="name@example.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-medium" data-en="Inquiry Type" data-bm="Jenis Pertanyaan" data-zh="咨询类型">Inquiry Type</label>
+                                <select class="form-select" name="Subject">
+                                    <option value="For Students & Talent" data-en="For Students & Talent" data-bm="Untuk Pelajar & Bakat" data-zh="面向学生与人才">For Students & Talent</option>
+                                    <option value="For Institutions & Industry" data-en="For Institutions & Industry" data-bm="Untuk Institusi & Industri" data-zh="面向机构与工业">For Institutions & Industry</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-medium" data-en="Message" data-bm="Mesej" data-zh="留言">Message</label>
+                                <textarea class="form-control" name="Message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-mci w-100 fs-5 mb-4" data-en="Send Message" data-bm="Hantar Mesej" data-zh="发送留言">Send Message</button>
+                        </form>
+                        
+                        <div class="mt-2 pt-4 border-top">
+                            <h5 class="fw-bold" style="color: var(--primary-blue);" data-en="Get in touch." data-bm="Hubungi kami." data-zh="保持联系。">Get in touch.</h5>
+                            <p class="text-muted small mb-3" data-en="Ready to connect with MCI? Reach out to explore collaborations, programme enrolment or partnership opportunities." data-bm="Bersedia untuk berhubung dengan MCI? Hubungi kami untuk meneroka kerjasama, pendaftaran program atau peluang perkongsian." data-zh="准备好与 MCI 建立联系了吗？联系我们以探索合作、课程注册或合作伙伴机会。">Ready to connect with MCI? Reach out to explore collaborations, programme enrolment or partnership opportunities.</p>
+                            <div class="d-flex flex-column gap-2 fw-medium">
+                                <a href="mailto:mci@mara.gov.my" class="text-decoration-none text-dark"><i class="fas fa-envelope text-danger me-2"></i> mci@mara.gov.my</a>
+                                <a href="https://www.mcitvet.my" target="_blank" class="text-decoration-none text-dark"><i class="fas fa-globe text-primary me-2"></i> www.mcitvet.my</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-7 reveal delay-2">
+                    <div class="d-flex flex-column h-100">
+                        <h3 class="fw-bold mb-2" style="color: var(--primary-blue);" data-en="MCI Command Node" data-bm="Nod Perintah MCI" data-zh="MCI 指挥中心">MCI Command Node</h3>
+                        <p class="text-muted mb-4"><i class="fas fa-map-marker-alt text-danger me-2"></i> Tingkat 21, Ibu Pejabat MARA, 21 Jalan MARA, 50609 Kuala Lumpur</p>
+                        <div class="map-container flex-grow-1">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.829141753177!2d101.69460231475735!3d3.161048997698516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc483b38c21a4f%3A0x7d00f7223631f471!2sMenara%20MARA!5e0!3m2!1sen!2smy!4v1711111111111!5m2!1sen!2smy" 
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-shape"></div>
+        <div class="container pt-5">
+            <div class="row align-items-center mb-5 justify-content-center">
+                <div class="col-12 text-center mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3">MCI</h2>
+                    <p class="text-white-50" data-en="A Wholly-Owned Subsidiary of MARA" data-bm="Anak Syarikat Milik Penuh MARA" data-zh="MARA 的全资子公司">A Wholly-Owned Subsidiary of MARA</p>
+                    
+                    <div class="social-links mt-4 d-flex justify-content-center">
+                        <a href="https://www.facebook.com/mcitvet" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/mcitvetmara" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                </div>
+            </div>
+            
+            <hr class="border-secondary mt-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap pb-3">
+                <p class="small text-white-50 mb-0">© 2026 Malaysia-China Institute (MCI). <span data-en="All Rights Reserved." data-bm="Hak Cipta Terpelihara." data-zh="版权所有。">All Rights Reserved.</span></p>
+                
+                <!-- Ruangan Paparan Jumlah Pelawat Baru Ditambah & Dikemaskini -->
+                <div class="text-white-50 small mt-3 mt-md-0 d-flex align-items-center flex-wrap gap-2 gap-md-3" style="background: rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 30px;">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-chart-line me-2 text-warning"></i>
+                        <span class="me-2 fw-medium" data-en="Total Visitors:" data-bm="Jumlah Pelawat:" data-zh="总访客:">Jumlah Pelawat:</span>
+                        <span id="visitorCountDisplay" class="fw-bold text-white fs-6">...</span>
+                    </div>
+                    <!-- Garisan pembahagi untuk paparan desktop -->
+                    <div class="d-none d-md-block border-start border-secondary" style="height: 20px;"></div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-clock me-2 text-info"></i>
+                        <span class="me-2 fw-medium" data-en="Today:" data-bm="Hari Ini:" data-zh="今日:">Hari Ini:</span>
+                        <span id="todayVisitorCountDisplay" class="fw-bold text-white fs-6">...</span>
+                    </div>
+                </div>
+
+                <a href="#" onclick="window.showLoginModal(event)" class="text-white-50 text-decoration-none small mt-2 mt-md-0">
+                    <i class="fas fa-lock me-1"></i> <span data-en="Admin Access" data-bm="Akses Admin" data-zh="管理员访问">Admin Access</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="modal fade" id="newsDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="newsDetailTitle" style="color: var(--primary-blue);"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    
+                    <div id="newsDetailCarousel" class="carousel slide bg-dark" data-bs-ride="carousel">
+                        <div class="carousel-indicators" id="newsDetailIndicators">
+                            </div>
+                        <div class="carousel-inner" id="newsDetailImages">
+                            </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#newsDetailCarousel" data-bs-slide="prev" id="newsDetailPrev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#newsDetailCarousel" data-bs-slide="next" id="newsDetailNext">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    <div class="p-4 p-md-5">
+                        <small class="text-muted mb-4 d-block fw-medium"><i class="far fa-calendar-alt text-danger me-2"></i> <span id="newsDetailDate"></span></small>
+                        <p id="newsDetailContent" class="text-dark" style="line-height: 1.8; font-size: 1.05rem;"></p>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light d-flex justify-content-between align-items-center">
+                    <div class="share-buttons">
+                        <span class="text-muted small fw-bold me-2" data-en="Share:" data-bm="Kongsi:" data-zh="分享:">Kongsi:</span>
+                        <button class="btn btn-outline-primary rounded-circle me-1" onclick="shareNews('facebook')" title="Kongsi ke Facebook"><i class="fab fa-facebook-f"></i></button>
+                        <button class="btn btn-outline-success rounded-circle me-1" onclick="shareNews('whatsapp')" title="Kongsi ke WhatsApp"><i class="fab fa-whatsapp"></i></button>
+                        <button class="btn btn-outline-dark rounded-circle me-1" onclick="shareNews('twitter')" title="Kongsi ke X (Twitter)"><i class="fab fa-x-twitter"></i></button>
+                        <button class="btn btn-outline-secondary rounded-circle" id="btnCopyLink" onclick="shareNews('copy')" title="Salin Pautan (Copy Link)"><i class="fas fa-link"></i></button>
+                    </div>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal" data-en="Close" data-bm="Tutup" data-zh="关闭">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <i class="fas fa-user-shield me-2 text-warning"></i> 
+                        <span data-en="Admin Authentication" data-bm="Pengesahan Admin" data-zh="管理员认证">Pengesahan Admin</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="adminLoginForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-dark" data-en="Admin Email" data-bm="E-mel Admin" data-zh="管理员电邮">E-mel Admin</label>
+                            <input type="email" class="form-control" id="adminEmail" placeholder="admin@mara.gov.my" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark" data-en="Password" data-bm="Kata Laluan" data-zh="密码">Kata Laluan</label>
+                            <input type="password" class="form-control" id="adminPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-mci w-100" data-en="Secure Login" data-bm="Log Masuk Selamat" data-zh="安全登录">Log Masuk Selamat</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="adminModalLabel"><i class="fas fa-cogs me-2"></i> Admin Panel</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-bold text-dark" id="news-tab" data-bs-toggle="tab" data-bs-target="#news-panel" type="button" role="tab">
+                                <i class="fas fa-newspaper me-1 text-primary"></i> 
+                                <span data-en="Add News" data-bm="Tambah Berita" data-zh="添加新闻">Tambah Berita</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold text-dark" id="slider-tab" data-bs-toggle="tab" data-bs-target="#slider-panel" type="button" role="tab">
+                                <i class="fas fa-images me-1 text-success"></i> 
+                                <span data-en="Update Slider" data-bm="Kemas Kini Slider" data-zh="更新幻灯片">Kemas Kini Slider</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold text-dark" id="team-tab" data-bs-toggle="tab" data-bs-target="#team-panel" type="button" role="tab">
+                                <i class="fas fa-users me-1 text-warning"></i> 
+                                <span data-en="Update Team" data-bm="Kemas Kini Pasukan" data-zh="更新团队">Kemas Kini Pasukan</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold text-dark" id="hubs-tab" data-bs-toggle="tab" data-bs-target="#hubs-panel" type="button" role="tab">
+                                <i class="fas fa-network-wired me-1 text-info"></i> 
+                                <span data-en="Update Hubs" data-bm="Kemas Kini Hab" data-zh="更新中心">Kemas Kini Hab</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="adminTabsContent">
+                        
+                        <div class="tab-pane fade show active" id="news-panel" role="tabpanel">
+                            <form id="adminNewsForm">
+                                <input type="hidden" id="editNewsId" value="">
+                                <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-3">
+                                        <span class="text-muted small"><i class="fas fa-info-circle me-1"></i> <b>Tips:</b> Isi maklumat dalam <b>Bahasa Melayu (BM)</b> sahaja, kemudian tekan butang terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateNews()" id="btnTransNews">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Title (English) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="newsTitleEn" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Title (Bahasa Melayu) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border-primary" id="newsTitleBm" required placeholder="Taip tajuk di sini...">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Title (Mandarin) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="newsTitleZh" required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Date <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" id="newsDate" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Image URLs <small class="text-muted fw-normal">(Pisahkan dengan koma ',' jika lebih dari satu)</small></label>
+                                        <textarea class="form-control" id="newsImg" rows="2" placeholder="https://contoh.com/gambar1.jpg, https://contoh.com/gambar2.jpg"></textarea>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Content (English) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="newsContentEn" rows="4" required></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Content (Bahasa Melayu) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control border-primary" id="newsContentBm" rows="4" required placeholder="Taip isi kandungan di sini..."></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Content (Mandarin) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="newsContentZh" rows="4" required></textarea>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllNews()">Padam Semua Berita</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmitNews">Publish News</button>
+                                </div>
+                            </form>
+                            
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-primary me-2"></i>Senarai Berita Telah Dipos</h6>
+                                <div id="adminNewsList" class="list-group">
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="slider-panel" role="tabpanel">
+                            <div class="alert alert-info small mb-2 mt-3">
+                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan muncul pada bahagian gambar depan (Slider Utama) di bahagian atas laman web.
+                            </div>
+                            <form id="adminSliderForm">
+                                <input type="hidden" id="editSlideId" value="">
+                                <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-2">
+                                        <span class="text-muted small"><i class="fas fa-lightbulb me-1"></i> <b>Tips:</b> Isi ruang label, tajuk & subteks dalam <b>Bahasa Melayu (BM)</b> dahulu, kemudian tekan terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateSlider()" id="btnTransSlider">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold">Slider Background Image URL <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderImg" placeholder="https://example.com/bg-image.jpg atau img/slider/bg.jpg" required>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small">Badge Label (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderBadgeEn" placeholder="e.g. THE TALENT GATEWAY" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small">Badge Label (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border-primary" id="sliderBadgeBm" required placeholder="Contoh: GERBANG BAKAT">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small">Badge Label (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderBadgeZh" required>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-primary small mt-2">Main Title (EN) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="sliderTitleEn" rows="2" required></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-primary small mt-2">Main Title (BM) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control border-primary" id="sliderTitleBm" rows="2" required placeholder="Taip tajuk utama slider..."></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-primary small mt-2">Main Title (ZH) <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="sliderTitleZh" rows="2" required></textarea>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-success small mt-2">Subtitle (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderSubEn" placeholder="e.g. INNOVATE . CONNECT" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-success small mt-2">Subtitle (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border-primary" id="sliderSubBm" required placeholder="Contoh: INOVASI . HUBUNG">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-success small mt-2">Subtitle (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="sliderSubZh" required>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllSlides()">Padam Semua Slider</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmitSlider">Publish New Slide</button>
+                                </div>
+                            </form>
+
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-success me-2"></i>Senarai Slider Telah Dipos</h6>
+                                <div id="adminSliderList" class="list-group">
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="team-panel" role="tabpanel">
+                            <div class="alert alert-warning small mb-2 mt-3">
+                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan dikemaskini terus ke Carta Organisasi Pasukan. Tetapkan 'Tier' untuk tahap jawatan dan 'Susunan' (1, 2, 3...) untuk kedudukan di dalam tier tersebut.
+                            </div>
+                            <form id="adminTeamForm">
+                                <input type="hidden" id="editTeamId" value="">
+                                <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-2">
+                                        <span class="text-muted small"><i class="fas fa-language me-1"></i> <b>Tips:</b> Isi jawatan dalam <b>Bahasa Melayu (BM)</b> dahulu, kemudian tekan butang terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateTeam()" id="btnTransTeam">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Nama Penuh <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="teamName" required placeholder="Contoh: Ir. Mohd Faiz bin Mat Daud">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Pautan Gambar (URL) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="teamImg" placeholder="img/team/GM.jpeg" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label fw-bold">Tahap (Tier) <span class="text-danger">*</span></label>
+                                        <select class="form-select border-warning" id="teamTier" required>
+                                            <option value="1">Tier 1 (Ketua / GM)</option>
+                                            <option value="2">Tier 2 (Pengurusan Kanan)</option>
+                                            <option value="3">Tier 3 (Pengurus)</option>
+                                            <option value="4">Tier 4 (Eksekutif)</option>
+                                            <option value="5">Tier 5 (Lain-lain)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label fw-bold">Susunan <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="teamOrder" required placeholder="1, 2, 3..." min="1">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Jawatan (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="teamRoleEn" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Jawatan (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border-primary" id="teamRoleBm" required placeholder="Contoh: Pengurus Besar">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Jawatan (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="teamRoleZh" required>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllTeam()">Padam Semua Rekod</button>
+                                    <button type="submit" class="btn btn-warning fw-bold text-dark" id="btnSubmitTeam">Tambah Pasukan</button>
+                                </div>
+                            </form>
+
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-warning me-2"></i>Senarai Ahli Pasukan</h6>
+                                <div id="adminTeamList" class="list-group">
+                                    </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="hubs-panel" role="tabpanel">
+                            <div class="alert alert-info small mb-2 mt-3">
+                                <i class="fas fa-info-circle me-1"></i> Maklumat yang diisi di sini akan dipaparkan pada bahagian Sektor Teknologi Pusat Satelit. Sila guna pautan logo yang bersesuaian.
+                            </div>
+                            <form id="adminHubsForm">
+                                <input type="hidden" id="editHubId" value="">
+                                <div class="row g-3">
+                                    <div class="col-12 p-3 bg-light rounded border d-flex justify-content-between align-items-center mb-2 mt-2">
+                                        <span class="text-muted small"><i class="fas fa-language me-1"></i> <b>Tips:</b> Isi maklumat sektor dalam <b>Bahasa Melayu (BM)</b> dahulu, kemudian tekan butang terjemah.</span>
+                                        <button type="button" class="btn btn-sm btn-info fw-bold text-dark" onclick="window.autoTranslateHub()" id="btnTransHub">
+                                            <i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="col-md-5">
+                                        <label class="form-label fw-bold">Nama Institusi <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubName" required placeholder="Contoh: TVETMARA Petaling Jaya">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="form-label fw-bold">Pautan Logo <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubLogo" placeholder="Contoh: img/logo/logo-TVETMARA.png" required>
+                                        <small class="text-muted">Logo dicadangkan: img/logo/logo-giat.png, img/logo/logo-TVETMARA.png, img/logo/logo-unikl.png</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label fw-bold">Susunan <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="hubOrder" required placeholder="1, 2, 3..." min="1">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Bidang / Sektor (EN) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubSectorEn" required placeholder="e.g. AI & IoT">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Bidang / Sektor (BM) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control border-primary" id="hubSectorBm" required placeholder="Contoh: Kecerdasan Buatan (AI) & IoT">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-muted small mt-2">Bidang / Sektor (ZH) <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="hubSectorZh" required>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="window.clearAllHubs()">Padam Semua Hab</button>
+                                    <button type="submit" class="btn btn-info fw-bold text-dark" id="btnSubmitHub">Tambah Pusat Satelit</button>
+                                </div>
+                            </form>
+
+                            <div class="mt-5">
+                                <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fas fa-list text-info me-2"></i>Senarai Pusat Satelit / Hab</h6>
+                                <div id="adminHubsList" class="list-group">
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script type="module">
+        // Firebase Cloud Firestore Integration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot, deleteDoc, updateDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- 1. Dynamic Navbar ---
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled', 'navbar-light');
+                navbar.classList.remove('navbar-dark');
+            } else {
+                navbar.classList.remove('scrolled', 'navbar-light');
+                navbar.classList.add('navbar-dark');
+            }
+        });
+        if(window.scrollY === 0) document.getElementById('navbar').classList.add('navbar-dark');
+
+        // --- 2. Trilingual Switcher ---
+        window.setLanguage = function(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll(`[onclick="setLanguage('${lang}')"]`).forEach(b => b.classList.add('active'));
+
+            const elements = document.querySelectorAll('[data-en]');
+            elements.forEach(el => {
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    if (el.tagName === 'OPTION') {
+                        el.text = el.getAttribute(`data-${lang}`);
+                    } else if (el.tagName === 'INPUT' && el.type === 'placeholder') {
+                        el.placeholder = el.getAttribute(`data-${lang}`);
+                    } else {
+                        el.innerHTML = el.getAttribute(`data-${lang}`);
+                    }
+                    el.style.opacity = 1;
+                }, 200);
+            });
+            localStorage.setItem('mci_lang', lang);
+        };
+
+        // --- 3. Scroll Reveal & Counters ---
+        const counters = document.querySelectorAll('.counter');
+        let hasCounted = false;
+
+        const startCounters = () => {
+            if(hasCounted) return;
+            hasCounted = true;
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / 100;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target.toLocaleString() + (target > 100 ? "+" : "");
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if(entry.target.classList.contains('stats-card')) startCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // --- 5. SECURE Admin Authentication ---
+        window.showLoginModal = function(e) {
+            e.preventDefault();
+            var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        };
+
+        // --- 6. Firebase Cloud Database Setup & Rendering ---
+        let newsData = [];
+        let sliderData = [];
+        let teamData = [];
+        let hubsData = [];
+        let currentUser = null;
+        
+        // Pembolehubah Global untuk simpan data berita yang sedang dipaparkan di Modal
+        window.currentViewingNews = null;
+        window.hasAutoOpenedNews = false; // Elak modal asyik dibuka semula
+        
+        // News Pagination State
+        let currentNewsPage = 1;
+        const newsPerPage = 3;
+
+        window.changeNewsPage = function(page) {
+            currentNewsPage = page;
+            renderNews();
+            // Scroll automatik ke bahagian berita
+            const newsSection = document.getElementById('news');
+            if(newsSection) {
+                const y = newsSection.getBoundingClientRect().top + window.scrollY - 80;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
+        };
+
+        // Fungsi Tunjuk Berita Penuh
+        window.showFullNews = function(id) {
+            const news = newsData.find(n => n.id === id);
+            if(!news) return;
+
+            window.currentViewingNews = news; // Simpan berita untuk fungsi perkongsian
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            
+            let title = news.title_en;
+            let content = news.content_en;
+            
+            if (currentLang === 'bm') {
+                title = news.title_bm;
+                content = news.content_bm;
+            } else if (currentLang === 'zh') {
+                title = news.title_zh || news.title_en;
+                content = news.content_zh || news.content_en;
+            }
+
+            document.getElementById('newsDetailTitle').innerText = title;
+            
+            const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
+            const imgString = news.img || defaultImg;
+            const images = imgString.split(',').map(url => url.trim()).filter(url => url !== "");
+            if(images.length === 0) images.push(defaultImg);
+
+            const indicators = document.getElementById('newsDetailIndicators');
+            const inner = document.getElementById('newsDetailImages');
+            const prevBtn = document.getElementById('newsDetailPrev');
+            const nextBtn = document.getElementById('newsDetailNext');
+
+            indicators.innerHTML = '';
+            inner.innerHTML = '';
+
+            images.forEach((imgUrl, index) => {
+                const activeClass = index === 0 ? 'active' : '';
+                indicators.innerHTML += `<button type="button" data-bs-target="#newsDetailCarousel" data-bs-slide-to="${index}" class="${activeClass}" aria-current="${index === 0 ? 'true' : 'false'}"></button>`;
+                inner.innerHTML += `
+                    <div class="carousel-item ${activeClass}">
+                        <img src="${imgUrl}" class="d-block w-100" style="max-height: 450px; object-fit: cover;" alt="News Image ${index + 1}" onerror="this.src='${defaultImg}'">
+                    </div>
+                `;
+            });
+
+            if (images.length > 1) {
+                prevBtn.style.display = 'block';
+                nextBtn.style.display = 'block';
+                indicators.style.display = 'flex';
+            } else {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                indicators.style.display = 'none';
+            }
+
+            document.getElementById('newsDetailDate').innerText = news.date;
+            document.getElementById('newsDetailContent').innerHTML = content.replace(/\n/g, '<br>');
+
+            var newsModal = new bootstrap.Modal(document.getElementById('newsDetailModal'));
+            newsModal.show();
+            window.setLanguage(currentLang);
+        };
+
+        // Fungsi Perkongsian (Share) Berita ke Media Sosial
+        window.shareNews = function(platform) {
+            if(!window.currentViewingNews) return;
+            
+            const news = window.currentViewingNews;
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            
+            let title = news.title_en;
+            if (currentLang === 'bm') title = news.title_bm;
+            if (currentLang === 'zh') title = news.title_zh || news.title_en;
+
+            // Jana pautan (URL) yang mempunyai ID Berita supaya boleh buka terus
+            const baseUrl = window.location.href.split('#')[0].split('?')[0]; 
+            const newsSpecificUrl = `${baseUrl}?news=${news.id}`;
+            const textToShare = `${title} - Malaysia China Institute (MCI)`;
+            let shareLink = '';
+
+            switch(platform) {
+                case 'facebook':
+                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(newsSpecificUrl)}&quote=${encodeURIComponent(textToShare)}`;
+                    window.open(shareLink, '_blank', 'width=600,height=400');
+                    break;
+                case 'whatsapp':
+                    shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " | " + newsSpecificUrl)}`;
+                    window.open(shareLink, '_blank');
+                    break;
+                case 'twitter':
+                    shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}&url=${encodeURIComponent(newsSpecificUrl)}`;
+                    window.open(shareLink, '_blank', 'width=600,height=400');
+                    break;
+                case 'copy':
+                    // Salin Teks dan Pautan menggunakan execCommand (Lebih stabil di dalam Canvas/iFrame)
+                    const tempInput = document.createElement('input');
+                    tempInput.value = `${textToShare} ${newsSpecificUrl}`;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    
+                    // Visual maklum balas butang disalin
+                    const copyBtn = document.getElementById('btnCopyLink');
+                    if(copyBtn) {
+                        const originalHtml = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check text-success"></i>';
+                        setTimeout(() => { copyBtn.innerHTML = originalHtml; }, 2000);
+                    }
+                    break;
+            }
+        };
+
+        // Render UI Function for News
+        function renderNews() {
+            const container = document.getElementById('news-container');
+            const paginationContainer = document.getElementById('news-pagination');
+            const emptyMessage = document.getElementById('empty-news-message');
+            
+            container.innerHTML = '';
+            paginationContainer.innerHTML = '';
+            
+            if (newsData.length === 0) {
+                emptyMessage.style.display = 'block';
+            } else {
+                emptyMessage.style.display = 'none';
+                
+                const totalPages = Math.ceil(newsData.length / newsPerPage);
+                if (currentNewsPage > totalPages) currentNewsPage = totalPages;
+                if (currentNewsPage < 1) currentNewsPage = 1;
+
+                const startIndex = (currentNewsPage - 1) * newsPerPage;
+                const endIndex = startIndex + newsPerPage;
+                const currentNews = newsData.slice(startIndex, endIndex);
+
+                currentNews.forEach((news) => {
+                    const titleZh = news.title_zh || news.title_en;
+                    const contentZh = news.content_zh || news.content_en;
+
+                    const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
+                    const imgString = news.img || defaultImg;
+                    const imgArray = imgString.split(',').map(u => u.trim()).filter(u => u !== "");
+                    const thumbImg = imgArray.length > 0 ? imgArray[0] : defaultImg;
+
+                    const cardHTML = `
+                        <div class="col-md-6 col-lg-4 reveal active">
+                            <div class="card news-card h-100 d-flex flex-column">
+                                <div class="news-img-container">
+                                    <img src="${thumbImg}" alt="News Image" onerror="this.src='${defaultImg}'">
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <small class="text-muted mb-2 d-block"><i class="far fa-calendar-alt text-danger me-1"></i> ${news.date}</small>
+                                    <h5 class="card-title fw-bold mb-3" data-en="${news.title_en}" data-bm="${news.title_bm}" data-zh="${titleZh}">${news.title_en}</h5>
+                                    
+                                    <div class="flex-grow-1">
+                                        <p class="card-text text-muted news-content-preview" data-en="${news.content_en}" data-bm="${news.content_bm}" data-zh="${contentZh}">${news.content_en}</p>
+                                    </div>
+                                    
+                                    <div class="mt-auto pt-3 border-top">
+                                        <a class="read-more-link d-inline-flex align-items-center" onclick="window.showFullNews(${news.id})">
+                                            <span data-en="Read More" data-bm="Baca Lanjut" data-zh="阅读更多">Read More</span> 
+                                            <i class="fas fa-arrow-right ms-2 small"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', cardHTML);
+                });
+
+                if (totalPages > 1) {
+                    let paginationHTML = `<nav aria-label="Navigasi berita"><ul class="pagination pagination-lg mb-0 shadow-sm">`;
+                    paginationHTML += `<li class="page-item ${currentNewsPage === 1 ? 'disabled' : ''}">
+                        <button class="page-link" onclick="window.changeNewsPage(${currentNewsPage - 1})" aria-label="Previous"><span aria-hidden="true">«</span></button>
+                    </li>`;
+
+                    for (let i = 1; i <= totalPages; i++) {
+                        paginationHTML += `<li class="page-item ${currentNewsPage === i ? 'active' : ''}">
+                            <button class="page-link" onclick="window.changeNewsPage(${i})">${i}</button>
+                        </li>`;
+                    }
+
+                    paginationHTML += `<li class="page-item ${currentNewsPage === totalPages ? 'disabled' : ''}">
+                        <button class="page-link" onclick="window.changeNewsPage(${currentNewsPage + 1})" aria-label="Next"><span aria-hidden="true">»</span></button>
+                    </li></ul></nav>`;
+                    paginationContainer.innerHTML = paginationHTML;
+                }
+            }
+            
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            window.setLanguage(currentLang);
+        }
+
+        // ==========================================
+        // FUNGSI RENDER SLIDER YANG DIBEIKI (CAROUSEL FIX)
+        // ==========================================
+        function renderSlider() {
+            const indicators = document.getElementById('hero-indicators');
+            const inner = document.getElementById('hero-inner');
+            const prevBtn = document.getElementById('mainSliderPrev');
+            const nextBtn = document.getElementById('mainSliderNext');
+            
+            if (!indicators || !inner) return;
+
+            // Bersihkan html sedia ada
+            indicators.innerHTML = '';
+            inner.innerHTML = '';
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            // Kiraan slider kini adalah: 1 (Slider Asal) + jumlah slider dari pangkalan data
+            let slideCount = 1 + sliderData.length;
+
+            // Tunjuk/Sembunyi anak panah jika slaid hanya 1 (Tiada keperluan untuk menekan next jika hanya ada 1 gambar)
+            if (slideCount <= 1) {
+                if(prevBtn) prevBtn.style.display = 'none';
+                if(nextBtn) nextBtn.style.display = 'none';
+                indicators.style.display = 'none';
+            } else {
+                if(prevBtn) prevBtn.style.display = 'flex';
+                if(nextBtn) nextBtn.style.display = 'flex';
+                indicators.style.display = 'flex';
+            }
+
+            // 1. Sentiasa paparkan Slider Asal (Default) sebagai Slide Pertama (Index 0)
+            indicators.innerHTML += '<button type="button" data-bs-target="#home" data-bs-slide-to="0" class="active"></button>';
+            inner.innerHTML += `
+                <div class="carousel-item active" style="background-image: url('img/news/hero.png'); background-color: var(--primary-blue);">
+                    <div class="container carousel-caption text-center">
+                        <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                              data-en="THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY" data-bm="GERBANG BAKAT, TEKNOLOGI & INDUSTRI" data-zh="人才、技术与工业网关">
+                            THE TALENT, TECHNOLOGY & INDUSTRY GATEWAY
+                        </span>
+                        <h1 class="display-4 fw-bold mb-3" 
+                            data-en="MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry" 
+                            data-bm="MCI: Menghubungkan Malaysia, ASEAN dan China melalui kecemerlangan pendidikan, inovasi dan industri"
+                            data-zh="MCI：通过卓越的教育、创新和工业连接马来西亚、东盟和中国">
+                            MCI: Connecting Malaysia, ASEAN China through education excellence, innovation and industry
+                        </h1>
+                        <h4 class="mb-5 text-light fw-medium" data-en="INNOVATE . CONNECT . INSPIRE" data-bm="INOVASI . HUBUNG . INSPIRASI" data-zh="创新 . 连接 . 启发">
+                            INNOVATE . CONNECT . INSPIRE
+                        </h4>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
+                            <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 2. Loop untuk letakkan slider tambahan dari database Firebase selepas slider pertama
+            sliderData.forEach((slide, idx) => {
+                const index = idx + 1; // Ditambah 1 kerana index 0 telah diambil oleh slider asal
+                const isActive = ''; // Slider tambahan tidak 'active' secara lalai
+                const badgeZh = slide.badge_zh || slide.badge_en;
+                const titleZh = slide.title_zh || slide.title_en;
+                const subZh = slide.sub_zh || slide.sub_en;
+
+                indicators.innerHTML += `<button type="button" data-bs-target="#home" data-bs-slide-to="${index}" class="${isActive}"></button>`;
+                
+                inner.innerHTML += `
+                    <div class="carousel-item ${isActive}" style="background-image: url('${slide.img}'); background-color: var(--primary-blue);">
+                        <div class="container carousel-caption text-center">
+                            <span class="badge bg-warning text-dark px-3 py-2 mb-4 rounded-pill fw-bold" style="letter-spacing: 2px;"
+                                  data-en="${slide.badge_en}" data-bm="${slide.badge_bm}" data-zh="${badgeZh}">
+                                ${slide.badge_en}
+                            </span>
+                            <h1 class="display-4 fw-bold mb-3" 
+                                data-en="${slide.title_en}" data-bm="${slide.title_bm}" data-zh="${titleZh}">
+                                ${slide.title_en}
+                            </h1>
+                            <h4 class="mb-5 text-light fw-medium" data-en="${slide.sub_en}" data-bm="${slide.sub_bm}" data-zh="${subZh}">
+                                ${slide.sub_en}
+                            </h4>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                <a href="#news" class="btn btn-mci btn-lg pulse-btn" data-en="Explore Platform" data-bm="Terokai Platform" data-zh="探索平台">Explore Platform</a>
+                                <a href="#ecosystem" class="btn btn-outline-light btn-lg" style="border-width: 2px; border-radius: 50px;" data-en="Join Ecosystem" data-bm="Sertai Ekosistem" data-zh="加入生态系统">Join Ecosystem</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Segar semula bahasa selepas render
+            window.setLanguage(currentLang);
+
+            // MEMULAKAN SEMULA (RE-INITIALIZE) BOOTSTRAP CAROUSEL
+            // Ini penting supaya bootstrap menyedari terdapat slide baharu yang dimasukkan dan mengaktifkan anak panah
+            const carouselElement = document.getElementById('home');
+            if (carouselElement && typeof bootstrap !== 'undefined') {
+                let bsCarousel = bootstrap.Carousel.getInstance(carouselElement);
+                if (bsCarousel) {
+                    bsCarousel.dispose(); // Padam memori slider lama
+                }
+                // Mulakan slider baru dengan DOM terkini
+                new bootstrap.Carousel(carouselElement, {
+                    interval: 10000,
+                    ride: 'carousel'
+                });
+            }
+        }
+        // ==========================================
+
+        // Render UI Function for Team
+        function renderTeam() {
+            const container = document.getElementById('team-container');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if (teamData.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center text-muted fst-italic">Tiada rekod pasukan ditemui. Sila tambah di Panel Admin.</div>';
+                return;
+            }
+
+            const tiers = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+            teamData.forEach(member => {
+                const t = member.tier || 1; 
+                if (!tiers[t]) tiers[t] = [];
+                tiers[t].push(member);
+            });
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+
+            Object.keys(tiers).sort().forEach(tierKey => {
+                const members = tiers[tierKey];
+                if (members.length === 0) return;
+
+                members.sort((a, b) => a.order - b.order);
+
+                let tierHtml = `<div class="row g-4 justify-content-center mb-4 w-100 tier-group" data-tier="${tierKey}">`;
+                
+                members.forEach(member => {
+                    const roleZh = member.role_zh || member.role_en;
+                    
+                    let colClass = "col-md-6 col-lg-3"; 
+                    if (tierKey == 1) {
+                        colClass = "col-md-6 col-lg-4";
+                    }
+
+                    tierHtml += `
+                        <div class="${colClass} reveal active">
+                            <div class="team-card">
+                                <div class="team-img-wrapper">
+                                    <img src="${member.img}" alt="${member.name}" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80'">
+                                </div>
+                                <div class="team-info">
+                                    <p class="team-role" data-en="${member.role_en}" data-bm="${member.role_bm}" data-zh="${roleZh}">${member.role_en}</p>
+                                    <h5 class="team-name">${member.name}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                tierHtml += `</div>`;
+                container.insertAdjacentHTML('beforeend', tierHtml);
+            });
+
+            window.setLanguage(currentLang);
+        }
+
+        // Render UI Function for Hubs
+        function renderHubs() {
+            const container = document.getElementById('hubs-container');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if (hubsData.length === 0) {
+                container.innerHTML = '<div class="col-12 text-center text-muted fst-italic">Tiada rekod Pusat Satelit ditemui. Sila tambah di Panel Admin.</div>';
+                return;
+            }
+
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+
+            hubsData.forEach((hub, index) => {
+                const sectorZh = hub.sector_zh || hub.sector_en;
+                const delayClass = `delay-${(index % 4) + 1}`;
+                const colClass = hubsData.length <= 4 ? "col-md-6 col-lg-3" : "col-md-6 col-lg-4 col-xl-3";
+
+                container.innerHTML += `
+                    <div class="${colClass} reveal active ${delayClass}">
+                        <div class="card hub-card p-4 text-center">
+                            <div class="hub-logo-wrapper">
+                                <img src="${hub.logo}" alt="${hub.name}" onerror="this.src='https://via.placeholder.com/150x80?text=Logo'">
+                            </div>
+                            <h5 class="fw-bold text-dark">${hub.name}</h5>
+                            <p class="small text-muted mb-0 fw-medium" data-en="${hub.sector_en}" data-bm="${hub.sector_bm}" data-zh="${sectorZh}">${hub.sector_en}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            window.setLanguage(currentLang);
+        }
+
+        // Render UI Admin Lists Function (List of Published Items)
+        function renderAdminLists() {
+            const newsListContainer = document.getElementById('adminNewsList');
+            if(newsListContainer) {
+                newsListContainer.innerHTML = '';
+                if(newsData.length === 0) {
+                    newsListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada berita dipaparkan.</div>';
+                } else {
+                    newsData.forEach(news => {
+                        newsListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="fw-bold text-dark">${news.title_bm}</span> <br>
+                                    <small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${news.date}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editNews(${news.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteNews(${news.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            const sliderListContainer = document.getElementById('adminSliderList');
+            if(sliderListContainer) {
+                sliderListContainer.innerHTML = '';
+                if(sliderData.length === 0) {
+                    sliderListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada slider dipaparkan.</div>';
+                } else {
+                    sliderData.forEach(slide => {
+                        sliderListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="fw-bold text-dark">${slide.title_bm}</span> <br>
+                                    <small class="text-muted"><i class="fas fa-tag me-1"></i> ${slide.badge_bm}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editSlide(${slide.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteSlide(${slide.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            const teamListContainer = document.getElementById('adminTeamList');
+            if(teamListContainer) {
+                teamListContainer.innerHTML = '';
+                if(teamData.length === 0) {
+                    teamListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada ahli pasukan dipaparkan.</div>';
+                } else {
+                    teamData.forEach(member => {
+                        teamListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="badge bg-warning text-dark me-1">Tier ${member.tier || 1}</span>
+                                    <span class="badge bg-secondary me-2">Susunan #${member.order}</span>
+                                    <span class="fw-bold text-dark">${member.name}</span> <br>
+                                    <small class="text-muted"><i class="fas fa-briefcase me-1"></i> ${member.role_bm}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editTeam(${member.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteTeam(${member.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            const hubsListContainer = document.getElementById('adminHubsList');
+            if(hubsListContainer) {
+                hubsListContainer.innerHTML = '';
+                if(hubsData.length === 0) {
+                    hubsListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada pusat satelit dipaparkan.</div>';
+                } else {
+                    hubsData.forEach(hub => {
+                        hubsListContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded">
+                                <div>
+                                    <span class="badge bg-secondary me-2">#${hub.order}</span>
+                                    <span class="fw-bold text-dark">${hub.name}</span> <br>
+                                    <small class="text-muted"><i class="fas fa-cogs me-1"></i> ${hub.sector_bm}</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editHub(${hub.id})" title="Kemaskini"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteHub(${hub.id})" title="Padam"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            }
+        }
+
+        let auth, db, customAppId;
+
+        try {
+            const firebaseConfig = {
+                apiKey: "AIzaSyC46TOR_r_JqZIwQw_iS-CC1cRE8KkXrtA",
+                authDomain: "mci-website-db.firebaseapp.com",
+                projectId: "mci-website-db",
+                storageBucket: "mci-website-db.firebasestorage.app",
+                messagingSenderId: "109539577559",
+                appId: "1:109539577559:web:69beb009a8e1524228ea92",
+                measurementId: "G-0BNQFKE0NL"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            customAppId = "mci-portal";
+
+            const initAuth = async () => {
+                try {
+                    if(!auth.currentUser) await signInAnonymously(auth);
+                } catch (error) { console.error("Auth init error:", error); }
+            };
+            initAuth();
+
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if (user) {
+                    // Fetch News
+                    const newsRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcinews');
+                    onSnapshot(newsRef, (snapshot) => {
+                        newsData = [];
+                        snapshot.forEach((doc) => { newsData.push(doc.data()); });
+                        newsData.sort((a, b) => b.id - a.id);
+                        if(currentNewsPage > Math.ceil(newsData.length / newsPerPage)) currentNewsPage = 1;
+                        renderNews();
+                        renderAdminLists();
+                        
+                        // Cek URL untuk pautan spesifik berita (Buka Automatik Modal)
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const newsIdParam = urlParams.get('news');
+                        if (newsIdParam && !window.hasAutoOpenedNews) {
+                            const targetNewsId = parseInt(newsIdParam);
+                            if (newsData.some(n => n.id === targetNewsId)) {
+                                window.showFullNews(targetNewsId);
+                                window.hasAutoOpenedNews = true;
+                            }
+                        }
+                    }, (error) => console.error("Error reading news from database:", error));
+
+                    // Fetch Slider
+                    const sliderRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcislider');
+                    onSnapshot(sliderRef, (snapshot) => {
+                        sliderData = [];
+                        snapshot.forEach((doc) => { sliderData.push(doc.data()); });
+                        sliderData.sort((a, b) => a.id - b.id);
+                        renderSlider(); 
+                        renderAdminLists();
+                    }, (error) => console.error("Error reading slider from database:", error));
+
+                    // Fetch Team
+                    const teamRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mciteam');
+                    onSnapshot(teamRef, (snapshot) => {
+                        teamData = [];
+                        snapshot.forEach((doc) => { teamData.push(doc.data()); });
+                        teamData.sort((a, b) => a.order - b.order); 
+                        renderTeam();
+                        renderAdminLists();
+                    }, (error) => console.error("Error reading team from database:", error));
+
+                    // Fetch Hubs
+                    const hubsRef = collection(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs');
+                    onSnapshot(hubsRef, (snapshot) => {
+                        hubsData = [];
+                        snapshot.forEach((doc) => { hubsData.push(doc.data()); });
+                        hubsData.sort((a, b) => a.order - b.order); 
+                        renderHubs();
+                        renderAdminLists();
+                        
+                        // Kemas kini nombor bilangan Pusat Satelit pada bahagian 'Stats' secara dinamik
+                        const hubsCounterEl = document.getElementById('hubs-counter');
+                        if(hubsCounterEl) {
+                            hubsCounterEl.setAttribute('data-target', hubsData.length);
+                            // Jika animasi nombor dah berjalan, terus paparkan nombor sebenar terkini
+                            if (hasCounted) {
+                                hubsCounterEl.innerText = hubsData.length;
+                            }
+                        }
+                    }, (error) => console.error("Error reading hubs from database:", error));
+
+                    // --- SISTEM KAUNTER PELAWAT FIREBASE (DIKEMAS KINI DENGAN GA SYNC) ---
+                    const statsDocRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcistats', 'visitors');
+                    const GA_BASE_VIEWS = 475; // Rekod asal dari Google Analytics
+                    
+                    const recordVisit = async () => {
+                        const now = new Date();
+                        const yyyy = now.getFullYear();
+                        const mm = String(now.getMonth() + 1).padStart(2, '0');
+                        const dd = String(now.getDate()).padStart(2, '0');
+                        const currentDate = `${yyyy}-${mm}-${dd}`; // Cth: "2026-04-23"
+
+                        // Semak sama ada pengguna sudah melawat hari ini
+                        if (!sessionStorage.getItem('mci_visit_' + currentDate)) {
+                            try {
+                                const docSnap = await getDoc(statsDocRef);
+                                if (docSnap.exists()) {
+                                    const data = docSnap.data();
+                                    
+                                    let currentTotal = data.totalCount || data.count || 0;
+                                    
+                                    // Selaraskan dengan data Google Analytics jika nilai DB masih rendah (contoh: rekod ujian)
+                                    if (currentTotal < GA_BASE_VIEWS) {
+                                        currentTotal = GA_BASE_VIEWS + currentTotal;
+                                    }
+                                    
+                                    let newTotal = currentTotal + 1;
+                                    let newToday = 1;
+                                    
+                                    // Jika hari masih sama, tambah pelawat harian
+                                    if (data.lastResetDate === currentDate) {
+                                        newToday = (data.todayCount || 0) + 1;
+                                    }
+                                    
+                                    await updateDoc(statsDocRef, { 
+                                        totalCount: newTotal,
+                                        todayCount: newToday,
+                                        lastResetDate: currentDate,
+                                        count: newTotal // Simpan sementara count lama untuk elak conflict
+                                    });
+                                } else {
+                                    // Jika dokumen pertama kali dicipta
+                                    await setDoc(statsDocRef, { 
+                                        totalCount: GA_BASE_VIEWS + 1, 
+                                        todayCount: 1,
+                                        lastResetDate: currentDate,
+                                        count: GA_BASE_VIEWS + 1
+                                    });
+                                }
+                                sessionStorage.setItem('mci_visit_' + currentDate, 'true');
+                            } catch (e) {
+                                console.log("Gagal merekod pelawat (Ralat Firebase). Paparan sahaja.", e);
+                            }
+                        }
+                    };
+                    recordVisit();
+
+                    // Fungsi untuk sentiasa baca (listen) jumlah pelawat terkini secara 'Live'
+                    onSnapshot(statsDocRef, (docSnap) => {
+                        const displayTotal = document.getElementById('visitorCountDisplay');
+                        const displayToday = document.getElementById('todayVisitorCountDisplay');
+                        
+                        const now = new Date();
+                        const yyyy = now.getFullYear();
+                        const mm = String(now.getMonth() + 1).padStart(2, '0');
+                        const dd = String(now.getDate()).padStart(2, '0');
+                        const currentDate = `${yyyy}-${mm}-${dd}`;
+
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            let displayCount = data.totalCount || data.count || 0;
+                            
+                            // Penyelarasan visual jika document tak sempat dikemaskini oleh pengunjung lain
+                            if (displayCount < GA_BASE_VIEWS) {
+                                displayCount = GA_BASE_VIEWS + displayCount;
+                            }
+                            
+                            displayTotal.innerText = displayCount.toLocaleString();
+                            
+                            // Hanya paparkan jumlah harian jika ia adalah untuk hari ini
+                            if (data.lastResetDate === currentDate) {
+                                displayToday.innerText = (data.todayCount || 1).toLocaleString();
+                            } else {
+                                // Jika ini adalah pelawat terawal pada hari baru, ia akan jadi kosong sebelum recordVisit() sempat dikemaskini
+                                displayToday.innerText = "0";
+                            }
+                        } else {
+                            displayTotal.innerText = GA_BASE_VIEWS.toLocaleString();
+                            displayToday.innerText = "0";
+                        }
+                    }, (error) => {
+                        console.error("Error fetching visitors:", error);
+                        document.getElementById('visitorCountDisplay').innerText = "N/A";
+                        document.getElementById('todayVisitorCountDisplay').innerText = "N/A";
+                    });
+
+                }
+            });
+
+            // ------------------------------------------
+            // Log Masuk Keselamatan (Security Login)
+            // ------------------------------------------
+            document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('adminEmail').value;
+                const password = document.getElementById('adminPassword').value;
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                    var adminModal = new bootstrap.Modal(document.getElementById('adminModal'));
+                    adminModal.show();
+                    this.reset();
+                } catch (error) {
+                    console.error("Login error:", error);
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let errorMsg = "Login Failed. Invalid Email or Password.";
+                    if(currentLang === 'bm') errorMsg = "Log Masuk Gagal. E-mel atau Kata Laluan tidak sah.";
+                    if(currentLang === 'zh') errorMsg = "登录失败。无效的电子邮件或密码。";
+                    alert(errorMsg);
+                }
+            });
+
+            function checkIsAdmin() {
+                if (!currentUser || currentUser.isAnonymous) {
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let errorMsg = "Unauthorized action. Please log in as Admin.";
+                    if(currentLang === 'bm') errorMsg = "Tindakan tidak dibenarkan. Sila log masuk sebagai Admin.";
+                    if(currentLang === 'zh') errorMsg = "未授权操作。请以管理员身份登录。";
+                    alert(errorMsg);
+                    return false;
+                }
+                return true;
+            }
+
+            // ------------------------------------------
+            // API Terjemahan Automatik (MyMemory Translation)
+            // ------------------------------------------
+            async function translateText(text, fromLang, toLang) {
+                if (!text || text.trim() === '') return '';
+                try {
+                    const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`);
+                    const data = await response.json();
+                    if (data && data.responseData && data.responseData.translatedText) {
+                        return data.responseData.translatedText;
+                    }
+                    return text;
+                } catch (error) {
+                    console.error("Translation API Error:", error);
+                    return text;
+                }
+            }
+
+            window.autoTranslateNews = async function() {
+                const titleBm = document.getElementById('newsTitleBm').value;
+                const contentBm = document.getElementById('newsContentBm').value;
+                const btn = document.getElementById('btnTransNews');
+
+                if (!titleBm && !contentBm) {
+                    alert("Sila masukkan Tajuk atau Kandungan dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    if (titleBm) {
+                        document.getElementById('newsTitleEn').value = await translateText(titleBm, 'ms', 'en');
+                        document.getElementById('newsTitleZh').value = await translateText(titleBm, 'ms', 'zh-CN');
+                    }
+                    if (contentBm) {
+                        document.getElementById('newsContentEn').value = await translateText(contentBm, 'ms', 'en');
+                        document.getElementById('newsContentZh').value = await translateText(contentBm, 'ms', 'zh-CN');
+                    }
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
+
+            window.autoTranslateSlider = async function() {
+                const badgeBm = document.getElementById('sliderBadgeBm').value;
+                const titleBm = document.getElementById('sliderTitleBm').value;
+                const subBm = document.getElementById('sliderSubBm').value;
+                const btn = document.getElementById('btnTransSlider');
+
+                if (!badgeBm && !titleBm && !subBm) {
+                    alert("Sila masukkan sekurang-kurangnya satu maklumat dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    if (badgeBm) {
+                        document.getElementById('sliderBadgeEn').value = await translateText(badgeBm, 'ms', 'en');
+                        document.getElementById('sliderBadgeZh').value = await translateText(badgeBm, 'ms', 'zh-CN');
+                    }
+                    if (titleBm) {
+                        document.getElementById('sliderTitleEn').value = await translateText(titleBm, 'ms', 'en');
+                        document.getElementById('sliderTitleZh').value = await translateText(titleBm, 'ms', 'zh-CN');
+                    }
+                    if (subBm) {
+                        document.getElementById('sliderSubEn').value = await translateText(subBm, 'ms', 'en');
+                        document.getElementById('sliderSubZh').value = await translateText(subBm, 'ms', 'zh-CN');
+                    }
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
+
+            window.autoTranslateTeam = async function() {
+                const roleBm = document.getElementById('teamRoleBm').value;
+                const btn = document.getElementById('btnTransTeam');
+
+                if (!roleBm) {
+                    alert("Sila masukkan Jawatan dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    document.getElementById('teamRoleEn').value = await translateText(roleBm, 'ms', 'en');
+                    document.getElementById('teamRoleZh').value = await translateText(roleBm, 'ms', 'zh-CN');
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
+
+            window.autoTranslateHub = async function() {
+                const sectorBm = document.getElementById('hubSectorBm').value;
+                const btn = document.getElementById('btnTransHub');
+
+                if (!sectorBm) {
+                    alert("Sila masukkan Bidang/Sektor dalam Bahasa Melayu dahulu.");
+                    return;
+                }
+
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Sedang Menterjemah...';
+                btn.disabled = true;
+
+                try {
+                    document.getElementById('hubSectorEn').value = await translateText(sectorBm, 'ms', 'en');
+                    document.getElementById('hubSectorZh').value = await translateText(sectorBm, 'ms', 'zh-CN');
+                } finally {
+                    btn.innerHTML = '<i class="fas fa-magic me-1"></i> Terjemah Ke EN & ZH';
+                    btn.disabled = false;
+                }
+            };
+
+            // ------------------------------------------
+            // Add Forms Logic
+            // ------------------------------------------
+            document.getElementById('adminNewsForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const defaultImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80";
+                const userImg = document.getElementById('newsImg').value.trim();
+                
+                const editId = document.getElementById('editNewsId').value;
+                const newsId = editId ? parseInt(editId) : Date.now(); 
+
+                const newNews = {
+                    id: newsId,
+                    title_en: document.getElementById('newsTitleEn').value,
+                    title_bm: document.getElementById('newsTitleBm').value,
+                    title_zh: document.getElementById('newsTitleZh').value,
+                    date: document.getElementById('newsDate').value,
+                    img: userImg !== "" ? userImg : defaultImg,
+                    content_en: document.getElementById('newsContentEn').value,
+                    content_bm: document.getElementById('newsContentBm').value,
+                    content_zh: document.getElementById('newsContentZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', newsId.toString());
+                    await setDoc(docRef, newNews);
+                    
+                    this.reset();
+                    document.getElementById('editNewsId').value = "";
+                    document.getElementById('btnSubmitNews').innerText = "Publish News";
+
+                    const currentLang = localStorage.getItem('mci_lang') || 'en';
+                    let successMsg = editId ? 'News successfully updated!' : 'News successfully published!';
+                    if (currentLang === 'bm') successMsg = editId ? 'Berita berjaya dikemaskini!' : 'Berita berjaya disiarkan!';
+                    if (currentLang === 'zh') successMsg = editId ? '新闻成功更新！' : '新闻成功发布！';
+                    alert(successMsg);
+                } catch (error) {
+                    console.error("Error saving news:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+            document.getElementById('adminSliderForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const editId = document.getElementById('editSlideId').value;
+                const slideId = editId ? parseInt(editId) : Date.now(); 
+
+                const newSlide = {
+                    id: slideId,
+                    img: document.getElementById('sliderImg').value.trim(),
+                    badge_en: document.getElementById('sliderBadgeEn').value,
+                    badge_bm: document.getElementById('sliderBadgeBm').value,
+                    badge_zh: document.getElementById('sliderBadgeZh').value,
+                    title_en: document.getElementById('sliderTitleEn').value,
+                    title_bm: document.getElementById('sliderTitleBm').value,
+                    title_zh: document.getElementById('sliderTitleZh').value,
+                    sub_en: document.getElementById('sliderSubEn').value,
+                    sub_bm: document.getElementById('sliderSubBm').value,
+                    sub_zh: document.getElementById('sliderSubZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', slideId.toString());
+                    await setDoc(docRef, newSlide);
+                    
+                    this.reset();
+                    document.getElementById('editSlideId').value = "";
+                    document.getElementById('btnSubmitSlider').innerText = "Publish New Slide";
+
+                    alert("Slaid berjaya disiarkan!");
+                } catch (error) {
+                    console.error("Error saving slide:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+            document.getElementById('adminTeamForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const editId = document.getElementById('editTeamId').value;
+                const teamId = editId ? parseInt(editId) : Date.now(); 
+
+                const newMember = {
+                    id: teamId,
+                    name: document.getElementById('teamName').value,
+                    img: document.getElementById('teamImg').value.trim(),
+                    tier: parseInt(document.getElementById('teamTier').value),
+                    order: parseInt(document.getElementById('teamOrder').value),
+                    role_en: document.getElementById('teamRoleEn').value,
+                    role_bm: document.getElementById('teamRoleBm').value,
+                    role_zh: document.getElementById('teamRoleZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', teamId.toString());
+                    await setDoc(docRef, newMember);
+                    
+                    this.reset();
+                    document.getElementById('editTeamId').value = "";
+                    document.getElementById('btnSubmitTeam').innerText = "Tambah Pasukan";
+
+                    alert("Ahli pasukan berjaya disimpan!");
+                } catch (error) {
+                    console.error("Error saving team member:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+            document.getElementById('adminHubsForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (!checkIsAdmin()) return;
+                
+                const editId = document.getElementById('editHubId').value;
+                const hubId = editId ? parseInt(editId) : Date.now(); 
+
+                const newHub = {
+                    id: hubId,
+                    name: document.getElementById('hubName').value,
+                    logo: document.getElementById('hubLogo').value.trim(),
+                    order: parseInt(document.getElementById('hubOrder').value),
+                    sector_en: document.getElementById('hubSectorEn').value,
+                    sector_bm: document.getElementById('hubSectorBm').value,
+                    sector_zh: document.getElementById('hubSectorZh').value
+                };
+
+                try {
+                    const docRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs', hubId.toString());
+                    await setDoc(docRef, newHub);
+                    
+                    this.reset();
+                    document.getElementById('editHubId').value = "";
+                    document.getElementById('btnSubmitHub').innerText = "Tambah Pusat Satelit";
+
+                    alert("Pusat Satelit berjaya disimpan!");
+                } catch (error) {
+                    console.error("Error saving hub:", error);
+                    alert("Ralat. Sila pastikan Rules di Firebase membenarkan akses 'write'.");
+                }
+            });
+
+
+            // ------------------------------------------
+            // Edit & Delete Individual Items Functions
+            // ------------------------------------------
+            window.editNews = function(id) {
+                const news = newsData.find(n => n.id === id);
+                if(!news) return;
+                
+                document.getElementById('editNewsId').value = news.id;
+                document.getElementById('newsTitleEn').value = news.title_en;
+                document.getElementById('newsTitleBm').value = news.title_bm;
+                document.getElementById('newsTitleZh').value = news.title_zh;
+                document.getElementById('newsDate').value = news.date;
+                document.getElementById('newsImg').value = news.img.includes('unsplash') ? '' : news.img; 
+                document.getElementById('newsContentEn').value = news.content_en;
+                document.getElementById('newsContentBm').value = news.content_bm;
+                document.getElementById('newsContentZh').value = news.content_zh;
+                
+                document.getElementById('btnSubmitNews').innerText = "Update News";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteNews = async function(id) {
+                if (!checkIsAdmin()) return;
+                if(confirm("Padam berita ini secara kekal?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
+            window.editSlide = function(id) {
+                const slide = sliderData.find(s => s.id === id);
+                if(!slide) return;
+
+                document.getElementById('editSlideId').value = slide.id;
+                document.getElementById('sliderImg').value = slide.img;
+                document.getElementById('sliderBadgeEn').value = slide.badge_en;
+                document.getElementById('sliderBadgeBm').value = slide.badge_bm;
+                document.getElementById('sliderBadgeZh').value = slide.badge_zh;
+                document.getElementById('sliderTitleEn').value = slide.title_en;
+                document.getElementById('sliderTitleBm').value = slide.title_bm;
+                document.getElementById('sliderTitleZh').value = slide.title_zh;
+                document.getElementById('sliderSubEn').value = slide.sub_en;
+                document.getElementById('sliderSubBm').value = slide.sub_bm;
+                document.getElementById('sliderSubZh').value = slide.sub_zh;
+
+                document.getElementById('btnSubmitSlider').innerText = "Update Slide";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteSlide = async function(id) {
+                if (!checkIsAdmin()) return;
+                if(confirm("Padam slider ini secara kekal?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
+            window.editTeam = function(id) {
+                const member = teamData.find(t => t.id === id);
+                if(!member) return;
+
+                document.getElementById('editTeamId').value = member.id;
+                document.getElementById('teamName').value = member.name;
+                document.getElementById('teamImg').value = member.img;
+                document.getElementById('teamTier').value = member.tier || 1;
+                document.getElementById('teamOrder').value = member.order;
+                document.getElementById('teamRoleEn').value = member.role_en;
+                document.getElementById('teamRoleBm').value = member.role_bm;
+                document.getElementById('teamRoleZh').value = member.role_zh;
+
+                document.getElementById('btnSubmitTeam').innerText = "Kemaskini Pasukan";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteTeam = async function(id) {
+                if (!checkIsAdmin()) return;
+                if(confirm("Padam ahli pasukan ini?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
+            window.editHub = function(id) {
+                const hub = hubsData.find(h => h.id === id);
+                if(!hub) return;
+
+                document.getElementById('editHubId').value = hub.id;
+                document.getElementById('hubName').value = hub.name;
+                document.getElementById('hubLogo').value = hub.logo;
+                document.getElementById('hubOrder').value = hub.order;
+                document.getElementById('hubSectorEn').value = hub.sector_en;
+                document.getElementById('hubSectorBm').value = hub.sector_bm;
+                document.getElementById('hubSectorZh').value = hub.sector_zh;
+
+                document.getElementById('btnSubmitHub').innerText = "Kemaskini Pusat Satelit";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            window.deleteHub = async function(id) {
+                if (!checkIsAdmin()) return;
+                if(confirm("Padam pusat satelit/hab ini?")) {
+                    try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs', id.toString())); } 
+                    catch(e) { console.error("Error deleting:", e); }
+                }
+            };
+
+            // ------------------------------------------
+            // Delete All Functions
+            // ------------------------------------------
+            window.clearAllNews = async function() {
+                if (!checkIsAdmin()) return;
+                if(confirm('Anda pasti mahu memadam semua berita?')) {
+                    for(const item of newsData) {
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
+                    }
+                }
+            };
+
+            window.clearAllSlides = async function() {
+                if (!checkIsAdmin()) return;
+                if(confirm('Anda pasti mahu memadam semua slaid?')) {
+                    for(const item of sliderData) {
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
+                    }
+                }
+            };
+
+            window.clearAllTeam = async function() {
+                if (!checkIsAdmin()) return;
+                if(confirm('Anda pasti mahu memadam semua rekod pasukan?')) {
+                    for(const item of teamData) {
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mciteam', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
+                    }
+                }
+            };
+
+            window.clearAllHubs = async function() {
+                if (!checkIsAdmin()) return;
+                if(confirm('Anda pasti mahu memadam semua rekod pusat satelit?')) {
+                    for(const item of hubsData) {
+                        try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcihubs', item.id.toString())); } 
+                        catch(e) { console.error("Error deleting:", e); }
+                    }
+                }
+            };
+
+        } catch (err) {
+            console.error("Database connection error:", err);
+        }
+
+        // Initialize display languages
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('mci_lang') || 'en';
+            window.setLanguage(savedLang);
+            
+            // Bersihkan URL apabila Modal ditutup supaya tidak terbuka secara rawak sekiranya 'refresh'
+            const newsDetailModalEl = document.getElementById('newsDetailModal');
+            if(newsDetailModalEl) {
+                newsDetailModalEl.addEventListener('hidden.bs.modal', function () {
+                    const url = new URL(window.location);
+                    url.searchParams.delete('news');
+                    window.history.replaceState({}, '', url);
+                });
+            }
+        });
+    </script>
+    
+    </body>
+</html>
