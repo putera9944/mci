@@ -901,13 +901,20 @@
                                         <input type="text" class="form-control" id="newsTitleZh" required>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Date <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="newsDate" required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Image URLs <small class="text-muted fw-normal">(Pisahkan dengan koma ',' jika lebih dari satu)</small></label>
-                                        <textarea class="form-control" id="newsImg" rows="2" placeholder="https://contoh.com/gambar1.jpg, https://contoh.com/gambar2.jpg"></textarea>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Status Berita <span class="text-danger">*</span></label>
+                                        <select class="form-select border-info" id="newsStatus" required>
+                                            <option value="published">Diterbitkan (Publish)</option>
+                                            <option value="draft">Draf (Sembunyi)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Image URLs <small class="text-muted fw-normal">(Pisahkan dengan koma ',')</small></label>
+                                        <textarea class="form-control" id="newsImg" rows="1" placeholder="https://contoh.com/gambar1.jpg"></textarea>
                                     </div>
 
                                     <div class="col-md-4">
@@ -1208,6 +1215,16 @@
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Masa / Tempoh <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="eventTime" required placeholder="Contoh: 09:00 AM - 05:00 PM">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Status Acara <span class="text-danger">*</span></label>
+                                        <select class="form-select border-info" id="eventStatus" required>
+                                            <option value="published">Diterbitkan (Publish)</option>
+                                            <option value="draft">Draf (Sembunyi)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- Ruang kosong untuk seimbangkan grid -->
                                     </div>
 
                                     <div class="col-md-4">
@@ -1613,15 +1630,17 @@
             
             container.innerHTML = ''; paginationContainer.innerHTML = '';
             
-            if (newsData.length === 0) { emptyMessage.style.display = 'block'; } 
+            const activeNews = newsData.filter(n => n.status !== 'draft');
+
+            if (activeNews.length === 0) { emptyMessage.style.display = 'block'; } 
             else {
                 emptyMessage.style.display = 'none';
-                const totalPages = Math.ceil(newsData.length / newsPerPage);
+                const totalPages = Math.ceil(activeNews.length / newsPerPage);
                 if (currentNewsPage > totalPages) currentNewsPage = totalPages;
                 if (currentNewsPage < 1) currentNewsPage = 1;
 
                 const startIndex = (currentNewsPage - 1) * newsPerPage;
-                const currentNews = newsData.slice(startIndex, startIndex + newsPerPage);
+                const currentNews = activeNews.slice(startIndex, startIndex + newsPerPage);
 
                 currentNews.forEach((news) => {
                     const titleZh = news.title_zh || news.title_en;
@@ -1660,13 +1679,15 @@
             const emptyMessage = document.getElementById('empty-events-message');
             if(!container) return; container.innerHTML = '';
             
-            if (eventsData.length === 0) { 
+            const activeEvents = eventsData.filter(e => e.status !== 'draft');
+
+            if (activeEvents.length === 0) { 
                 emptyMessage.style.display = 'block'; 
             } else {
                 emptyMessage.style.display = 'none';
                 const currentLang = localStorage.getItem('mci_lang') || 'en';
 
-                eventsData.forEach((ev) => {
+                activeEvents.forEach((ev) => {
                     const titleZh = ev.title_zh || ev.title_en;
                     const venueZh = ev.venue_zh || ev.venue_en;
                     const descZh = ev.desc_zh || ev.desc_en;
@@ -1817,7 +1838,13 @@
                 newsListContainer.innerHTML = '';
                 if(newsData.length === 0) newsListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada berita dipaparkan.</div>';
                 else newsData.forEach(news => {
-                    newsListContainer.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded"><div><span class="fw-bold text-dark">${news.title_bm}</span> <br><small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${news.date}</small></div><div class="btn-group"><button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editNews(${news.id})"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteNews(${news.id})"><i class="fas fa-trash"></i></button></div></div>`;
+                    const isDraft = news.status === 'draft';
+                    const statusBadge = isDraft ? '<span class="badge bg-warning text-dark ms-2">Draf</span>' : '<span class="badge bg-success ms-2">Terbit</span>';
+                    const toggleIcon = isDraft ? 'fa-eye' : 'fa-eye-slash';
+                    const toggleColor = isDraft ? 'btn-outline-success' : 'btn-outline-secondary';
+                    const toggleTitle = isDraft ? 'Terbitkan' : 'Simpan sbg Draf';
+                    
+                    newsListContainer.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded"><div><span class="fw-bold text-dark">${news.title_bm}</span> ${statusBadge}<br><small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${news.date}</small></div><div class="btn-group"><button type="button" class="btn btn-sm ${toggleColor}" onclick="window.toggleNewsStatus(${news.id})" title="${toggleTitle}"><i class="fas ${toggleIcon}"></i></button><button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editNews(${news.id})" title="Kemaskini"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteNews(${news.id})" title="Padam"><i class="fas fa-trash"></i></button></div></div>`;
                 });
             }
 
@@ -1854,7 +1881,13 @@
                 eventsListContainer.innerHTML = '';
                 if(eventsData.length === 0) eventsListContainer.innerHTML = '<div class="text-muted small p-3 text-center">Tiada acara dipaparkan.</div>';
                 else eventsData.forEach(ev => {
-                    eventsListContainer.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded"><div><span class="fw-bold text-dark">${ev.title_bm}</span> <br><small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${ev.date} | <i class="far fa-clock me-1"></i> ${ev.time}</small></div><div class="btn-group"><button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editEvent(${ev.id})"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteEvent(${ev.id})"><i class="fas fa-trash"></i></button></div></div>`;
+                    const isDraft = ev.status === 'draft';
+                    const statusBadge = isDraft ? '<span class="badge bg-warning text-dark ms-2">Draf</span>' : '<span class="badge bg-success ms-2">Terbit</span>';
+                    const toggleIcon = isDraft ? 'fa-eye' : 'fa-eye-slash';
+                    const toggleColor = isDraft ? 'btn-outline-success' : 'btn-outline-secondary';
+                    const toggleTitle = isDraft ? 'Terbitkan' : 'Simpan sbg Draf';
+
+                    eventsListContainer.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded"><div><span class="fw-bold text-dark">${ev.title_bm}</span> ${statusBadge}<br><small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${ev.date} | <i class="far fa-clock me-1"></i> ${ev.time}</small></div><div class="btn-group"><button type="button" class="btn btn-sm ${toggleColor}" onclick="window.toggleEventStatus(${ev.id})" title="${toggleTitle}"><i class="fas ${toggleIcon}"></i></button><button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editEvent(${ev.id})" title="Kemaskini"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteEvent(${ev.id})" title="Padam"><i class="fas fa-trash"></i></button></div></div>`;
                 });
             }
         }
@@ -2299,12 +2332,14 @@
                 const newNews = {
                     id: newsId, title_en: document.getElementById('newsTitleEn').value, title_bm: document.getElementById('newsTitleBm').value, title_zh: document.getElementById('newsTitleZh').value,
                     date: document.getElementById('newsDate').value, img: userImg !== "" ? userImg : "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80",
-                    content_en: document.getElementById('newsContentEn').value, content_bm: document.getElementById('newsContentBm').value, content_zh: document.getElementById('newsContentZh').value
+                    content_en: document.getElementById('newsContentEn').value, content_bm: document.getElementById('newsContentBm').value, content_zh: document.getElementById('newsContentZh').value,
+                    status: document.getElementById('newsStatus').value
                 };
 
                 try {
                     await setDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', newsId.toString()), newNews);
                     this.reset(); document.getElementById('editNewsId').value = ""; document.getElementById('btnSubmitNews').innerText = "Publish News";
+                    document.getElementById('newsStatus').value = "published";
                     alert(editId ? 'Berita berjaya dikemaskini!' : 'Berita berjaya disiarkan!');
                 } catch (error) { alert("Ralat. Sila pastikan Rules membenarkan akses."); }
             });
@@ -2393,6 +2428,7 @@
                     year: eventYear,
                     date: displayDate,
                     time: document.getElementById('eventTime').value,
+                    status: document.getElementById('eventStatus').value,
                     title_en: document.getElementById('eventTitleEn').value, 
                     title_bm: document.getElementById('eventTitleBm').value, 
                     title_zh: document.getElementById('eventTitleZh').value,
@@ -2410,6 +2446,7 @@
                     document.querySelector('input[name="eventTypeDate"][value="single"]').checked = true;
                     document.querySelector('input[name="eventTypeDate"]:checked').dispatchEvent(new Event('change'));
                     document.getElementById('editEventId').value = ""; document.getElementById('btnSubmitEvent').innerText = "Tambah Acara";
+                    document.getElementById('eventStatus').value = "published";
                     alert(editId ? "Acara berjaya dikemaskini!" : "Acara berjaya ditambah!");
                 } catch (error) { alert("Ralat."); }
             });
@@ -2417,9 +2454,18 @@
             window.editNews = function(id) {
                 const news = newsData.find(n => n.id === id); if(!news) return;
                 document.getElementById('editNewsId').value = news.id; document.getElementById('newsTitleEn').value = news.title_en; document.getElementById('newsTitleBm').value = news.title_bm; document.getElementById('newsTitleZh').value = news.title_zh; document.getElementById('newsDate').value = news.date; document.getElementById('newsImg').value = news.img.includes('unsplash') ? '' : news.img; document.getElementById('newsContentEn').value = news.content_en; document.getElementById('newsContentBm').value = news.content_bm; document.getElementById('newsContentZh').value = news.content_zh;
+                document.getElementById('newsStatus').value = news.status || 'published';
                 document.getElementById('btnSubmitNews').innerText = "Update News"; window.scrollTo({ top: 0, behavior: 'smooth' });
             };
             window.deleteNews = async function(id) { if (!checkIsAdmin()) return; if(confirm("Padam berita ini?")) { try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', id.toString())); } catch(e) {} } };
+
+            window.toggleNewsStatus = async function(id) {
+                if (!checkIsAdmin()) return;
+                const news = newsData.find(n => n.id === id); if(!news) return;
+                const newStatus = news.status === 'draft' ? 'published' : 'draft';
+                try { await updateDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', id.toString()), { status: newStatus }); } 
+                catch(e) { alert("Ralat menukar status."); }
+            };
 
             window.editSlide = function(id) {
                 const slide = sliderData.find(s => s.id === id); if(!slide) return;
@@ -2458,6 +2504,7 @@
                 document.getElementById('eventYear').value = ev.year || '';
                 
                 document.getElementById('eventTime').value = ev.time || '';
+                document.getElementById('eventStatus').value = ev.status || 'published';
                 document.getElementById('eventTitleEn').value = ev.title_en || ''; 
                 document.getElementById('eventTitleBm').value = ev.title_bm || ''; 
                 document.getElementById('eventTitleZh').value = ev.title_zh || '';
@@ -2471,6 +2518,14 @@
                 document.getElementById('btnSubmitEvent').innerText = "Kemaskini Acara"; window.scrollTo({ top: 0, behavior: 'smooth' });
             };
             window.deleteEvent = async function(id) { if (!checkIsAdmin()) return; if(confirm("Padam acara ini?")) { try { await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcievents', id.toString())); } catch(e) {} } };
+
+            window.toggleEventStatus = async function(id) {
+                if (!checkIsAdmin()) return;
+                const ev = eventsData.find(e => e.id === id); if(!ev) return;
+                const newStatus = ev.status === 'draft' ? 'published' : 'draft';
+                try { await updateDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcievents', id.toString()), { status: newStatus }); } 
+                catch(e) { alert("Ralat menukar status."); }
+            };
 
             window.clearAllNews = async function() { if (!checkIsAdmin()) return; if(confirm('Padam semua?')) { for(const item of newsData) await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcinews', item.id.toString())); } };
             window.clearAllSlides = async function() { if (!checkIsAdmin()) return; if(confirm('Padam semua?')) { for(const item of sliderData) await deleteDoc(doc(db, 'artifacts', customAppId, 'public', 'data', 'mcislider', item.id.toString())); } };
