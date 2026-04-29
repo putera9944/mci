@@ -1213,8 +1213,8 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="form-label fw-bold">Masa / Tempoh <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="eventTime" required placeholder="Contoh: 09:00 AM - 05:00 PM">
+                                        <label class="form-label fw-bold">Masa / Tempoh <span class="text-muted fw-normal">(Pilihan)</span></label>
+                                        <input type="text" class="form-control" id="eventTime" placeholder="Contoh: 09:00 AM - 05:00 PM">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Status Acara <span class="text-danger">*</span></label>
@@ -1698,6 +1698,8 @@
                     if(ev.link) {
                         linkBtn = `<a href="${ev.link}" target="_blank" class="btn btn-mci w-100 mt-4 rounded-pill" data-en="Register Now" data-bm="Daftar Sekarang" data-zh="立即注册">Daftar Sekarang</a>`;
                     }
+                    
+                    let timeHtml = ev.time ? `<span><i class="far fa-clock me-1"></i> ${ev.time}</span>` : '';
 
                     container.insertAdjacentHTML('beforeend', `
                         <div class="col-md-6 col-lg-4 reveal active">
@@ -1708,7 +1710,7 @@
                                 <div class="card-body p-4 d-flex flex-column bg-white">
                                     <div class="d-flex text-danger small fw-bold mb-3 flex-wrap gap-3">
                                         <span><i class="far fa-calendar-alt me-1"></i> ${ev.date}</span>
-                                        <span><i class="far fa-clock me-1"></i> ${ev.time}</span>
+                                        ${timeHtml}
                                     </div>
                                     <h5 class="card-title fw-bold mb-3" style="color: var(--primary-blue);" data-en="${ev.title_en}" data-bm="${ev.title_bm}" data-zh="${titleZh}">${ev.title_en}</h5>
                                     
@@ -1886,8 +1888,10 @@
                     const toggleIcon = isDraft ? 'fa-eye' : 'fa-eye-slash';
                     const toggleColor = isDraft ? 'btn-outline-success' : 'btn-outline-secondary';
                     const toggleTitle = isDraft ? 'Terbitkan' : 'Simpan sbg Draf';
+                    
+                    const timeText = ev.time ? ` | <i class="far fa-clock me-1"></i> ${ev.time}` : '';
 
-                    eventsListContainer.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded"><div><span class="fw-bold text-dark">${ev.title_bm}</span> ${statusBadge}<br><small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${ev.date} | <i class="far fa-clock me-1"></i> ${ev.time}</small></div><div class="btn-group"><button type="button" class="btn btn-sm ${toggleColor}" onclick="window.toggleEventStatus(${ev.id})" title="${toggleTitle}"><i class="fas ${toggleIcon}"></i></button><button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editEvent(${ev.id})" title="Kemaskini"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteEvent(${ev.id})" title="Padam"><i class="fas fa-trash"></i></button></div></div>`;
+                    eventsListContainer.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center bg-light mb-1 border rounded"><div><span class="fw-bold text-dark">${ev.title_bm}</span> ${statusBadge}<br><small class="text-muted"><i class="far fa-calendar-alt me-1"></i> ${ev.date}${timeText}</small></div><div class="btn-group"><button type="button" class="btn btn-sm ${toggleColor}" onclick="window.toggleEventStatus(${ev.id})" title="${toggleTitle}"><i class="fas ${toggleIcon}"></i></button><button type="button" class="btn btn-sm btn-outline-primary" onclick="window.editEvent(${ev.id})" title="Kemaskini"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-sm btn-outline-danger" onclick="window.deleteEvent(${ev.id})" title="Padam"><i class="fas fa-trash"></i></button></div></div>`;
                 });
             }
         }
