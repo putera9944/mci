@@ -787,6 +787,7 @@
                         <button class="btn btn-outline-primary rounded-circle me-1" onclick="shareNews('facebook')" title="Kongsi ke Facebook"><i class="fab fa-facebook-f"></i></button>
                         <button class="btn btn-outline-success rounded-circle me-1" onclick="shareNews('whatsapp')" title="Kongsi ke WhatsApp"><i class="fab fa-whatsapp"></i></button>
                         <button class="btn btn-outline-dark rounded-circle me-1" onclick="shareNews('twitter')" title="Kongsi ke X (Twitter)"><i class="fab fa-x-twitter"></i></button>
+                        <button class="btn btn-outline-danger rounded-circle me-1" onclick="shareNews('ig')" title="Kongsi ke Instagram"><i class="fab fa-instagram"></i></button>
                         <button class="btn btn-outline-secondary rounded-circle" id="btnCopyLink" onclick="shareNews('copy')" title="Salin Pautan (Copy Link)"><i class="fas fa-link"></i></button>
                     </div>
                     <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal" data-en="Close" data-bm="Tutup" data-zh="关闭">Close</button>
@@ -816,7 +817,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-light">
+                <div class="modal-footer bg-light d-flex justify-content-between align-items-center">
+                    <div class="share-buttons">
+                        <span class="text-muted small fw-bold me-2" data-en="Share:" data-bm="Kongsi:" data-zh="分享:">Kongsi:</span>
+                        <button class="btn btn-outline-primary rounded-circle me-1" onclick="shareEvent('facebook')" title="Kongsi ke Facebook"><i class="fab fa-facebook-f"></i></button>
+                        <button class="btn btn-outline-success rounded-circle me-1" onclick="shareEvent('whatsapp')" title="Kongsi ke WhatsApp"><i class="fab fa-whatsapp"></i></button>
+                        <button class="btn btn-outline-dark rounded-circle me-1" onclick="shareEvent('twitter')" title="Kongsi ke X (Twitter)"><i class="fab fa-x-twitter"></i></button>
+                        <button class="btn btn-outline-danger rounded-circle me-1" onclick="shareEvent('ig')" title="Kongsi ke Instagram"><i class="fab fa-instagram"></i></button>
+                        <button class="btn btn-outline-secondary rounded-circle" id="btnCopyEventLink" onclick="shareEvent('copy')" title="Salin Pautan (Copy Link)"><i class="fas fa-link"></i></button>
+                    </div>
                     <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal" data-en="Close" data-bm="Tutup" data-zh="关闭">Close</button>
                 </div>
             </div>
@@ -1557,6 +1566,8 @@
         let currentUser = null;
         window.currentViewingNews = null;
         window.hasAutoOpenedNews = false; 
+        window.currentViewingEvent = null;
+        window.hasAutoOpenedEvent = false;
         
         let currentNewsPage = 1;
         const newsPerPage = 3;
@@ -1636,6 +1647,17 @@
                 case 'twitter':
                     shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}&url=${encodeURIComponent(newsSpecificUrl)}`;
                     window.open(shareLink, '_blank', 'width=600,height=400'); break;
+                case 'ig':
+                    if (navigator.share) {
+                        navigator.share({ title: textToShare, text: textToShare, url: newsSpecificUrl }).catch(console.error);
+                    } else {
+                        const tempInp = document.createElement('input');
+                        tempInp.value = `${textToShare} ${newsSpecificUrl}`;
+                        document.body.appendChild(tempInp);
+                        tempInp.select(); document.execCommand('copy'); document.body.removeChild(tempInp);
+                        alert('Pautan disalin! Anda boleh meletakkannya di Instagram.');
+                    }
+                    break;
                 case 'copy':
                     const tempInput = document.createElement('input');
                     tempInput.value = `${textToShare} ${newsSpecificUrl}`;
@@ -1654,6 +1676,8 @@
         window.showFullEvent = function(id) {
             const ev = eventsData.find(e => e.id === id);
             if(!ev) return;
+            
+            window.currentViewingEvent = ev;
             
             const currentLang = localStorage.getItem('mci_lang') || 'en';
             let title = ev.title_en, venue = ev.venue_en, desc = ev.desc_en;
@@ -1690,6 +1714,55 @@
             var eventModal = new bootstrap.Modal(document.getElementById('eventDetailModal'));
             eventModal.show();
             window.setLanguage(currentLang);
+        };
+
+        window.shareEvent = function(platform) {
+            if(!window.currentViewingEvent) return;
+            const ev = window.currentViewingEvent;
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            let title = ev.title_en;
+            if (currentLang === 'bm') title = ev.title_bm;
+            if (currentLang === 'zh') title = ev.title_zh || ev.title_en;
+
+            const baseUrl = window.location.href.split('#')[0].split('?')[0]; 
+            const eventSpecificUrl = `${baseUrl}?event=${ev.id}`;
+            const textToShare = `${title} - Acara Malaysia China Institute (MCI)`;
+            let shareLink = '';
+
+            switch(platform) {
+                case 'facebook':
+                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(eventSpecificUrl)}&quote=${encodeURIComponent(textToShare)}`;
+                    window.open(shareLink, '_blank', 'width=600,height=400'); break;
+                case 'whatsapp':
+                    shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToShare + " | " + eventSpecificUrl)}`;
+                    window.open(shareLink, '_blank'); break;
+                case 'twitter':
+                    shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(textToShare)}&url=${encodeURIComponent(eventSpecificUrl)}`;
+                    window.open(shareLink, '_blank', 'width=600,height=400'); break;
+                case 'ig':
+                    if (navigator.share) {
+                        navigator.share({ title: textToShare, text: textToShare, url: eventSpecificUrl }).catch(console.error);
+                    } else {
+                        const tempInp = document.createElement('input');
+                        tempInp.value = `${textToShare} ${eventSpecificUrl}`;
+                        document.body.appendChild(tempInp);
+                        tempInp.select(); document.execCommand('copy'); document.body.removeChild(tempInp);
+                        alert('Pautan disalin! Anda boleh meletakkannya di Instagram.');
+                    }
+                    break;
+                case 'copy':
+                    const tempInput = document.createElement('input');
+                    tempInput.value = `${textToShare} ${eventSpecificUrl}`;
+                    document.body.appendChild(tempInput);
+                    tempInput.select(); document.execCommand('copy'); document.body.removeChild(tempInput);
+                    const copyBtn = document.getElementById('btnCopyEventLink');
+                    if(copyBtn) {
+                        const originalHtml = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check text-success"></i>';
+                        setTimeout(() => { copyBtn.innerHTML = originalHtml; }, 2000);
+                    }
+                    break;
+            }
         };
 
         function renderNews() {
@@ -2127,6 +2200,13 @@
                             return getSortDate(a) - getSortDate(b);
                         }); 
                         renderEvents(); renderAdminLists();
+                        
+                        // Fungsi auto-buka Acara apabila menggunakan URL dengan '?event=ID'
+                        const eventIdParam = new URLSearchParams(window.location.search).get('event');
+                        if (eventIdParam && !window.hasAutoOpenedEvent) {
+                            const target = parseInt(eventIdParam);
+                            if (eventsData.some(e => e.id === target)) { window.showFullEvent(target); window.hasAutoOpenedEvent = true; }
+                        }
                     });
 
                     const statsDocRef = doc(db, 'artifacts', customAppId, 'public', 'data', 'mcistats', 'visitors');
@@ -2614,8 +2694,12 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             window.setLanguage(localStorage.getItem('mci_lang') || 'en');
-            const mod = document.getElementById('newsDetailModal');
-            if(mod) { mod.addEventListener('hidden.bs.modal', function () { const url = new URL(window.location); url.searchParams.delete('news'); window.history.replaceState({}, '', url); }); }
+            
+            const newsMod = document.getElementById('newsDetailModal');
+            if(newsMod) { newsMod.addEventListener('hidden.bs.modal', function () { const url = new URL(window.location); url.searchParams.delete('news'); window.history.replaceState({}, '', url); }); }
+            
+            const eventMod = document.getElementById('eventDetailModal');
+            if(eventMod) { eventMod.addEventListener('hidden.bs.modal', function () { const url = new URL(window.location); url.searchParams.delete('event'); window.history.replaceState({}, '', url); }); }
             
             document.querySelectorAll('input[name="eventTypeDate"]').forEach(radio => {
                 radio.addEventListener('change', function() {
