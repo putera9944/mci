@@ -795,6 +795,34 @@
         </div>
     </div>
 
+    <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="eventDetailTitle" style="color: var(--primary-blue);"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img id="eventDetailImg" src="" class="w-100" style="max-height: 450px; object-fit: cover;">
+                    <div class="p-4 p-md-5">
+                        <div class="d-flex flex-wrap gap-3 mb-4 text-danger fw-bold small">
+                            <span><i class="far fa-calendar-alt me-1"></i> <span id="eventDetailDate"></span></span>
+                            <span id="eventDetailTimeWrap"><i class="far fa-clock me-1"></i> <span id="eventDetailTime"></span></span>
+                        </div>
+                        <p class="text-muted small fw-bold mb-3" id="eventDetailVenueWrap"><i class="fas fa-map-marker-alt text-secondary me-2"></i> <span id="eventDetailVenue"></span></p>
+                        <p id="eventDetailDesc" class="text-dark" style="line-height: 1.8; font-size: 1.05rem;"></p>
+                        <div id="eventDetailLinkWrap" class="mt-4 pt-3 border-top" style="display: none;">
+                            <a href="#" target="_blank" id="eventDetailLink" class="btn btn-mci rounded-pill px-4 py-2" data-en="Register Now" data-bm="Daftar Sekarang" data-zh="立即注册">Daftar Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal" data-en="Close" data-bm="Tutup" data-zh="关闭">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -1173,8 +1201,8 @@
                                     </div>
                                     
                                     <div class="col-md-6">
-                                        <label class="form-label fw-bold">Pautan Gambar Acara <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="eventImg" placeholder="https://contoh.com/gambar-acara.jpg" required>
+                                        <label class="form-label fw-bold">Pautan Gambar Acara <span class="text-muted fw-normal">(Pilihan)</span></label>
+                                        <input type="text" class="form-control" id="eventImg" placeholder="https://contoh.com/gambar-acara.jpg">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">Pautan Pendaftaran (URL) <span class="text-muted fw-normal">(Pilihan)</span></label>
@@ -1241,16 +1269,16 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="form-label fw-bold text-muted small mt-2">Lokasi (EN) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="eventVenueEn" required>
+                                        <label class="form-label fw-bold text-muted small mt-2">Lokasi (EN) <span class="text-muted fw-normal">(Pilihan)</span></label>
+                                        <input type="text" class="form-control" id="eventVenueEn">
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="form-label fw-bold text-muted small mt-2">Lokasi (BM) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control border-primary" id="eventVenueBm" required placeholder="Nama Tempat...">
+                                        <label class="form-label fw-bold text-muted small mt-2">Lokasi (BM) <span class="text-muted fw-normal">(Pilihan)</span></label>
+                                        <input type="text" class="form-control border-primary" id="eventVenueBm" placeholder="Nama Tempat...">
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="form-label fw-bold text-muted small mt-2">Lokasi (ZH) <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="eventVenueZh" required>
+                                        <label class="form-label fw-bold text-muted small mt-2">Lokasi (ZH) <span class="text-muted fw-normal">(Pilihan)</span></label>
+                                        <input type="text" class="form-control" id="eventVenueZh">
                                     </div>
                                     
                                     <div class="col-md-4">
@@ -1623,6 +1651,47 @@
             }
         };
 
+        window.showFullEvent = function(id) {
+            const ev = eventsData.find(e => e.id === id);
+            if(!ev) return;
+            
+            const currentLang = localStorage.getItem('mci_lang') || 'en';
+            let title = ev.title_en, venue = ev.venue_en, desc = ev.desc_en;
+            if (currentLang === 'bm') { title = ev.title_bm; venue = ev.venue_bm; desc = ev.desc_bm; }
+            if (currentLang === 'zh') { title = ev.title_zh || ev.title_en; venue = ev.venue_zh || ev.venue_en; desc = ev.desc_zh || ev.desc_en; }
+            
+            document.getElementById('eventDetailTitle').innerText = title;
+            document.getElementById('eventDetailDate').innerText = ev.date;
+            
+            const timeWrap = document.getElementById('eventDetailTimeWrap');
+            if(ev.time) { timeWrap.style.display = 'inline-block'; document.getElementById('eventDetailTime').innerText = ev.time; }
+            else { timeWrap.style.display = 'none'; }
+            
+            const venueWrap = document.getElementById('eventDetailVenueWrap');
+            if(venue) { venueWrap.style.display = 'block'; document.getElementById('eventDetailVenue').innerText = venue; }
+            else { venueWrap.style.display = 'none'; }
+            
+            document.getElementById('eventDetailDesc').innerHTML = (desc || '').replace(/\n/g, '<br>');
+            
+            const imgEl = document.getElementById('eventDetailImg');
+            const defaultImg = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80";
+            imgEl.src = ev.img || defaultImg;
+            imgEl.onerror = () => { imgEl.src = defaultImg; };
+            
+            const linkWrap = document.getElementById('eventDetailLinkWrap');
+            const linkEl = document.getElementById('eventDetailLink');
+            if(ev.link) {
+                linkWrap.style.display = 'block';
+                linkEl.href = ev.link;
+            } else {
+                linkWrap.style.display = 'none';
+            }
+            
+            var eventModal = new bootstrap.Modal(document.getElementById('eventDetailModal'));
+            eventModal.show();
+            window.setLanguage(currentLang);
+        };
+
         function renderNews() {
             const container = document.getElementById('news-container');
             const paginationContainer = document.getElementById('news-pagination');
@@ -1696,10 +1765,11 @@
 
                     let linkBtn = '';
                     if(ev.link) {
-                        linkBtn = `<a href="${ev.link}" target="_blank" class="btn btn-mci w-100 mt-4 rounded-pill" data-en="Register Now" data-bm="Daftar Sekarang" data-zh="立即注册">Daftar Sekarang</a>`;
+                        linkBtn = `<a href="${ev.link}" target="_blank" class="btn btn-mci w-100 mt-2 rounded-pill" data-en="Register Now" data-bm="Daftar Sekarang" data-zh="立即注册">Daftar Sekarang</a>`;
                     }
                     
                     let timeHtml = ev.time ? `<span><i class="far fa-clock me-1"></i> ${ev.time}</span>` : '';
+                    let venueHtml = ev.venue_en ? `<p class="text-muted small fw-medium mb-3"><i class="fas fa-map-marker-alt text-secondary me-2"></i> <span data-en="${ev.venue_en}" data-bm="${ev.venue_bm}" data-zh="${venueZh}">${ev.venue_en}</span></p>` : '';
 
                     container.insertAdjacentHTML('beforeend', `
                         <div class="col-md-6 col-lg-4 reveal active">
@@ -1714,12 +1784,15 @@
                                     </div>
                                     <h5 class="card-title fw-bold mb-3" style="color: var(--primary-blue);" data-en="${ev.title_en}" data-bm="${ev.title_bm}" data-zh="${titleZh}">${ev.title_en}</h5>
                                     
-                                    <p class="text-muted small fw-medium mb-3"><i class="fas fa-map-marker-alt text-secondary me-2"></i> <span data-en="${ev.venue_en}" data-bm="${ev.venue_bm}" data-zh="${venueZh}">${ev.venue_en}</span></p>
+                                    ${venueHtml}
                                     
                                     <div class="flex-grow-1">
                                         <p class="card-text text-muted small event-desc-preview" data-en="${ev.desc_en || ''}" data-bm="${ev.desc_bm || ''}" data-zh="${descZh || ''}">${ev.desc_en || ''}</p>
                                     </div>
-                                    ${linkBtn}
+                                    <div class="mt-auto pt-3 border-top d-flex flex-column gap-2">
+                                        <a class="read-more-link d-inline-flex align-items-center" onclick="window.showFullEvent(${ev.id})"><span data-en="Read More" data-bm="Baca Lanjut" data-zh="阅读更多">Read More</span><i class="fas fa-arrow-right ms-2 small"></i></a>
+                                        ${linkBtn}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2298,7 +2371,7 @@
                 const descBm = document.getElementById('eventDescBm').value;
                 const btn = document.getElementById('btnTransEvent');
                 
-                if (!titleBm && !venueBm) { alert("Sila masukkan Tajuk atau Lokasi dalam Bahasa Melayu dahulu."); return; }
+                if (!titleBm) { alert("Sila masukkan Tajuk Acara dalam Bahasa Melayu dahulu."); return; }
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Menterjemah...'; btn.disabled = true;
                 try {
                     if(titleBm) {
